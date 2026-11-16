@@ -4,12 +4,13 @@ Modernization of the classic Equinox 1.50 GTK2 theme engine for Fedora Linux and
 
 ## Status
 
-- GTK2 engine builds and loads successfully on Fedora 43 x86_64.
-- Original 1.50 source preserved on the `legacy` branch.
-- GTK2 controls theme configurations: `Equinox-Light` and `Equinox-Dark`.
-- GTK3/GTK4 styles and Marco window border themes are not yet implemented.
+- Original Equinox GTK2 engine compiled, installed, and confirmed loaded on Fedora 43 x86_64.
+- Original imported source preserved on the `legacy` branch.
+- GTK2 controls: `Equinox-Light` and `Equinox-Dark`, with improved disabled text contrast.
+- GTK3 controls: initial CSS implementations of both variants, pending runtime visual testing.
+- GTK4 and Marco window borders are not implemented.
 
-## Compile GTK2 engine on Fedora 43
+## GTK2 engine build
 
 ```bash
 sudo dnf install gcc make gtk2-devel pkgconf-pkg-config autoconf automake libtool
@@ -18,20 +19,23 @@ make -j"$(nproc)"
 sudo make install
 ```
 
-## Install and test GTK2 controls themes
+## Install GTK2 and GTK3 themes without changing MATE settings
 
 ```bash
 bash scripts/install-user-themes.sh
-GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2
-GTK2_RC_FILES="$HOME/.themes/Equinox-Dark/gtk-2.0/gtkrc" awf-gtk2
 ```
 
-Themes are copied to `~/.themes/`, without changing your current MATE settings. More details are in [themes/README.md](themes/README.md).
+## Test
+
+```bash
+GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2
+GTK2_RC_FILES="$HOME/.themes/Equinox-Dark/gtk-2.0/gtkrc" awf-gtk2
+GTK_THEME=Equinox-Light awf-gtk3
+GTK_THEME=Equinox-Dark awf-gtk3
+```
+
+See [themes/README.md](themes/README.md) for implementation details. GTK3 uses CSS rather than the original GTK2 engine.
 
 ## Upstream
 
-Original Equinox 1.50 source and its authors, license and change history are preserved in `AUTHORS`, `COPYING`, and `ChangeLog`. The original code uses the GNU Library General Public License v2 or later as stated in its file headers. New theme configuration files follow the repository license terms.
-
-## Next steps
-
-Test light and dark GTK2 rendering, refine colors and states, and develop GTK3 and GTK4 equivalents while preserving the original GTK2 engine.
+Original Equinox 1.50 source and authors, license and change history are preserved in `AUTHORS`, `COPYING`, and `ChangeLog`. The original source uses the GNU Library General Public License v2 or later as specified by the source headers.
