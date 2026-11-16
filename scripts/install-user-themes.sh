@@ -16,12 +16,24 @@ for theme in Equinox-Light Equinox-Dark; do
     test -f "$source" || { printf 'Missing theme: %s\n' "$source" >&2; exit 1; }
     mkdir -p "$destination"
     if [[ "$toolkit" == "metacity-1" ]]; then
-      # Original Equinox 1.50 decorations reference image assets beside XML.
-      # Copy all accompanying files, not merely metacity-theme-1.xml.
+      # Keep authentic original button artwork installed by
+      # scripts/install-original-marco.sh, even while the GitHub checkout
+      # still has the old generated XML. Previously we overwrote the
+      # original theme when users reinstalled GTK2/GTK3.
+      if [[ -f "$destination/UPSTREAM.txt" &&
+            ! -f "$root/themes/$theme/$toolkit/UPSTREAM.txt" ]]; then
+        printf 'Preserved original Marco: %s (not overwriting with provisional XML)\n' "$theme"
+        continue
+      fi
+      # Metacity theme XML references the accompanying original PNG files.
       for asset in "$root/themes/$theme/$toolkit/"*; do
         [[ -f "$asset" ]] || continue
         install -m 0644 "$asset" "$destination/${asset##*/}"
       done
+      if [[ ! -f "$root/themes/$theme/$toolkit/UPSTREAM.txt" ]]; then
+        printf 'NOTICE: Provisional Marco for %s. Install original button artwork with:\n' "$theme"
+        printf '  bash scripts/install-original-marco.sh\n'
+      fi
     else
       install -m 0644 "$source" "$destination/$file"
     fi
