@@ -6,7 +6,7 @@ Modernizing the classic Equinox 1.50 theme engine for Fedora and MATE.
 
 - **GTK2:** Original C engine compiles and loads on Fedora 43. The original source is preserved on the `legacy` branch.
 - **GTK3:** Light and dark themes use source-guided CSS. The GTK3 stylesheets have been consolidated to match the original button shading, entry bevels, notebook tabs, icons, and widget proportions. Runtime testing of the latest pass is still needed.
-- **Marco:** Initial light and dark window-decoration themes added. Fedora 43 preview testing is pending.
+- **Marco:** Original Equinox-inspired light and dark decorations actively developed in this repository. The current pass replaces square title buttons with rounded, beveled controls and a dedicated red close button. Fedora 43 preview comparison is pending.
 - **GTK4:** Not implemented.
 
 GTK3 does not load the original GTK2 engine. The optional early PNG experiment is archived under `experiments/gtk3-rendered/` for reference, and is not installed by the standard theme installer.
@@ -31,15 +31,13 @@ This copies GTK2, GTK3 and Marco theme files to `~/.themes/` for your user. It d
 
 ## Preview Marco window borders
 
-Marco is being switched to the actual **Equinox 1.50 Metacity artwork**
-instead of our earlier hand-drawn approximation. Source archive:
-`140449-equinox-themes-1.50.tar.gz`, SHA256
-`32b3cedfbc27e466289aa8a0b6d1f3f964a553956d94bf267bd42c749691823c`.
-The original `Equinox Light` provides the Light window frame, and
-`Equinox Evolution Dusk` provides the Dark frame. Original filenames
-and button graphics are preserved; GTK2 and GTK3 control themes are untouched.
-The blue field shown in `marco-theme-viewer` is the preview background,
-not the Marco theme.
+We maintain the Equinox Marco design directly in
+`themes/Equinox-{Light,Dark}/metacity-1/metacity-theme-1.xml`.
+This version draws rounded glossy title buttons, custom close/minimize/
+maximize symbols, a silver/dark title gradient, and a thin lower groove.
+It uses Metacity's native drawing commands, not an external art pack.
+The blue background inside `marco-theme-viewer` belongs to the
+preview application, not to the window decoration.
 
 ```bash
 python3 scripts/check-marco-theme.py
@@ -84,61 +82,18 @@ Equinox using `gsettings set org.mate.Marco.general theme 'Equinox-Light'`.
 If the viewer shows another error, use the error's exact line and message
 to fix the theme before applying it.
 
-## Restore the original upstream Marco artwork
+## Optional upstream reference
 
-For an immediate preview on Fedora 43, use the direct installer. It downloads
-and checks the upstream archive before replacing only the two Marco window
-border themes in `~/.themes`:
+The `scripts/import-original-marco.py` importer and optional
+`install-original-marco.sh` remain available for historical research.
+They are **not** part of the current Equinox Marco design workflow.
 
-```bash
-bash scripts/install-original-marco.sh
-marco-theme-viewer Equinox-Light
-```
-
-This does not change the selected Marco theme or the GTK controls. The GitHub
-import workflow also commits the original assets into the project. Until those
-assets appear in your local Git checkout, running the normal
-`install-user-themes.sh` afterwards may restore the older provisional XML.
-
-
-The source's original Metacity decorations are imported into
-`themes/Equinox-{Light,Dark}/metacity-1`. The repository workflow
-`.github/workflows/import-original-marco.yml` retrieves the upstream
-theme archive, checks its SHA256, and commits the original XML/PNG files.
-
-If the assets have not arrived in your checkout yet, you can import them
-on Fedora without changing your active Marco theme:
-
-```bash
-curl -fL --retry 3 -o /tmp/equinox-themes-1.50.tar.gz \
-  https://distcache.freebsd.org/ports-distfiles/140449-equinox-themes-1.50.tar.gz
-python3 scripts/import-original-marco.py /tmp/equinox-themes-1.50.tar.gz
-bash scripts/install-user-themes.sh
-marco-theme-viewer Equinox-Light
-```
-
-The importer rejects archives with the wrong SHA256 and checks that
-all original XML-referenced images are present. The window theme only
-changes if you explicitly set the Marco theme using gsettings.
-
-### Confirm the original Marco buttons, not the placeholder buttons
-
-The first Marco implementation used simplified hand-drawn XML buttons.
-The source repository still contains that provisional XML until the original
-upstream archive has been successfully imported. An Equinox titlebar gradient
-does not prove original button artwork has loaded.
-
-```bash
-git pull
-bash scripts/install-original-marco.sh
-python3 scripts/verify-original-marco.py
-marco-theme-viewer Equinox-Light
-```
-
-The verification script reports the PNG button count, referenced image count,
-and archive provenance. Only a PASS for both variants confirms authentic
-Metacity window artwork. A normal GTK theme reinstall now preserves imported
-original Marco artwork instead of silently replacing it with synthetic XML.
+The original-archive GitHub workflow is manual-only, saves its results as
+a reference artifact, and does not overwrite our modified theme files.
+Running `bash scripts/install-user-themes.sh` installs the latest
+authored design from this checkout. If older upstream artwork was installed
+before, the installer saves a one-time backup in
+`~/.local/share/equinox-gtk/upstream-marco-backup/`.
 
 ## Compare in A Widget Factory
 
