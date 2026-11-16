@@ -86,6 +86,21 @@ to fix the theme before applying it.
 
 ## Restore the original upstream Marco artwork
 
+For an immediate preview on Fedora 43, use the direct installer. It downloads
+and checks the upstream archive before replacing only the two Marco window
+border themes in `~/.themes`:
+
+```bash
+bash scripts/install-original-marco.sh
+marco-theme-viewer Equinox-Light
+```
+
+This does not change the selected Marco theme or the GTK controls. The GitHub
+import workflow also commits the original assets into the project. Until those
+assets appear in your local Git checkout, running the normal
+`install-user-themes.sh` afterwards may restore the older provisional XML.
+
+
 The source's original Metacity decorations are imported into
 `themes/Equinox-{Light,Dark}/metacity-1`. The repository workflow
 `.github/workflows/import-original-marco.yml` retrieves the upstream
