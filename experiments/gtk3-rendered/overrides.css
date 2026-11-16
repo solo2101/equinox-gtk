@@ -1,0 +1,94 @@
+/* Experimental GTK3 asset rendering, not part of the stable themes.
+ * PNGs are produced by the ORIGINAL Equinox 1.50 drawing functions.
+ * Use nine-slice painting to keep border geometry at different widget sizes.
+ */
+button, combobox button, spinbutton button, .linked button {
+  background-color: transparent;
+  background-image: none;
+  border: 2px solid transparent;
+  border-radius: 0;
+  box-shadow: none;
+  border-image-source: url("assets/button-normal.png");
+  border-image-slice: 8 fill;
+  border-image-width: 8px;
+  border-image-repeat: stretch;
+}
+button:hover, combobox button:hover, spinbutton button:hover {
+  background-color: transparent;
+  background-image: none;
+  border-image-source: url("assets/button-hover.png");
+}
+button:active, button:checked, combobox button:active {
+  background-color: transparent;
+  background-image: none;
+  border-image-source: url("assets/button-pressed.png");
+}
+button:focus:not(:hover):not(:active):not(:checked) {
+  border-image-source: url("assets/button-focus.png");
+}
+button:disabled, combobox button:disabled, spinbutton button:disabled {
+  background-color: transparent;
+  background-image: none;
+  border-image-source: url("assets/button-disabled.png");
+}
+entry, spinbutton entry {
+  background-color: transparent;
+  background-image: none;
+  border: 2px solid transparent;
+  border-radius: 0;
+  box-shadow: none;
+  border-image-source: url("assets/entry-normal.png");
+  border-image-slice: 8 fill;
+  border-image-width: 8px;
+  border-image-repeat: stretch;
+}
+entry:focus, spinbutton entry:focus {
+  border-image-source: url("assets/entry-focused.png");
+}
+entry:disabled, spinbutton entry:disabled {
+  border-image-source: url("assets/entry-disabled.png");
+}
+notebook > header > tabs > tab {
+  background-color: transparent;
+  background-image: none;
+  border: 2px solid transparent;
+  border-radius: 0;
+  box-shadow: none;
+  border-image-source: url("assets/tab-top-inactive.png");
+  border-image-slice: 8 fill;
+  border-image-width: 8px;
+  border-image-repeat: stretch;
+}
+notebook > header > tabs > tab:checked {
+  background-color: transparent;
+  background-image: none;
+  border-image-source: url("assets/tab-top-selected.png");
+}
+notebook > header.bottom > tabs > tab {
+  border-image-source: url("assets/tab-bottom-inactive.png");
+}
+notebook > header.bottom > tabs > tab:checked {
+  border-image-source: url("assets/tab-bottom-selected.png");
+}
+notebook > header.left > tabs > tab {
+  border-image-source: url("assets/tab-left-inactive.png");
+}
+notebook > header.left > tabs > tab:checked {
+  border-image-source: url("assets/tab-left-selected.png");
+}
+notebook > header.right > tabs > tab {
+  border-image-source: url("assets/tab-right-inactive.png");
+}
+notebook > header.right > tabs > tab:checked {
+  border-image-source: url("assets/tab-right-selected.png");
+}
+/* Keep tab-close buttons from drawing the regular button asset inside tabs. */
+notebook > header > tabs > tab button,
+notebook > header > tabs > tab button:hover,
+notebook > header > tabs > tab button:active {
+  border: none;
+  border-image-source: none;
+  background-image: none;
+  background-color: transparent;
+  box-shadow: none;
+}
