@@ -50,6 +50,11 @@
 @define-color eqx_disabledCheckedTop #343739;
 @define-color eqx_disabledCheckedBottom #2b2d2f;
 @define-color eqx_frameBorder #232729;
+@define-color eqx_frameWell #303335;
+@define-color eqx_frameLift #393c3f;
+@define-color eqx_frameEdge #242729;
+@define-color eqx_frameShade #121619;
+@define-color eqx_frameHighlight #4b5053;
 
 @define-color eqx_menuTop #333638;
 @define-color eqx_menuBottom #303335;
@@ -564,13 +569,60 @@ check:disabled, radio:disabled {
   background-color: @eqx_disabledBase;
   border-color: @eqx_disabledBorder;
 }
+/* GTK2 Equinox frame parity.
+ * GTK3 GtkFrame only exposes border.flat for shadow type NONE.
+ * Its IN/OUT/ETCHED shadow values otherwise share one CSS node.
+ * The default stays neutral; callers adding the optional
+ * .eqx-shadow-* classes get the original four GTK2 fills. */
 frame > border {
-  border: 1px solid @eqx_frameBorder;
-  border-radius: 4px;
-  box-shadow: 0 1px alpha(@eqx_inner, 0.45);
+  border: 1px solid alpha(@eqx_frameEdge, 0.84);
+  border-radius: 3px;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: inset 0 1px alpha(@eqx_frameHighlight, 0.26),
+              0 1px alpha(@eqx_frameHighlight, 0.14);
 }
-separator, paned > separator {
+frame > border.flat {
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+frame.eqx-shadow-in > border,
+frame.eqx-shadow-etched-in > border {
+  background-color: @eqx_frameWell;
+  border-color: alpha(@eqx_frameEdge, 0.86);
+  box-shadow: inset 0 1px alpha(@eqx_frameShade, 0.23),
+              inset 1px 0 alpha(@eqx_frameShade, 0.10),
+              0 1px alpha(@eqx_frameHighlight, 0.24);
+}
+frame.eqx-shadow-out > border,
+frame.eqx-shadow-etched-out > border {
+  background-color: @eqx_frameLift;
+  border-color: @eqx_frameEdge;
+  box-shadow: inset 0 1px alpha(@eqx_frameHighlight, 0.60),
+              inset 1px 0 alpha(@eqx_frameHighlight, 0.32),
+              0 1px alpha(@eqx_frameShade, 0.14);
+}
+frame.eqx-shadow-etched-in > border {
+  box-shadow: inset 0 1px alpha(@eqx_frameShade, 0.14),
+              0 1px alpha(@eqx_frameHighlight, 0.40);
+}
+frame.eqx-shadow-etched-out > border {
+  box-shadow: inset 0 1px alpha(@eqx_frameHighlight, 0.46),
+              0 1px alpha(@eqx_frameShade, 0.20);
+}
+separator {
   background-color: @eqx_separator;
+  min-width: 1px;
+  min-height: 1px;
+}
+/* The GTK3 preview adds a prominent dotted paned handle between frame
+ * groups. GTK2 Equinox leaves that gap nearly invisible. */
+paned > separator {
+  background-color: transparent;
+  background-image: none;
+  -gtk-icon-source: none;
+  border: 0;
   min-width: 1px;
   min-height: 1px;
 }
