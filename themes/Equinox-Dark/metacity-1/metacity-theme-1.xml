@@ -9,7 +9,7 @@
     <author>Equinox GTK modernization contributors</author>
     <copyright>2026 Equinox GTK modernization contributors</copyright>
     <date>2026-11-16</date>
-    <description>Equinox Dark original-style gradient frames and custom circular gloss controls for Marco.</description>
+    <description>Equinox Dark frame with original Equinox Evolution button images and state-specific symbols.</description>
   </info>
 
   <frame_geometry name="normal"
@@ -20,8 +20,8 @@
     <distance name="bottom_height" value="4"/>
     <distance name="left_titlebar_edge" value="8"/>
     <distance name="right_titlebar_edge" value="8"/>
-    <distance name="button_width" value="20"/>
-    <distance name="button_height" value="20"/>
+    <distance name="button_width" value="18"/>
+    <distance name="button_height" value="18"/>
     <distance name="title_vertical_pad" value="3"/>
     <border name="title_border" left="7" right="7" top="2" bottom="2"/>
     <border name="button_border" left="2" right="2" top="2" bottom="2"/>
@@ -90,161 +90,118 @@
   <draw_ops name="title_unfocus">
     <title color="#aaaeb0" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
   </draw_ops>
-  <draw_ops name="button_normal">
-    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
-    <arc color="#141819" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#2e3235" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#464b4e" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#62676a" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
-  </draw_ops>
-  <draw_ops name="button_hover">
-    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
-    <arc color="#1b587a" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#327caa" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#5aadd8" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#9bdcff" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
-  </draw_ops>
-  <draw_ops name="button_pressed">
-    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
-    <arc color="#111618" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#222729" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#3b4144" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#24282b" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
-  </draw_ops>
-  <draw_ops name="button_unfocus">
-    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
-    <arc color="#272a2d" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#35393b" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#414547" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#414547" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
-  </draw_ops>
   <draw_ops name="icon_close">
-    <line color="#ffffff" width="2" x1="7" y1="7" x2="width - 8" y2="height - 8"/>
-    <line color="#ffffff" width="2" x1="width - 8" y1="7" x2="7" y2="height - 8"/>
+    <image filename="close.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="icon_close_hover">
-    <line color="#ffffff" width="2" x1="7" y1="7" x2="width - 8" y2="height - 8"/>
-    <line color="#ffffff" width="2" x1="width - 8" y1="7" x2="7" y2="height - 8"/>
+    <image filename="close.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="icon_minimize">
-    <line color="#dddddd" width="2" x1="6" y1="height - 8" x2="width - 7" y2="height - 8"/>
+    <image filename="min.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="icon_maximize">
-    <rectangle color="#dddddd" x="6" y="6" width="width - 13" height="height - 13" filled="false"/>
-    <line color="#dddddd" x1="6" y1="7" x2="width - 7" y2="7"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="icon_restore">
-    <rectangle color="#dddddd" x="8" y="5" width="width - 13" height="height - 13" filled="false"/>
-    <rectangle color="#dddddd" x="6" y="8" width="width - 13" height="height - 13" filled="false"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="icon_menu">
-    <icon alpha="0.85" x="3" y="3" width="width - 6" height="height - 6"/>
+    <image filename="menu.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
-  <draw_ops name="button_close_base">
-    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
-    <arc color="#722927" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#a93b37" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#d45a55" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#f59a93" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
+  <draw_ops name="icon_close_inactive">
+    <image filename="close_inactive.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
-  <draw_ops name="button_close_hot">
-    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
-    <arc color="#8a211e" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#d6443f" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#ff736b" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#f59a93" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
+  <draw_ops name="icon_minimize_inactive">
+    <image filename="min_inactive.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
-  <draw_ops name="button_close_down">
-    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
-    <arc color="#561917" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#8b2b29" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#ad433d" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#ad433d" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
+  <draw_ops name="icon_maximize_inactive">
+    <image filename="max_inactive.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
-  <draw_ops name="button_close_off">
-    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
-    <arc color="#272a2d" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#35393b" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#414547" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
-    <arc color="#414547" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
+  <draw_ops name="icon_restore_inactive">
+    <image filename="max_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_menu_inactive">
+    <image filename="menu_inactive.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_close_normal">
-    <include name="button_close_base"/>
-    <include name="icon_close"/>
+    <image filename="button_normal.png" x="0" y="0" width="width" height="height"/>
+    <image filename="close.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_minimize_normal">
-    <include name="button_normal"/>
-    <include name="icon_minimize"/>
+    <image filename="button_normal.png" x="0" y="0" width="width" height="height"/>
+    <image filename="min.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_maximize_normal">
-    <include name="button_normal"/>
-    <include name="icon_maximize"/>
+    <image filename="button_normal.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_restore_normal">
-    <include name="button_normal"/>
-    <include name="icon_restore"/>
+    <image filename="button_normal.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_menu_normal">
-    <include name="icon_menu"/>
+    <image filename="button_normal.png" x="0" y="0" width="width" height="height"/>
+    <image filename="menu.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_close_prelight">
-    <include name="button_close_hot"/>
-    <include name="icon_close_hover"/>
+    <image filename="button_prelight.png" x="0" y="0" width="width" height="height"/>
+    <image filename="close.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_minimize_prelight">
-    <include name="button_hover"/>
-    <include name="icon_minimize"/>
+    <image filename="button_prelight.png" x="0" y="0" width="width" height="height"/>
+    <image filename="min.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_maximize_prelight">
-    <include name="button_hover"/>
-    <include name="icon_maximize"/>
+    <image filename="button_prelight.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_restore_prelight">
-    <include name="button_hover"/>
-    <include name="icon_restore"/>
+    <image filename="button_prelight.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_menu_prelight">
-    <include name="button_hover"/>
-    <include name="icon_menu"/>
+    <image filename="button_prelight.png" x="0" y="0" width="width" height="height"/>
+    <image filename="menu.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_close_pressed">
-    <include name="button_close_down"/>
-    <include name="icon_close"/>
+    <image filename="button_pressed.png" x="0" y="0" width="width" height="height"/>
+    <image filename="close.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_minimize_pressed">
-    <include name="button_pressed"/>
-    <include name="icon_minimize"/>
+    <image filename="button_pressed.png" x="0" y="0" width="width" height="height"/>
+    <image filename="min.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_maximize_pressed">
-    <include name="button_pressed"/>
-    <include name="icon_maximize"/>
+    <image filename="button_pressed.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_restore_pressed">
-    <include name="button_pressed"/>
-    <include name="icon_restore"/>
+    <image filename="button_pressed.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_menu_pressed">
-    <include name="button_pressed"/>
-    <include name="icon_menu"/>
+    <image filename="button_pressed.png" x="0" y="0" width="width" height="height"/>
+    <image filename="menu.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_close_unfocused">
-    <include name="button_close_off"/>
-    <include name="icon_close"/>
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="close_inactive.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_minimize_unfocused">
-    <include name="button_unfocus"/>
-    <include name="icon_minimize"/>
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="min_inactive.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_maximize_unfocused">
-    <include name="button_unfocus"/>
-    <include name="icon_maximize"/>
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max_inactive.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_restore_unfocused">
-    <include name="button_unfocus"/>
-    <include name="icon_restore"/>
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max_inactive.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_menu_unfocused">
-    <include name="icon_menu"/>
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="menu_inactive.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <frame_style name="normal_focused" geometry="normal">
     <piece position="entire_background" draw_ops="frame_focus"/>
