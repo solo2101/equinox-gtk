@@ -1,0 +1,39 @@
+name: GTK3 Notebook Tab Interaction
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'themes/**/gtk-3.0/gtk.css'
+      - 'tests/test-gtk3-notebook-clicks.py'
+      - '.github/workflows/gtk3-notebook-clicks.yml'
+  pull_request:
+    paths:
+      - 'themes/**/gtk-3.0/gtk.css'
+      - 'tests/test-gtk3-notebook-clicks.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mouse-click-tabs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GTK3 and X11 testing tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            python3-gi gir1.2-gtk-3.0 xvfb xauth xdotool
+      - name: Install Equinox GTK3 themes
+        run: bash scripts/install-user-themes.sh
+      - name: Click each tab using actual X11 mouse events
+        shell: bash
+        run: |
+          set -euo pipefail
+          for theme in Equinox-Light Equinox-Dark; do
+            echo "Testing $theme tab click handling..."
+            xvfb-run -a env GTK_THEME="$theme" \
+              /usr/bin/python3 tests/test-gtk3-notebook-clicks.py
+          done
