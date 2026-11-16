@@ -1,0 +1,45 @@
+name: GTK3 Original Renderer Experiment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/equinox-render-assets.c
+      - src/equinox_draw.c
+      - src/support.c
+      - src/support.h
+      - src/equinox_draw.h
+      - src/equinox_types.h
+      - scripts/install-rendered-experiment.sh
+      - experiments/gtk3-rendered/**
+      - themes/**/gtk-3.0/**
+      - .github/workflows/rendered-assets.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile-and-render:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:43
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build and parser dependencies
+        run: dnf install -y gcc gtk2-devel cairo-devel gtk3 python3 pkgconf-pkg-config
+      - name: Generate experimental assets and validate CSS
+        run: bash scripts/install-rendered-experiment.sh
+      - name: Verify original-renderer PNGs exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          for variant in Light Dark; do
+            dir="$HOME/.themes/Equinox-Rendered-$variant/gtk-3.0/assets"
+            test -s "$dir/button-normal.png"
+            test -s "$dir/entry-focused.png"
+            test -s "$dir/tab-top-selected.png"
+            actual="$(find "$dir" -maxdepth 1 -name '*.png' -type f | wc -l)"
+            test "$actual" -eq 16
+            printf '%s: %s original-Cairo assets verified\n' "$variant" "$actual"
+          done
