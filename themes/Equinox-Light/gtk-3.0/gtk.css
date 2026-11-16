@@ -339,3 +339,155 @@ scrollbar button {
 /* Dividers should separate sections without drawing multiple edges. */
 paned > separator { background-color: alpha(@theme_fg_color, 0.17); }
 separator { opacity: 0.55; }
+
+@define-color eqx_button_top #e3e3e3;
+@define-color eqx_button_upper #dadada;
+@define-color eqx_button_lower #d2d2d2;
+@define-color eqx_button_bottom #c4c4c4;
+@define-color eqx_button_border #8c8c8c;
+@define-color eqx_button_highlight rgba(255,255,255,0.74);
+@define-color eqx_button_outer rgba(0,0,0,0.12);
+@define-color eqx_hover_top #f1f1f1;
+@define-color eqx_hover_bottom #d6d6d6;
+@define-color eqx_pressed_top #c1c1c1;
+@define-color eqx_pressed_bottom #d2d2d2;
+@define-color eqx_entry_border #939393;
+@define-color eqx_entry_inner rgba(42,42,42,0.16);
+@define-color eqx_entry_highlight rgba(255,255,255,0.72);
+@define-color eqx_tab_idle_top #dedede;
+@define-color eqx_tab_idle_bottom #bcbcbc;
+@define-color eqx_tab_border #858585;
+@define-color eqx_frame_border rgba(60,60,60,0.42);
+@define-color eqx_separator_color rgba(60,60,60,0.3);
+
+/* Equinox 1.50 geometry and shading parity, pass 3.
+ * Matched to src/equinox_draw.c:
+ *  - equinox_draw_button: multi-stop bevel, inner edge, outer etched shadow
+ *  - equinox_draw_entry: upper inner shadow and lower highlight
+ *  - equinox_draw_tab: active tab uses its parent's background
+ * Colors are variant-specific, rules below are identical.
+ */
+
+/* The default buttonstyle=0 uses a soft two-part vertical gradient. */
+button, combobox button, spinbutton button, .linked button, .titlebutton {
+  background-color: @eqx_button_lower;
+  background-image: linear-gradient(to bottom,
+    @eqx_button_top 0%,
+    @eqx_button_upper 49%,
+    @eqx_button_lower 50%,
+    @eqx_button_bottom 100%);
+  border: 1px solid @eqx_button_border;
+  border-radius: 5px;
+  box-shadow:
+    inset 0 1px @eqx_button_highlight,
+    inset 1px 0 alpha(@eqx_button_highlight, 0.32),
+    0 1px @eqx_button_outer;
+}
+button:hover, combobox button:hover, spinbutton button:hover {
+  background-image: linear-gradient(to bottom,
+    @eqx_hover_top 0%, @eqx_hover_top 49%,
+    @eqx_button_upper 50%, @eqx_hover_bottom 100%);
+}
+button:active, button:checked, combobox button:active {
+  background-image: linear-gradient(to bottom,
+    @eqx_pressed_top, @eqx_pressed_bottom);
+  box-shadow: inset 0 1px @eqx_button_outer, inset 0 2px @eqx_button_outer;
+}
+button:focus {
+  border-color: @theme_selected_bg_color;
+}
+button:disabled, combobox button:disabled, spinbutton button:disabled {
+  background-image: none;
+  box-shadow: none;
+}
+
+/* GTK2 entries: a subtle inset rim rather than a plain flat border. */
+entry, spinbutton entry {
+  border: 1px solid @eqx_entry_border;
+  border-radius: 5px;
+  background-color: @theme_base_color;
+  background-image: none;
+  box-shadow:
+    inset 0 1px @eqx_entry_inner,
+    inset 0 2px alpha(@eqx_entry_inner, 0.45),
+    0 1px @eqx_entry_highlight;
+}
+entry:focus, spinbutton entry:focus {
+  border-color: @theme_selected_bg_color;
+}
+entry:disabled, spinbutton entry:disabled {
+  box-shadow: none;
+}
+
+/* GTK2 selected tabs join the page rather than becoming white/black pills. */
+notebook > header > tabs > tab {
+  background-color: @eqx_tab_idle_bottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_tab_idle_top, @eqx_tab_idle_bottom);
+  border: 1px solid @eqx_tab_border;
+  border-radius: 5px 5px 0 0;
+  box-shadow: inset 0 1px alpha(@eqx_button_highlight, 0.72);
+  margin: 0 1px 0 0;
+  padding: 3px 8px;
+}
+notebook > header > tabs > tab:checked {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+  background-image: none;
+  border-color: @eqx_tab_border;
+  box-shadow: inset 0 1px alpha(@eqx_button_highlight, 0.35);
+}
+notebook > header.top > tabs > tab:checked {
+  border-bottom-color: @theme_bg_color;
+}
+notebook > header.bottom > tabs > tab {
+  border-radius: 0 0 5px 5px;
+}
+notebook > header.bottom > tabs > tab:checked {
+  border-top-color: @theme_bg_color;
+}
+notebook > header.left > tabs > tab {
+  border-radius: 5px 0 0 5px;
+}
+notebook > header.left > tabs > tab:checked {
+  border-right-color: @theme_bg_color;
+}
+notebook > header.right > tabs > tab {
+  border-radius: 0 5px 5px 0;
+}
+notebook > header.right > tabs > tab:checked {
+  border-left-color: @theme_bg_color;
+}
+notebook > header > tabs > tab button {
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+notebook > header > tabs > tab button:hover {
+  background-color: alpha(@theme_fg_color, 0.14);
+  background-image: none;
+}
+
+/* A frame has an etched perimeter rather than a heavy rectangle. */
+frame > border, notebook.frame {
+  border-color: @eqx_frame_border;
+  box-shadow: 0 1px alpha(@eqx_button_highlight, 0.40);
+}
+separator {
+  background-color: @eqx_separator_color;
+  opacity: 0.7;
+}
+paned > separator {
+  background-color: @eqx_separator_color;
+}
+
+/* Use the GTK2-sized indicators and low profile slider rim. */
+check, radio {
+  min-height: 12px;
+  min-width: 12px;
+}
+scale slider {
+  box-shadow: inset 0 1px alpha(@eqx_button_highlight, 0.6);
+}
