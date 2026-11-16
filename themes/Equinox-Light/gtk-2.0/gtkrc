@@ -10,7 +10,7 @@ style "equinox-light" {
   fg[ACTIVE] = "#202020"
   fg[PRELIGHT] = "#161616"
   fg[SELECTED] = "#ffffff"
-  fg[INSENSITIVE] = "#858585"
+  fg[INSENSITIVE] = "#686868"
 
   bg[NORMAL] = "#d7d7d7"
   bg[ACTIVE] = "#bcbcbc"
@@ -28,7 +28,7 @@ style "equinox-light" {
   text[ACTIVE] = "#252525"
   text[PRELIGHT] = "#252525"
   text[SELECTED] = "#ffffff"
-  text[INSENSITIVE] = "#929292"
+  text[INSENSITIVE] = "#686868"
 
   engine "equinox" {
     contrast = 1.0
