@@ -1,45 +1,49 @@
-# Equinox control themes
+# Equinox light and dark controls themes
 
-Equinox 1.50 originally provided a GTK2 engine. The engine source has not been rewritten. These themes add GTK2 control definitions and independent GTK3 CSS implementations using the same visual palette.
+The original Equinox 1.50 engine is GTK2-only. The two GTK3 stylesheets use native GTK3 CSS and do not load `libequinox.so`.
 
-| Theme | GTK2 | GTK3 |
+| Variant | GTK2 | GTK3 |
 | --- | --- | --- |
-| Equinox-Light | gtkrc using libequinox.so | gtk.css |
-| Equinox-Dark | gtkrc using libequinox.so | gtk.css |
+| Equinox-Light | Original rendering engine, `gtkrc` | Consolidated `gtk.css` |
+| Equinox-Dark | Original rendering engine, `gtkrc` | Consolidated `gtk.css` |
 
-Install both themes for your current user:
+## Install
 
 ```bash
 bash scripts/install-user-themes.sh
-```
-
-Compare in A Widget Factory:
-
-```bash
-GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2
-GTK2_RC_FILES="$HOME/.themes/Equinox-Dark/gtk-2.0/gtkrc" awf-gtk2
-GTK_THEME=Equinox-Light awf-gtk3
-GTK_THEME=Equinox-Dark awf-gtk3
-```
-
-Each test command launches a separate process. AWF's menus can override its theme at runtime. Close the previous instance before testing a new variant.
-
-The GTK2 themes require the previously built `libequinox.so` in `/usr/lib64/gtk-2.0/2.10.0/engines/`. GTK3 uses CSS and does not load the Equinox GTK2 engine.
-
-The script copies theme files to `~/.themes/`. It does not change the active MATE theme, GTK settings, icon theme, or Marco window decoration. The GTK3 styling is an initial port and still needs visual comparison and runtime testing on Fedora 43. GTK4 and Marco support are not included.
-
-The `legacy` branch preserves the imported original source.
-
-## GTK3 shading parity, refinement 3
-
-The light and dark GTK3 styles now share the same gradient, border, entry, and notebook rules, with variant-specific colors. The button gradient is based on the original `equinox_draw_button()` function. Entry inset shading follows `equinox_draw_entry()`. Selected tabs use the parent surface color as in `equinox_draw_tab()`.
-
-The implementation is an approximation using GTK3 CSS, not a compiled GTK3 version of the GTK2 theme engine. GTK3 adds controls such as switches and uses different widget geometry.
-
-Validate CSS syntax before visual testing:
-
-```bash
 python3 scripts/check-gtk3-css.py
 ```
 
-Run A Widget Factory and compare the states of buttons, text entries, and all four tab orientations. Use the same window size and scaling for the closest comparison.
+The installer copies files under `~/.themes/`, without altering MATE settings or replacing the original engine.
+
+## Compare
+
+```bash
+GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2
+GTK_THEME=Equinox-Light awf-gtk3
+
+GTK2_RC_FILES="$HOME/.themes/Equinox-Dark/gtk-2.0/gtkrc" awf-gtk2
+GTK_THEME=Equinox-Dark awf-gtk3
+```
+
+Keep the application window size and display scaling consistent between tests.
+
+## GTK3 parity pass 4
+
+The previous stylesheet accumulated several conflicting override layers. Both GTK3 variants now use the same consolidated rules, with different palette values. The changes target:
+
+- Button gradients and edge highlights from the original `equinox_draw_button()` with the default `buttonstyle=0`.
+- Inset entry strokes based on `equinox_draw_entry()`.
+- Notebook tabs across all four edge orientations, using the GTK3 `notebook > header > tabs > tab` CSS node structure.
+- Explicit GTK3 combo-box arrow icons.
+- Compact scales, scrollbars, tree-view headers, frame edges, and disabled states.
+
+The target is the original Equinox GTK2 **appearance**, not identical application layouts. GTK3 exposes controls and layout behavior that differ from GTK2. Pixel-perfect replication is not feasible through theme CSS alone.
+
+The earlier nine-slice PNG prototype remains in `experiments/gtk3-rendered/` for reference. The stable light and dark stylesheets do not import its overrides or depend on the exported images.
+
+## Validation
+
+`scripts/check-gtk3-css.py` uses the GTK3 CSS provider parser and reports errors. The repository also includes a Fedora 43 workflow in `.github/workflows/gtk3-css.yml`.
+
+Visual appearance and interaction still need A Widget Factory testing on Fedora 43. Neither test changes your active MATE desktop theme.
