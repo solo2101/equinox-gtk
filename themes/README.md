@@ -264,3 +264,33 @@ GTK_THEME=Equinox-Dark python3 scripts/preview-gtk3-frames.py
 ```
 
 GTK2 engine files and the Marco window frame are unchanged.
+
+### Optional native GTK3 shadow compatibility module
+
+For original GtkFrame IN / OUT / ETCHED_IN / ETCHED_OUT shading in unmodified
+GTK3 applications, an opt-in GTK module inspects `GtkFrame::shadow-type`
+and assigns the matching `.eqx-shadow-*` CSS class when each widget maps.
+It also tracks later changes. This works around GTK3's CSS-node limitation
+without changing system GTK libraries, editing A Widget Factory, or
+modifying GTK2/Marco.
+
+Install Fedora build dependencies, then build the local module:
+
+```bash
+sudo dnf install gtk3-devel gcc pkgconf-pkg-config
+bash scripts/build-gtk3-frame-compat.sh
+```
+
+Run A Widget Factory with the module for this process only:
+
+```bash
+GTK_THEME=Equinox-Light \
+  GTK3_MODULES="$HOME/.local/lib/equinox-gtk/libequinox-frame-compat.so" \
+  awf-gtk3
+```
+
+For the dark version, set `GTK_THEME=Equinox-Dark` instead. Without
+`GTK3_MODULES`, GTK3 continues to draw all four frames with its single
+default border style. The module is experimental and deliberately not
+enabled globally. Its GTK3 integration test is in
+`tests/gtk3-frame-compat.c`, run under Xvfb in CI.
