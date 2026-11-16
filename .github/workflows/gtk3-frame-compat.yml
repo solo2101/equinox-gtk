@@ -1,0 +1,42 @@
+name: GTK3 Frame Shadow Compatibility
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/gtk3/equinox-frame-compat.c'
+      - 'scripts/build-gtk3-frame-compat.sh'
+      - 'tests/gtk3-frame-compat.c'
+      - '.github/workflows/gtk3-frame-compat.yml'
+  pull_request:
+    paths:
+      - 'src/gtk3/equinox-frame-compat.c'
+      - 'scripts/build-gtk3-frame-compat.sh'
+      - 'tests/gtk3-frame-compat.c'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GTK3 headers and virtual X server
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libgtk-3-dev xvfb xauth
+      - name: Build opt-in frame compatibility module
+        run: bash scripts/build-gtk3-frame-compat.sh
+      - name: Compile GtkFrame integration test
+        run: |
+          gcc -std=c11 -O2 -Wall -Wextra -Werror \
+            $(pkg-config --cflags gtk+-3.0) \
+            tests/gtk3-frame-compat.c -o /tmp/gtk3-frame-compat-test \
+            $(pkg-config --libs gtk+-3.0)
+      - name: Verify four GTK3 shadow classes on actual mapped frames
+        run: |
+          xvfb-run -a env \
+            GTK3_MODULES="$HOME/.local/lib/equinox-gtk/libequinox-frame-compat.so" \
+            /tmp/gtk3-frame-compat-test
