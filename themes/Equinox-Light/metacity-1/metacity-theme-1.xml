@@ -184,23 +184,23 @@
     <image filename="menu.png" x="5" y="5" width="8" height="8"/>
   </draw_ops>
   <draw_ops name="button_close_unfocused">
-    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height" alpha="0.70"/>
     <image filename="close.png" x="5" y="5" width="8" height="8" alpha="0.36"/>
   </draw_ops>
   <draw_ops name="button_minimize_unfocused">
-    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height" alpha="0.70"/>
     <image filename="min.png" x="5" y="5" width="8" height="8" alpha="0.48"/>
   </draw_ops>
   <draw_ops name="button_maximize_unfocused">
-    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height" alpha="0.70"/>
     <image filename="max.png" x="5" y="5" width="8" height="8" alpha="0.48"/>
   </draw_ops>
   <draw_ops name="button_restore_unfocused">
-    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height" alpha="0.70"/>
     <image filename="max.png" x="5" y="5" width="8" height="8" alpha="0.48"/>
   </draw_ops>
   <draw_ops name="button_menu_unfocused">
-    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height" alpha="0.70"/>
     <image filename="menu.png" x="5" y="5" width="8" height="8" alpha="0.48"/>
   </draw_ops>
   <frame_style name="normal_focused" geometry="normal">
