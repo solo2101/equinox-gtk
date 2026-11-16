@@ -9,7 +9,7 @@
     <author>Equinox GTK modernization contributors</author>
     <copyright>2026 Equinox GTK modernization contributors</copyright>
     <date>2026-11-16</date>
-    <description>Equinox Dark gradients, compact window borders and beveled title buttons for Marco.</description>
+    <description>Equinox Dark original-style gradient frames and custom circular gloss controls for Marco.</description>
   </info>
 
   <frame_geometry name="normal"
@@ -81,7 +81,8 @@
   </draw_ops>
   <draw_ops name="edge_bottom">
     <rectangle color="#2b2e30" x="0" y="0" width="width" height="height" filled="true"/>
-    <line color="#16191b" x1="0" y1="height - 1" x2="width - 1" y2="height - 1"/>
+    <line color="#52585c" x1="0" y1="height - 2" x2="width - 1" y2="height - 2"/>
+    <line color="#101416" x1="0" y1="height - 1" x2="width - 1" y2="height - 1"/>
   </draw_ops>
   <draw_ops name="title_focus">
     <title color="#eeeeee" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
@@ -90,54 +91,85 @@
     <title color="#aaaeb0" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
   </draw_ops>
   <draw_ops name="button_normal">
-    <gradient type="vertical" x="1" y="1" width="width - 2" height="height - 2">
-      <color value="#484c4f"/>
-      <color value="#292d2f"/>
-    </gradient>
-    <rectangle color="#171b1d" x="1" y="1" width="width - 3" height="height - 3" filled="false"/>
-    <line color="#666c6f" x1="3" y1="2" x2="width - 4" y2="2"/>
+    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
+    <arc color="#141819" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#2e3235" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#464b4e" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#62676a" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
   </draw_ops>
   <draw_ops name="button_hover">
-    <gradient type="vertical" x="1" y="1" width="width - 2" height="height - 2">
-      <color value="#596065"/>
-      <color value="#353a3d"/>
-    </gradient>
-    <rectangle color="#171b1d" x="1" y="1" width="width - 3" height="height - 3" filled="false"/>
+    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
+    <arc color="#1b587a" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#327caa" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#5aadd8" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#9bdcff" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
   </draw_ops>
   <draw_ops name="button_pressed">
-    <gradient type="vertical" x="1" y="1" width="width - 2" height="height - 2">
-      <color value="#232629"/>
-      <color value="#34383b"/>
-    </gradient>
-    <rectangle color="#171b1d" x="1" y="1" width="width - 3" height="height - 3" filled="false"/>
+    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
+    <arc color="#111618" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#222729" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#3b4144" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#24282b" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
   </draw_ops>
   <draw_ops name="button_unfocus">
-    <rectangle color="#222527" x="1" y="1" width="width - 3" height="height - 3" filled="false"/>
+    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
+    <arc color="#272a2d" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#35393b" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#414547" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#414547" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
   </draw_ops>
   <draw_ops name="icon_close">
-    <line color="#eeeeee" width="2" x1="6" y1="6" x2="width - 7" y2="height - 7"/>
-    <line color="#eeeeee" width="2" x1="width - 7" y1="6" x2="6" y2="height - 7"/>
+    <line color="#ffffff" width="2" x1="7" y1="7" x2="width - 8" y2="height - 8"/>
+    <line color="#ffffff" width="2" x1="width - 8" y1="7" x2="7" y2="height - 8"/>
   </draw_ops>
   <draw_ops name="icon_close_hover">
-    <line color="#f17373" width="2" x1="6" y1="6" x2="width - 7" y2="height - 7"/>
-    <line color="#f17373" width="2" x1="width - 7" y1="6" x2="6" y2="height - 7"/>
+    <line color="#ffffff" width="2" x1="7" y1="7" x2="width - 8" y2="height - 8"/>
+    <line color="#ffffff" width="2" x1="width - 8" y1="7" x2="7" y2="height - 8"/>
   </draw_ops>
   <draw_ops name="icon_minimize">
-    <line color="#eeeeee" width="2" x1="5" y1="height - 7" x2="width - 6" y2="height - 7"/>
+    <line color="#dddddd" width="2" x1="6" y1="height - 8" x2="width - 7" y2="height - 8"/>
   </draw_ops>
   <draw_ops name="icon_maximize">
-    <rectangle color="#eeeeee" x="5" y="5" width="width - 11" height="height - 11" filled="false"/>
-    <line color="#eeeeee" x1="5" y1="6" x2="width - 6" y2="6"/>
+    <rectangle color="#dddddd" x="6" y="6" width="width - 13" height="height - 13" filled="false"/>
+    <line color="#dddddd" x1="6" y1="7" x2="width - 7" y2="7"/>
   </draw_ops>
   <draw_ops name="icon_restore">
-    <rectangle color="#eeeeee" x="7" y="4" width="width - 12" height="height - 12" filled="false"/>
-    <rectangle color="#eeeeee" x="5" y="7" width="width - 12" height="height - 12" filled="false"/>
+    <rectangle color="#dddddd" x="8" y="5" width="width - 13" height="height - 13" filled="false"/>
+    <rectangle color="#dddddd" x="6" y="8" width="width - 13" height="height - 13" filled="false"/>
   </draw_ops>
   <draw_ops name="icon_menu">
     <icon alpha="0.85" x="3" y="3" width="width - 6" height="height - 6"/>
   </draw_ops>
+  <draw_ops name="button_close_base">
+    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
+    <arc color="#722927" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#a93b37" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#d45a55" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#f59a93" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
+  </draw_ops>
+  <draw_ops name="button_close_hot">
+    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
+    <arc color="#8a211e" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#d6443f" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#ff736b" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#f59a93" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
+  </draw_ops>
+  <draw_ops name="button_close_down">
+    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
+    <arc color="#561917" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#8b2b29" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#ad433d" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#ad433d" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
+  </draw_ops>
+  <draw_ops name="button_close_off">
+    <!-- Classic Equinox rounded metallic button, no square backdrop. -->
+    <arc color="#272a2d" x="2" y="2" width="width - 5" height="height - 5" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#35393b" x="3" y="3" width="width - 7" height="height - 7" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#414547" x="4" y="4" width="width - 9" height="height - 9" start_angle="0" extent_angle="360" filled="true"/>
+    <arc color="#414547" x="5" y="4" width="width - 11" height="height - 11" start_angle="35" extent_angle="110" filled="false"/>
+  </draw_ops>
   <draw_ops name="button_close_normal">
-    <include name="button_normal"/>
+    <include name="button_close_base"/>
     <include name="icon_close"/>
   </draw_ops>
   <draw_ops name="button_minimize_normal">
@@ -153,11 +185,10 @@
     <include name="icon_restore"/>
   </draw_ops>
   <draw_ops name="button_menu_normal">
-    <include name="button_normal"/>
     <include name="icon_menu"/>
   </draw_ops>
   <draw_ops name="button_close_prelight">
-    <include name="button_hover"/>
+    <include name="button_close_hot"/>
     <include name="icon_close_hover"/>
   </draw_ops>
   <draw_ops name="button_minimize_prelight">
@@ -177,7 +208,7 @@
     <include name="icon_menu"/>
   </draw_ops>
   <draw_ops name="button_close_pressed">
-    <include name="button_pressed"/>
+    <include name="button_close_down"/>
     <include name="icon_close"/>
   </draw_ops>
   <draw_ops name="button_minimize_pressed">
@@ -197,7 +228,7 @@
     <include name="icon_menu"/>
   </draw_ops>
   <draw_ops name="button_close_unfocused">
-    <include name="button_unfocus"/>
+    <include name="button_close_off"/>
     <include name="icon_close"/>
   </draw_ops>
   <draw_ops name="button_minimize_unfocused">
@@ -213,7 +244,6 @@
     <include name="icon_restore"/>
   </draw_ops>
   <draw_ops name="button_menu_unfocused">
-    <include name="button_unfocus"/>
     <include name="icon_menu"/>
   </draw_ops>
   <frame_style name="normal_focused" geometry="normal">
