@@ -1,0 +1,215 @@
+/* Equinox GTK3 Light: first-pass GTK 3.24 styling.
+ * Matches the Equinox 1.50 GTK2 baseline without replacing the original engine.
+ */
+@define-color theme_bg_color #d7d7d7;
+@define-color theme_fg_color #252525;
+@define-color theme_base_color #ffffff;
+@define-color theme_text_color #252525;
+@define-color theme_selected_bg_color #3978b4;
+@define-color theme_selected_fg_color #ffffff;
+@define-color theme_unfocused_fg_color #686868;
+
+* {
+  color: @theme_fg_color;
+  -gtk-icon-shadow: none;
+}
+
+window, dialog, box, grid, paned, scrolledwindow, viewport,
+notebook, stack, frame, overlay {
+  background-color: @theme_bg_color;
+}
+
+window, dialog, .background {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+}
+
+label, cellview, text {
+  color: @theme_fg_color;
+}
+
+label:disabled, button:disabled label, menuitem:disabled label,
+checkbutton:disabled label, radiobutton:disabled label,
+switch:disabled label, .dim-label {
+  color: #686868;
+}
+
+button, combobox button, spinbutton button, .linked button, .titlebutton {
+  color: @theme_fg_color;
+  background-color: #d0d0d0;
+  background-image: linear-gradient(to bottom, #eeeeee, #d0d0d0);
+  border: 1px solid #888888;
+  border-radius: 5px;
+  box-shadow: inset 0 1px #ffffff;
+  padding: 4px 9px;
+  min-height: 18px;
+  min-width: 16px;
+}
+
+button:hover, combobox button:hover {
+  background-image: linear-gradient(to bottom, #fafafa, #dedede);
+  border-color: #696969;
+}
+button:active, button:checked, button:focus:active {
+  background-image: linear-gradient(to bottom, #d1d1d1, #bcbcbc);
+  border-color: #696969;
+}
+button:disabled, combobox button:disabled, spinbutton button:disabled {
+  color: #686868;
+  background-color: #d2d2d2;
+  background-image: none;
+  border-color: #ababab;
+  box-shadow: none;
+}
+
+entry, spinbutton entry, textview text, treeview.view,
+iconview, .view {
+  color: @theme_text_color;
+  background-color: @theme_base_color;
+  border: 1px solid #888888;
+  border-radius: 4px;
+  caret-color: #252525;
+}
+
+entry {
+  min-height: 20px;
+  padding: 4px 6px;
+  box-shadow: inset 0 1px #ededed;
+}
+
+entry:focus, spinbutton entry:focus, textview:focus {
+  border-color: @theme_selected_bg_color;
+}
+
+entry:disabled, textview:disabled, treeview:disabled {
+  color: #686868;
+  background-color: #d2d2d2;
+  border-color: #ababab;
+}
+
+selection, *:selected, treeview.view:selected, iconview:selected {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
+
+headerbar, .titlebar, menubar, toolbar, .toolbar, .primary-toolbar {
+  color: @theme_fg_color;
+  background-color: #d7d7d7;
+  background-image: linear-gradient(to bottom, #e5e5e5, #d7d7d7);
+  border-color: #888888;
+}
+
+headerbar {
+  min-height: 26px;
+  border-bottom: 1px solid #888888;
+}
+
+menubar { padding: 2px; }
+menu, menuitem, .menu, popover, popover.background {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+}
+menuitem, modelbutton {
+  padding: 3px 7px;
+}
+menuitem:hover, modelbutton:hover, menuitem:selected {
+  color: #ffffff;
+  background-color: @theme_selected_bg_color;
+}
+
+notebook { background-color: @theme_bg_color; }
+notebook > header {
+  background-color: #d7d7d7;
+  border-color: #888888;
+}
+notebook > header > tabs > tab {
+  color: @theme_fg_color;
+  background-image: linear-gradient(to bottom, #eeeeee, #d0d0d0);
+  border: 1px solid #888888;
+  border-radius: 5px 5px 0 0;
+  padding: 4px 9px;
+}
+notebook > header > tabs > tab:checked {
+  color: @theme_fg_color;
+  background-image: none;
+  background-color: #ffffff;
+  border-color: #696969;
+}
+notebook > header > tabs > tab:disabled { color: #686868; }
+
+frame > border, .frame {
+  border: 1px solid #888888;
+  border-radius: 4px;
+}
+separator { background-color: #888888; min-height: 1px; min-width: 1px; }
+
+scale trough, scrollbar trough, progressbar trough, levelbar trough {
+  background-color: #bcbcbc;
+  border: 1px solid #888888;
+  border-radius: 4px;
+}
+scale trough { min-height: 5px; min-width: 5px; }
+scale slider {
+  background-image: linear-gradient(to bottom, #eeeeee, #d0d0d0);
+  border: 1px solid #696969;
+  border-radius: 50%;
+  min-width: 13px;
+  min-height: 13px;
+}
+scale highlight, progressbar progress, levelbar block.filled {
+  background-image: linear-gradient(to bottom, #5e9bcc, #3978b4);
+  border-radius: 3px;
+}
+progressbar progress { min-height: 5px; min-width: 5px; }
+scrollbar slider {
+  background-color: #bdbdbd;
+  border: 1px solid #888888;
+  border-radius: 4px;
+  min-width: 8px;
+  min-height: 8px;
+}
+scrollbar slider:hover { background-color: #dedede; }
+scrollbar { background-color: transparent; }
+
+check, radio {
+  background-color: #ffffff;
+  border: 1px solid #696969;
+  color: @theme_fg_color;
+  min-width: 13px;
+  min-height: 13px;
+}
+check { border-radius: 3px; }
+radio { border-radius: 100%; }
+check:checked, radio:checked, check:indeterminate {
+  background-color: @theme_selected_bg_color;
+  color: #ffffff;
+  border-color: #696969;
+}
+check:disabled, radio:disabled {
+  color: #686868;
+  background-color: #d2d2d2;
+  border-color: #ababab;
+}
+
+tooltip, tooltip.background {
+  color: @theme_fg_color;
+  background-color: #d0d0d0;
+  border: 1px solid #888888;
+  border-radius: 4px;
+}
+tooltip label { color: @theme_fg_color; }
+
+switch {
+  color: @theme_fg_color;
+  background-color: #bcbcbc;
+  border: 1px solid #888888;
+  border-radius: 12px;
+}
+switch:checked { background-color: @theme_selected_bg_color; }
+switch slider {
+  background-image: linear-gradient(to bottom, #eeeeee, #d0d0d0);
+  border: 1px solid #696969;
+  border-radius: 100%;
+}
+
+.link, label link, button.link { color: #215eab; }
