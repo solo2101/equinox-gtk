@@ -196,3 +196,36 @@ GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2 & GTK_THEME=E
 
 These reference rows depend on display scaling and AWF window position.
 The new geometry still needs on-device visual confirmation.
+
+
+## Marco + GTK3 integrated top chrome pass 9
+
+The historical Equinox frame has a titlebar gradient that blends directly
+into the GTK menu and toolbar. Our earlier Marco version ended with a dark
+border and immediately switched to a bright GTK menu surface, creating a
+visible horizontal seam.
+
+Both Marco variants now finish their focused and unfocused titlebar
+gradients at the corresponding GTK3 menubar top shade. The old dark bottom
+stroke is removed. Normal and border-only Marco frames use 1px side and
+bottom edges instead of 3px/4px, reducing the framed-in appearance.
+
+GTK3 light and dark menubar/toolbar ridge colors are softened to a thin,
+subtle division rather than a high-contrast groove. The original GTK2
+Equinox drawing engine, GTK2 theme options, and authentic PNG window buttons
+are unchanged. Both GTK2 and GTK3 windows share the new Marco frame.
+
+Test the combined appearance with:
+
+```bash
+git pull
+bash scripts/install-user-themes.sh
+gsettings set org.mate.Marco.general theme 'Equinox-Light'
+GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2 & GTK_THEME=Equinox-Light awf-gtk3
+```
+
+To return to the previously reported window border theme:
+
+```bash
+gsettings set org.mate.Marco.general theme 'Esco'
+```
