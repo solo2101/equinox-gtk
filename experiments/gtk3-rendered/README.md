@@ -1,45 +1,42 @@
-# GTK3 experiment using the original Equinox renderer
+# GTK3 rendering experiment: conservative pass 2
 
-This experiment compiles the original src/equinox_draw.c and src/support.c
-with a standalone Cairo asset generator, tools/equinox-render-assets.c.
-It calls upstream equinox_draw_button(), equinox_draw_entry(), and
-equinox_draw_tab() rather than recreating their drawing formulas in CSS.
+Status: experimental, and not yet visually validated on Fedora 43.
 
-It exports 16 PNG surfaces per variant for normal, hover, pressed, focused,
-disabled, selected, and orientation states. Shade and spot values follow
-equinox_style_realize(), with colors from the new GTK2 Equinox themes.
-GTK3 uses border-image-slice: 8 fill for nine-slice scaling.
+The first version looked worse than the GTK3 CSS baseline. Why:
 
-## Build and install on Fedora 43
+- The Equinox GTK2 entry drawing routine paints its parent background into the
+  surface. Nine-slice scaling made that background look like a thick inset.
+- The GTK2 notebook tab drawing routine deliberately draws outside the tab
+  rectangle. Extracting the graphic loses the notebook edge relationship.
+- Wide 8px image slices visually inflated widget borders in GTK3.
 
-From the cloned repository:
+## What pass 2 changes
 
-    sudo dnf install -y gcc gtk2-devel cairo-devel pkgconf-pkg-config
+- Only ordinary `button.text-button` controls use the original Cairo PNG art.
+- Button nine-slice widths are reduced from 8px to 5px.
+- Entries, tabs, comboboxes, toolbar icons, and switches use the existing
+  GTK3 baseline CSS instead of the generated PNG assets.
+- The asset generator still produces all 16 PNGs for future research.
+
+## Test on Fedora 43
+
+    cd ~/Downloads/equinox-gtk
     git pull
     bash scripts/install-rendered-experiment.sh
-
-Installation paths:
-
-- ~/.themes/Equinox-Rendered-Light/gtk-3.0/
-- ~/.themes/Equinox-Rendered-Dark/gtk-3.0/
-
-The script does not change your active MATE theme or overwrite the
-stable Equinox-Light, Equinox-Dark, or GTK2 engine.
-
-## Test with AWF
-
     GTK_THEME=Equinox-Rendered-Light awf-gtk3
-    GTK_THEME=Equinox-Rendered-Dark awf-gtk3
 
-Compare against GTK2 screenshots. Focus on button bevels, disabled
-buttons, entries, and notebook tabs.
+Compare against the stable theme in a separate process:
 
-## Limitations
+    GTK_THEME=Equinox-Light awf-gtk3
 
-- Experimental prototype. Build and CSS parser checks still need to
-  run on Fedora 43.
-- GTK3 layout geometry differs from GTK2. Nine-slice scaling might
-  distort gradients, tab edges, and corners.
-- Only buttons, entries, and tabs use original drawing functions yet.
-- PNG assets are generated on the Fedora computer, not committed.
-- HiDPI scaling requires follow-up work.
+To test dark instead, use `Equinox-Rendered-Dark` and `Equinox-Dark`.
+
+The experiment installs only to ~/.themes/Equinox-Rendered-*.
+It does not change MATE settings or replace your stable themes.
+
+## Goal
+
+See if narrow nine-slice graphics are genuinely better for simple buttons.
+If they still look worse than CSS, remove the PNG overrides and continue
+with source-guided GTK3 CSS. Matching GTK2 pixel-for-pixel would require
+GTK3-specific layout integration, not just exported images.
