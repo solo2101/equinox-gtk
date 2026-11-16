@@ -68,19 +68,17 @@ is to match the controls' paint and states, not the full GTK2 AWF window
 geometry. Validate both styles with `python3 scripts/check-gtk3-css.py`,
 then compare equal-sized screenshots at the same display scale.
 
-## Side-by-side GTK2/GTK3 comparison
+## Independent GTK2/GTK3 comparison windows
 
-Launch A Widget Factory with both toolkits using the same Equinox variant.
-The script syncs user theme files before launching, keeps the active MATE
-desktop theme unchanged, and places GTK2 on the left and GTK3 on the right
-when using MATE X11 with `wmctrl` installed.
+The helper launches two separate A Widget Factory processes with the
+same variant. It does not tile, resize, or position them. Move each
+window to the desired monitor.
 
 ```bash
-sudo dnf install -y wmctrl
 bash scripts/compare-gtk2-gtk3.sh light
 bash scripts/compare-gtk2-gtk3.sh dark
 ```
 
-Run one variant at a time. The optional tiling code uses `xrandr` to select
-the primary monitor. If `wmctrl` is missing or the window manager does not
-provide X11 window information, both windows still launch without tiling.
+The first window uses the original GTK2 Equinox engine and the second
+uses the GTK3 CSS theme. The script installs the local theme files for
+the current user without changing the active MATE theme.
