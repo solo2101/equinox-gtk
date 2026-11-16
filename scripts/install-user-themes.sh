@@ -15,7 +15,16 @@ for theme in Equinox-Light Equinox-Dark; do
     destination="$HOME/.themes/$theme/$toolkit"
     test -f "$source" || { printf 'Missing theme: %s\n' "$source" >&2; exit 1; }
     mkdir -p "$destination"
-    install -m 0644 "$source" "$destination/$file"
+    if [[ "$toolkit" == "metacity-1" ]]; then
+      # Original Equinox 1.50 decorations reference image assets beside XML.
+      # Copy all accompanying files, not merely metacity-theme-1.xml.
+      for asset in "$root/themes/$theme/$toolkit/"*; do
+        [[ -f "$asset" ]] || continue
+        install -m 0644 "$asset" "$destination/${asset##*/}"
+      done
+    else
+      install -m 0644 "$source" "$destination/$file"
+    fi
     printf 'Installed: %s/%s\n' "$theme" "$toolkit"
   done
 done
