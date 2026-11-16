@@ -48,6 +48,7 @@
     <border name="button_border" left="0" right="0" top="0" bottom="0"/>
   </frame_geometry>
 
+  <draw_ops name="blank"></draw_ops>
   <draw_ops name="frame_focus">
     <rectangle color="#777777" x="0" y="0" width="width - 1" height="height - 1" filled="false"/>
   </draw_ops>
@@ -294,6 +295,20 @@
     <piece position="left_edge" draw_ops="edge_left"/>
     <piece position="right_edge" draw_ops="edge_right"/>
     <piece position="bottom_edge" draw_ops="edge_bottom"/>
+    <!-- Marco requires button drawing slots even when has_title="false".
+         No-op operations keep border-only windows free of button artwork. -->
+    <button function="close" state="normal" draw_ops="blank"/>
+    <button function="close" state="prelight" draw_ops="blank"/>
+    <button function="close" state="pressed" draw_ops="blank"/>
+    <button function="maximize" state="normal" draw_ops="blank"/>
+    <button function="maximize" state="prelight" draw_ops="blank"/>
+    <button function="maximize" state="pressed" draw_ops="blank"/>
+    <button function="minimize" state="normal" draw_ops="blank"/>
+    <button function="minimize" state="prelight" draw_ops="blank"/>
+    <button function="minimize" state="pressed" draw_ops="blank"/>
+    <button function="menu" state="normal" draw_ops="blank"/>
+    <button function="menu" state="prelight" draw_ops="blank"/>
+    <button function="menu" state="pressed" draw_ops="blank"/>
   </frame_style>
   <frame_style_set name="normal">
     <frame focus="yes" state="normal" resize="both" style="normal_focused"/>
