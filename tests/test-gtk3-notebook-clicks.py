@@ -6,13 +6,14 @@ Run with a virtual X display and xdotool:
 
 Uses real X11 mouse clicks, not gtk_notebook_set_current_page().
 """
+import os
 import subprocess
 import sys
 import time
 
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gdk, Gtk
 
 
 def dispatch_events():
@@ -46,6 +47,44 @@ def click_tab(label):
     )
 
 
+
+def check_page_surface(window, notebook, orientation):
+    """Check the visible page fill as well as functional tab switching."""
+    dispatch_events()
+    time.sleep(0.05)
+    dispatch_events()
+    width = window.get_allocated_width()
+    height = window.get_allocated_height()
+    pixels = Gdk.pixbuf_get_from_window(window.get_window(), 0, 0,
+                                        width, height)
+    if pixels is None:
+        raise RuntimeError("Unable to capture GTK3 window")
+    page = notebook.get_nth_page(notebook.get_current_page())
+    rect = page.get_allocation()
+    x = min(width - 2, max(1, rect.x + 22))
+    y = min(height - 2, max(1, rect.y + 22))
+    stride = pixels.get_rowstride()
+    channels = pixels.get_n_channels()
+    raw = pixels.get_pixels()
+    offset = y * stride + x * channels
+    rgb = tuple(raw[offset:offset + 3])
+    theme = os.environ.get("GTK_THEME", "")
+    if theme == "Equinox-Light":
+        # Original GTK2 notebook page in the screenshot is #e8e8e8,
+        # versus #d7d7d7 normal theme background. The page must not
+        # disappear into the window background again.
+        if not 222 <= rgb[0] <= 246:
+            raise AssertionError(
+                f"{orientation.value_nick}: lost light notebook page surface: "
+                f"sample at ({x},{y})={rgb}; expected approx #e8e8e8")
+    elif theme == "Equinox-Dark":
+        if not 48 <= rgb[0] <= 95:
+            raise AssertionError(
+                f"{orientation.value_nick}: unexpected dark notebook "
+                f"page surface: {rgb}")
+    print(f"Visible {orientation.value_nick} page surface: {rgb}")
+
+
 def main():
     if not Gtk.init_check():
         raise SystemExit("GTK3 display unavailable")
@@ -73,6 +112,7 @@ def main():
             if not wait_for_page(notebook, selected):
                 failures.append(f"{orientation.value_nick}: click Tab {selected + 1} "
                                 f"left selected page {notebook.get_current_page() + 1}")
+        check_page_surface(win, notebook, orientation)
         print(f"Checked {orientation.value_nick} tab orientation")
     win.destroy()
     if failures:
