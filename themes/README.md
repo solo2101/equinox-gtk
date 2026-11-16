@@ -47,3 +47,23 @@ The earlier nine-slice PNG prototype remains in `experiments/gtk3-rendered/` for
 `scripts/check-gtk3-css.py` uses the GTK3 CSS provider parser and reports errors. The repository also includes a Fedora 43 workflow in `.github/workflows/gtk3-css.yml`.
 
 Visual appearance and interaction still need A Widget Factory testing on Fedora 43. Neither test changes your active MATE desktop theme.
+
+## GTK3 parity pass 5: measured button states
+
+Compared with the GTK2 baseline screenshots from Fedora 43, the GTK2 light
+button face transitions approximately from `#e1e1e1` at the upper edge to
+`#c4c4c4` at the lower edge. The pressed state transitions from roughly
+`#c0c0c0` to `#a8a8a8`. The GTK3 stylesheet now models those slopes in
+the correct direction for both variants.
+
+This pass also:
+- Adds separate gradients for disabled and pressed-disabled buttons.
+- Adds an icon-theme-independent triangle to GTK3 combo-box arrows.
+- Aligns active notebook tabs across all four orientations using a 1px
+  overlap instead of detached outlines.
+- Keeps GTK2 C code and the original GTK3 PNG experiment untouched.
+
+GTK3 changes widget layout and sizing independently of theme CSS. The goal
+is to match the controls' paint and states, not the full GTK2 AWF window
+geometry. Validate both styles with `python3 scripts/check-gtk3-css.py`,
+then compare equal-sized screenshots at the same display scale.
