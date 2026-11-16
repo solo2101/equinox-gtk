@@ -294,3 +294,30 @@ For the dark version, set `GTK_THEME=Equinox-Dark` instead. Without
 default border style. The module is experimental and deliberately not
 enabled globally. Its GTK3 integration test is in
 `tests/gtk3-frame-compat.c`, run under Xvfb in CI.
+
+
+## GTK3 fading separators: original Equinox style
+
+GTK2 Equinox 1.50 uses `separatorstyle = 1` in both GTK2 variants.
+Its Cairo renderer draws two adjacent one-pixel strokes for horizontal
+separators: dark on top and light below. The opacity ramps from zero at
+either end, to 0.6 at 25%, holds through 75%, then fades back to zero.
+The dark and light source colors are the normal background shaded by
+0.68 and 1.15, respectively.
+
+The GTK3 themes now reproduce these two fades using layered
+`linear-gradient` backgrounds sized to one pixel each. Vertical
+separators use the same pair of shaded lines, fading along their height.
+This applies to real GtkSeparator widgets, not only to A Widget Factory.
+Draggable GtkPaned handles keep their separate, unobtrusive appearance.
+
+```bash
+git pull
+python3 scripts/check-gtk3-css.py
+bash scripts/install-user-themes.sh
+GTK_THEME=Equinox-Light python3 scripts/preview-gtk3-frames.py
+```
+
+The frame preview now includes the fading separator above and between
+the two groups. The previously added frame-shadow compatibility module
+and the GTK2 engine remain unchanged.
