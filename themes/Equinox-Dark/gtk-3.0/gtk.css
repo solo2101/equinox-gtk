@@ -55,7 +55,8 @@
 @define-color eqx_menuBottom #303335;
 @define-color eqx_toolbarTop #303335;
 @define-color eqx_toolbarBottom #292c2e;
-@define-color eqx_toolbarLine #1b1d1f;
+@define-color eqx_menuGroove #1b1d1f;
+@define-color eqx_toolbarLine #101315;
 @define-color eqx_progTroughTop #414648;
 @define-color eqx_progTroughBottom #242729;
 @define-color eqx_progAccentDeep #20506e;
@@ -213,7 +214,7 @@ menubar, toolbar, .toolbar, .primary-toolbar, headerbar, .titlebar {
 menubar {
   padding: 2px;
   background-image: linear-gradient(to bottom, @eqx_menuTop, @eqx_menuBottom);
-  border-bottom: 1px solid @eqx_toolbarLine;
+  border-bottom: 1px solid @eqx_menuGroove;
   box-shadow: none;
 }
 toolbar, .toolbar, .primary-toolbar {
