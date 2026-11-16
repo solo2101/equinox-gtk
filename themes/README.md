@@ -229,3 +229,38 @@ To return to the previously reported window border theme:
 ```bash
 gsettings set org.mate.Marco.general theme 'Esco'
 ```
+
+
+## GTK3 frame shadows: Fedora 14 comparison
+
+The original GTK2 Equinox Cairo renderer distinguishes `GTK_SHADOW_IN`,
+`OUT`, `ETCHED_IN` and `ETCHED_OUT`. In the Fedora 14 screenshot,
+inset frames have a `#d1d1d1` interior and raised frames have a
+`#e0e0e0` interior. Our earlier GTK3 version used the flat background
+`#d7d7d7` for all four, with a too-prominent vertical paned handle.
+
+This pass refines the default GTK3 frame border (3px corner radius, softer
+highlight) and removes the dotted paned divider. The Light and Dark themes
+also define opt-in `.eqx-shadow-in`, `.eqx-shadow-out`,
+`.eqx-shadow-etched-in` and `.eqx-shadow-etched-out` frame styles,
+which reproduce the original contrasting interior colors.
+
+**GTK3 limitation:** The standard GtkFrame CSS node is only differentiated
+by `border.flat` when its shadow type is NONE. GTK3 treats other
+`GtkShadowType` values identically for styling. A GTK3 theme stylesheet
+alone cannot infer which shadow type an application specified. Unlike the
+GTK2 C engine, separate IN/OUT shading in GTK3 requires a CSS class
+assigned by the application or a compatibility layer. See the
+[GtkFrame GTK3 documentation](https://docs.gtk.org/gtk3/class.Frame.html).
+
+Compare both the legacy default and the explicitly assigned Equinox
+shadows using the provided test app:
+
+```bash
+git pull
+bash scripts/install-user-themes.sh
+GTK_THEME=Equinox-Light python3 scripts/preview-gtk3-frames.py
+GTK_THEME=Equinox-Dark python3 scripts/preview-gtk3-frames.py
+```
+
+GTK2 engine files and the Marco window frame are unchanged.
