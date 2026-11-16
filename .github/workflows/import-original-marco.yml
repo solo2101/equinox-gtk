@@ -1,0 +1,64 @@
+name: Import original Equinox 1.50 Marco themes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/import-original-marco.py'
+      - '.github/workflows/import-original-marco.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Fetch verified 2011 original Equinox theme archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/140449-equinox-themes-1.50.tar.gz"
+          urls=(
+            "https://distcache.freebsd.org/ports-distfiles/140449-equinox-themes-1.50.tar.gz"
+            "https://ftp.ec-m.fr/pub/OpenBSD/distfiles/140449-equinox-themes-1.50.tar.gz"
+            "https://mirror.ihost.md/pub/OpenBSD/distfiles/140449-equinox-themes-1.50.tar.gz"
+            "https://mirrors.nju.edu.cn/freebsd-ports/distfiles/140449-equinox-themes-1.50.tar.gz"
+          )
+          ok=0
+          for url in "${urls[@]}"; do
+            echo "Trying $url"
+            if curl --fail --location --retry 2 --connect-timeout 10 --max-time 60 \
+                --output "$archive" "$url"; then
+              if echo "32b3cedfbc27e466289aa8a0b6d1f3f964a553956d94bf267bd42c749691823c  $archive" | sha256sum --check -; then
+                ok=1
+                break
+              fi
+            fi
+          done
+          if [[ "$ok" -ne 1 ]]; then
+            echo "::error::Original archive download or SHA256 verification failed"
+            exit 1
+          fi
+          echo "EQUINOX_ARCHIVE=$archive" >> "$GITHUB_ENV"
+      - name: Replace synthetic Marco XML with original Equinox XML and button artwork
+        run: python3 scripts/import-original-marco.py "$EQUINOX_ARCHIVE"
+      - name: Verify original artwork and Marco theme references
+        run: python3 scripts/check-marco-theme.py
+      - name: Commit authentic upstream Marco theme files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add themes/Equinox-Light/metacity-1 themes/Equinox-Dark/metacity-1
+          if git diff --cached --quiet; then
+            echo "Original Equinox Marco theme assets are already imported."
+          else
+            git commit -m "Import authentic Equinox 1.50 Metacity window decorations and button assets"
+            git push
+          fi
