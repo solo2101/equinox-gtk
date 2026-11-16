@@ -8,7 +8,6 @@ import pathlib
 import sys
 import xml.etree.ElementTree as ET
 
-REQUIRED_STATES = {"normal", "pressed", "prelight"}
 REQUIRED_BUTTONS = {"menu", "minimize", "maximize", "close"}
 REQUIRED_WINDOWS = {"normal", "dialog", "modal_dialog", "menu", "utility", "border"}
 REQUIRED_FRAME_STATES = {
@@ -64,19 +63,35 @@ def verify(path):
         elif windows[kind] not in frame_sets:
             issues.append(f"undefined window style_set: {windows[kind]}")
 
-    for name in ("normal_focused", "normal_unfocused",
-                 "maximized_focused", "maximized_unfocused"):
-        style = frame_styles.get(name)
-        if style is None:
-            issues.append(f"missing style: {name}")
-            continue
+    # Marco checks EVERY frame_style before loading its frame_style_sets.
+    # A border-only frame still needs button slots, even when has_title=false.
+    # The previous test checked the four titled styles but missed border_only.
+    for name, style in frame_styles.items():
         buttons = {}
-        for button in style.findall("button"):
-            buttons.setdefault(button.get("function"), set()).add(button.get("state"))
-        for function in REQUIRED_BUTTONS:
-            missing = REQUIRED_STATES - buttons.get(function, set())
+        seen = set()
+        chain = set()
+        current = style
+        while current is not None:
+            current_name = current.get("name")
+            if current_name in chain:
+                issues.append(f"{name}: cyclic frame_style parent chain")
+                break
+            chain.add(current_name)
+            for button in current.findall("button"):
+                function, state = button.get("function"), button.get("state")
+                if (function, state) in seen:
+                    continue
+                seen.add((function, state))
+                buttons.setdefault(function, set()).add(state)
+            current = frame_styles.get(current.get("parent"))
+        for function in sorted(REQUIRED_BUTTONS):
+            # prelight is an optional fallback in Metacity v1; original
+            # Equinox supplies it explicitly for consistent hover visuals.
+            missing = {"normal", "pressed"} - buttons.get(function, set())
             if missing:
-                issues.append(f"{name}: {function} lacks {','.join(sorted(missing))}")
+                issues.append(
+                    f"{name}: {function} lacks {','.join(sorted(missing))}"
+                )
 
     for name, frame_set in frame_sets.items():
         for focus in ("yes", "no"):
