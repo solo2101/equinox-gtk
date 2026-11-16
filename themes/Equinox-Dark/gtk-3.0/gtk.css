@@ -348,9 +348,22 @@ notebook > header > tabs {
   border: none;
   box-shadow: none;
 }
-/* GTK draws the notebook page border natively. An additional style on
- * notebook > stack changed the hit region after the tab strip. Avoid
- * interfering with native page switching and event delivery. */
+/* GtkNotebook's stack CSS node paints the page frame in all four
+ * orientations. This does not reposition tabs or overlap their click area:
+ * GTK3 keeps ownership of page switching and input. In the original GTK2
+ * Equinox renderer the page border is visible, with tabs above/beside it. */
+notebook.frame > stack {
+  background-color: @theme_bg_color;
+  background-image: none;
+  border: 1px solid @eqx_frameBorder;
+  border-radius: 3px;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.18);
+}
+/* Keep the notebook page frame, not an extra box around the whole tab bar. */
+notebook.frame > header {
+  border: 0;
+  box-shadow: none;
+}
 notebook > header > tabs > tab {
   color: @theme_fg_color;
   background-color: @eqx_tabBottom;
