@@ -60,13 +60,23 @@ def main():
         if xml.tag != "metacity_theme":
             raise SystemExit(f"Invalid Metacity theme root: {upstream_name}")
         missing = []
+        images = set()
         for node in xml.iter("image"):
             filename = node.attrib.get("filename", "")
-            if filename and not filename.startswith("theme:") and filename not in found:
-                missing.append(filename)
+            if filename and not filename.startswith("theme:"):
+                images.add(filename)
+                if filename not in found:
+                    missing.append(filename)
         if missing:
             raise SystemExit(
                 f"Missing artwork in {upstream_name}: {', '.join(sorted(set(missing)))}"
+            )
+        png_count = sum(name.lower().endswith(".png") for name in found)
+        if png_count < 4 or not images:
+            raise SystemExit(
+                f"Theme {upstream_name} has only {png_count} PNGs "
+                f"and {len(images)} image references. Refusing a "
+                "non-original or incomplete window-button theme."
             )
 
         dest = args.destination / target_name / "metacity-1"
@@ -87,7 +97,10 @@ def main():
             "Original theme license: GPL-2.0-or-later.\n"
         )
         (dest / "UPSTREAM.txt").write_text(note, encoding="utf-8")
-        print(f"IMPORTED {upstream_name} -> {target_name}: {len(found)} theme files")
+        print(
+            f"IMPORTED {upstream_name} -> {target_name}: {len(found)} files, "
+            f"{png_count} original PNGs, {len(images)} image references"
+        )
 
 
 if __name__ == "__main__":
