@@ -16,24 +16,24 @@ for theme in Equinox-Light Equinox-Dark; do
     test -f "$source" || { printf 'Missing theme: %s\n' "$source" >&2; exit 1; }
     mkdir -p "$destination"
     if [[ "$toolkit" == "metacity-1" ]]; then
-      # Keep authentic original button artwork installed by
-      # scripts/install-original-marco.sh, even while the GitHub checkout
-      # still has the old generated XML. Previously we overwrote the
-      # original theme when users reinstalled GTK2/GTK3.
+      # The Marco design in this checkout is what users are testing.
+      # Never silently skip installing a new iteration. If the optional
+      # upstream-artwork importer ran before, preserve it as a reference
+      # once, then install the version checked out from GitHub.
       if [[ -f "$destination/UPSTREAM.txt" &&
             ! -f "$root/themes/$theme/$toolkit/UPSTREAM.txt" ]]; then
-        printf 'Preserved original Marco: %s (not overwriting with provisional XML)\n' "$theme"
-        continue
+        backup="$HOME/.local/share/equinox-gtk/upstream-marco-backup/$theme"
+        if [[ ! -d "$backup" ]]; then
+          mkdir -p "$backup"
+          cp -a "$destination/." "$backup/"
+          printf 'Saved old imported artwork: %s\n' "$backup"
+        fi
+        rm -f "$destination/UPSTREAM.txt"
       fi
-      # Metacity theme XML references the accompanying original PNG files.
       for asset in "$root/themes/$theme/$toolkit/"*; do
         [[ -f "$asset" ]] || continue
         install -m 0644 "$asset" "$destination/${asset##*/}"
       done
-      if [[ ! -f "$root/themes/$theme/$toolkit/UPSTREAM.txt" ]]; then
-        printf 'NOTICE: Provisional Marco for %s. Install original button artwork with:\n' "$theme"
-        printf '  bash scripts/install-original-marco.sh\n'
-      fi
     else
       install -m 0644 "$source" "$destination/$file"
     fi
