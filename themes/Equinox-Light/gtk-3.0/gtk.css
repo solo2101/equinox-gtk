@@ -51,11 +51,14 @@
 @define-color eqx_disabledCheckedBottom #bfbfbf;
 @define-color eqx_frameBorder #a0a0a0;
 
-@define-color eqx_menuTop #e7e7e7;
-@define-color eqx_menuBottom #d8d8d8;
-@define-color eqx_toolbarTop #dedede;
-@define-color eqx_toolbarBottom #bcbcbc;
-@define-color eqx_toolbarLine #a3a3a3;
+@define-color eqx_menuTop #d7d7d7;
+@define-color eqx_menuBottom #cacaca;
+@define-color eqx_toolbarTop #c9c9c9;
+@define-color eqx_toolbarBottom #b6b6b6;
+@define-color eqx_toolbarLine #adadad;
+@define-color eqx_toolbarRidge #e2e2e2;
+@define-color eqx_tabSheen #cfcfcf;
+@define-color eqx_tabMid #b5b5b5;
 @define-color eqx_progTroughTop #f0f0f0;
 @define-color eqx_progTroughBottom #c9c9c9;
 @define-color eqx_progAccentDeep #2664a1;
@@ -200,7 +203,9 @@ treeview header button {
   box-shadow: inset 0 1px @eqx_inner;
 }
 
-/* Continuous Equinox-style shading across the menu and icon toolbar. */
+/* Equinox draw_menubar() / draw_toolbar() share the same gradient endpoint:
+ * GTK2 at 1x scale measured: menu 215 -> 202, toolbar 201 -> 182.
+ * A dark 1px groove and light 1px ridge divide one continuous surface. */
 menubar, toolbar, .toolbar, .primary-toolbar, headerbar, .titlebar {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
@@ -210,7 +215,7 @@ menubar {
   padding: 2px;
   background-image: linear-gradient(to bottom, @eqx_menuTop, @eqx_menuBottom);
   border-bottom: 1px solid @eqx_toolbarLine;
-  box-shadow: inset 0 1px alpha(@eqx_inner, 0.55);
+  box-shadow: none;
 }
 toolbar, .toolbar, .primary-toolbar {
   padding: 2px;
@@ -218,7 +223,7 @@ toolbar, .toolbar, .primary-toolbar {
   background-image: linear-gradient(to bottom,
     @eqx_toolbarTop, @eqx_toolbarBottom);
   border-bottom: 1px solid @eqx_toolbarLine;
-  box-shadow: inset 0 1px alpha(@eqx_inner, 0.36);
+  box-shadow: inset 0 1px @eqx_toolbarRidge;
 }
 headerbar, .titlebar {
   background-image: linear-gradient(to bottom, @eqx_menuTop, @eqx_toolbarBottom);
@@ -287,10 +292,12 @@ notebook > header > tabs { margin: 0; padding: 0; }
 notebook > header > tabs > tab {
   color: @theme_fg_color;
   background-color: @eqx_tabBottom;
-  background-image: linear-gradient(to bottom, @eqx_tabTop, @eqx_tabBottom);
+  background-image: linear-gradient(to bottom,
+    @eqx_tabSheen 0%, @eqx_tabTop 10%,
+    @eqx_tabMid 52%, @eqx_tabBottom 100%);
   border: 1px solid @eqx_tabBorder;
   border-radius: 5px 5px 0 0;
-  box-shadow: inset 0 1px alpha(@eqx_inner, 0.6);
+  box-shadow: inset 0 1px alpha(@eqx_tabSheen, 0.70);
   padding: 4px 8px;
   margin: 0 1px 0 0;
   min-height: 17px;
@@ -307,7 +314,9 @@ notebook > header.top > tabs > tab:checked {
 }
 notebook > header.bottom > tabs > tab {
   border-radius: 0 0 5px 5px;
-  background-image: linear-gradient(to top, @eqx_tabTop, @eqx_tabBottom);
+  background-image: linear-gradient(to top,
+    @eqx_tabSheen 0%, @eqx_tabTop 10%,
+    @eqx_tabMid 52%, @eqx_tabBottom 100%);
 }
 notebook > header.bottom > tabs > tab:checked {
   background-image: none;
@@ -316,7 +325,9 @@ notebook > header.bottom > tabs > tab:checked {
 }
 notebook > header.left > tabs > tab {
   border-radius: 5px 0 0 5px;
-  background-image: linear-gradient(to right, @eqx_tabTop, @eqx_tabBottom);
+  background-image: linear-gradient(to right,
+    @eqx_tabSheen 0%, @eqx_tabTop 10%,
+    @eqx_tabMid 52%, @eqx_tabBottom 100%);
 }
 notebook > header.left > tabs > tab:checked {
   background-image: none;
@@ -325,7 +336,9 @@ notebook > header.left > tabs > tab:checked {
 }
 notebook > header.right > tabs > tab {
   border-radius: 0 5px 5px 0;
-  background-image: linear-gradient(to left, @eqx_tabTop, @eqx_tabBottom);
+  background-image: linear-gradient(to left,
+    @eqx_tabSheen 0%, @eqx_tabTop 10%,
+    @eqx_tabMid 52%, @eqx_tabBottom 100%);
 }
 notebook > header.right > tabs > tab:checked {
   background-image: none;
@@ -435,6 +448,38 @@ progressbar.vertical progress {
       @theme_selected_bg_color 45%,
       @eqx_progAccentDeep 100%);
 }
+
+/* GtkCellRendererProgress does not create progressbar > progress nodes.
+ * GTK3 draws it using a .trough/.progressbar CSS style class instead.
+ * Include both treeview descendant and same-node class paths. Keep the
+ * cell dimensions under GtkTreeView's control, unlike full progress bars. */
+treeview.view .trough, treeview .trough,
+treeview.view.trough, .trough {
+  background-color: @eqx_progTroughBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_progTroughTop, @eqx_progTroughBottom);
+  border: 1px solid @eqx_frameBorder;
+  border-radius: 3px;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.60);
+}
+treeview.view .progressbar, treeview .progressbar,
+treeview.view.progressbar, .progressbar {
+  background-color: @theme_selected_bg_color;
+  background-image:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,0.16) 0px,
+      rgba(255,255,255,0.16) 7px,
+      rgba(0,25,70,0.16) 7px,
+      rgba(0,25,70,0.16) 14px),
+    linear-gradient(to bottom,
+      @eqx_accentTop 0%,
+      @theme_selected_bg_color 45%,
+      @eqx_progAccentDeep 100%);
+  border: 1px solid @eqx_progBorder;
+  border-radius: 3px;
+  box-shadow: inset 0 1px rgba(255,255,255,0.20);
+}
+
 scrollbar {
   -GtkScrollbar-has-backward-stepper: false;
   -GtkScrollbar-has-forward-stepper: false;
