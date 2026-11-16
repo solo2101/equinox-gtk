@@ -39,3 +39,17 @@ See [themes/README.md](themes/README.md) for implementation details. GTK3 uses C
 ## Upstream
 
 Original Equinox 1.50 source and authors, license and change history are preserved in `AUTHORS`, `COPYING`, and `ChangeLog`. The original source uses the GNU Library General Public License v2 or later as specified by the source headers.
+
+## Experimental GTK3 rendering from original Cairo code
+
+A separate GTK3 prototype uses the original Equinox draw functions to
+generate nine-slice PNG art for buttons, entries, and notebook tabs.
+Stable GTK2 and GTK3 themes are unchanged.
+
+    sudo dnf install -y gcc gtk2-devel cairo-devel pkgconf-pkg-config
+    git pull
+    bash scripts/install-rendered-experiment.sh
+    GTK_THEME=Equinox-Rendered-Light awf-gtk3
+    GTK_THEME=Equinox-Rendered-Dark awf-gtk3
+
+See [experiment details](experiments/gtk3-rendered/README.md).
