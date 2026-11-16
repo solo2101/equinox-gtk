@@ -56,6 +56,28 @@ later. The theme uses Marco's compatible v1 Metacity format under
 `metacity-1/metacity-theme-1.xml`. The first pass requires visual
 verification with `marco-theme-viewer` on Fedora 43.
 
+### Marco preview rejects the theme with a missing button error
+
+Marco requires close, minimize, maximize, and menu button definitions for
+every frame style, even border-only frames. The initial Equinox Marco themes
+omitted them from `border_only`. Both variants now include no-op slots.
+
+```bash
+git pull
+bash scripts/install-user-themes.sh
+python3 scripts/check-marco-theme.py
+marco-theme-viewer Equinox-Light
+```
+
+The structural validator now checks every frame style. The
+`Validate Marco Themes` GitHub Actions workflow also attempts to load
+both themes with `marco-theme-viewer` under Xvfb.
+
+Your current border theme remains unchanged until you explicitly apply
+Equinox using `gsettings set org.mate.Marco.general theme 'Equinox-Light'`.
+If the viewer shows another error, use the error's exact line and message
+to fix the theme before applying it.
+
 ## Compare in A Widget Factory
 
 Run the GTK2 and GTK3 versions separately at the same window size and scale:
