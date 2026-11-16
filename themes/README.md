@@ -144,3 +144,27 @@ horizontally to inspect the rendered cells.
 As before, the GTK2 engine and original C drawing functions remain
 untouched. GTK3's actual cell layout, animation timing, and tab join
 geometry are not identical to GTK2 and require runtime verification.
+
+
+## GTK3 top-edge blending pass 8
+
+The GTK2 engine stays unchanged and remains the appearance reference.
+Both GTK3 themes now paint their menubar and toolbar from the outer edge
+of each widget allocation, with no left or right frame lines and no extra
+container border. The menubar ends at the exact shade where the toolbar
+starts, giving a continuous color transition.
+
+The menubar keeps the thin dark bottom groove drawn by original
+`equinox_draw_menubar()`. The toolbar keeps its single-pixel top ridge
+and subtle bottom shadow from `equinox_draw_toolbar()`. GTK3 client-side
+headerbars remain a separate case.
+
+```bash
+git pull
+python3 scripts/check-gtk3-css.py
+bash scripts/install-user-themes.sh
+GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2 & GTK_THEME=Equinox-Light awf-gtk3
+```
+
+Check the menubar directly below the Marco titlebar, especially at the
+left/right edges, and the join between the menubar and icon toolbar.
