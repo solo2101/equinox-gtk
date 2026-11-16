@@ -55,8 +55,14 @@ def main():
 
     content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
     content.set_border_width(12)
+    # Use actual GtkSeparator widgets so the original Equinox
+    # two-pixel dark/light line fades naturally before each frame group.
+    content.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL),
+                       False, False, 0)
     content.pack_start(make_row("Original shadow tones (explicit Equinox classes)",
                                 True), False, False, 0)
+    content.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL),
+                       False, False, 0)
     content.pack_start(make_row("Standard GTK3 GtkFrame (no extra classes)",
                                 False), False, False, 0)
     window.add(content)
