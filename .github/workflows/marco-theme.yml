@@ -1,0 +1,25 @@
+name: Validate Marco Themes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'themes/**/metacity-1/metacity-theme-1.xml'
+      - 'scripts/check-marco-theme.py'
+      - '.github/workflows/marco-theme.yml'
+  pull_request:
+    paths:
+      - 'themes/**/metacity-1/metacity-theme-1.xml'
+      - 'scripts/check-marco-theme.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  xml:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate XML and Marco theme references
+        run: python3 scripts/check-marco-theme.py
