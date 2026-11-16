@@ -5,6 +5,7 @@ Accepts both hand-authored Metacity themes and the original Equinox 1.50
 Metacity XML. Use marco-theme-viewer for full renderer validation.
 """
 import pathlib
+import struct
 import sys
 import xml.etree.ElementTree as ET
 
@@ -41,14 +42,37 @@ def validate(path):
         if name not in drawing:
             errors.append(f"Undefined include operation: {name}")
 
+    seen_images = set()
     for element in root.iter("image"):
         filename = element.get("filename", "")
-        if filename and not filename.startswith("theme:"):
-            image = path.parent / filename
-            if image.is_absolute() and not image.is_relative_to(path.parent):
-                errors.append(f"Unsafe image path: {filename}")
-            elif not image.is_file():
-                errors.append(f"Missing image asset: {filename}")
+        if not filename or filename.startswith("theme:"):
+            continue
+        # Images must be local artwork, never an absolute path or a
+        # parent traversal. This also checks the original PNG bytes.
+        if pathlib.PurePath(filename).name != filename:
+            errors.append(f"Unsafe image path: {filename}")
+            continue
+        image = path.parent / filename
+        if not image.is_file():
+            errors.append(f"Missing image asset: {filename}")
+        elif filename not in seen_images and filename.lower().endswith(".png"):
+            seen_images.add(filename)
+            with image.open("rb") as stream:
+                header = stream.read(24)
+            if len(header) < 24 or header[:8] != b"\x89PNG\r\n\x1a\n":
+                errors.append(f"Invalid PNG asset: {filename}")
+                continue
+            width, height = struct.unpack(">II", header[16:24])
+            if not (1 <= width <= 512 and 1 <= height <= 512):
+                errors.append(f"Unexpected PNG size: {filename} ({width}x{height})")
+
+    # All authored titlebar buttons must use the original image sprites.
+    # The previous hand-drawn circles passed XML validation but did not
+    # reproduce the original artwork.
+    for name, ops in drawing.items():
+        if name.startswith("button_") and name != "button_blank":
+            if len(ops.findall("image")) < 2:
+                errors.append(f"{name}: expected PNG background and icon")
 
     for name, style in styles.items():
         geometry = style.get("geometry")
