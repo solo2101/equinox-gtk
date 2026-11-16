@@ -111,3 +111,36 @@ GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2 & GTK_THEME=E
 ```
 
 Visual comparison on the actual Fedora 43 desktop is still required.
+
+
+## GTK3 parity pass 7: GTK2 toolbar groove, tab bevel, tree progress cells
+
+This pass uses pixel samples from the side-by-side AWF light-theme screenshot:
+
+| Surface | Original GTK2 | Previous GTK3 |
+| --- | --- | --- |
+| Menubar top | RGB 214 | RGB 230 |
+| Menubar lower edge | RGB 202 | RGB 218 |
+| Toolbar upper content | RGB 201 | RGB 221 |
+| Toolbar lower content | RGB 182 | RGB 189 |
+| Groove line | RGB 173 | RGB 164 |
+| Highlight line | RGB 226 | RGB 229 |
+
+The light CSS now targets these GTK2 values through shared menu/toolbar
+gradient endpoints and a dark groove followed by a light ridge. The dark
+variant follows the same ratios from its GTK2 palette.
+
+Inactive notebook tabs use a four-stop orientation-aware gradient with
+a subtle upper highlight. Selected tabs retain the page background.
+
+GTK3 treeview progress cells use GtkCellRendererProgress, which supplies
+the `.progressbar` and `.trough` style classes rather than the
+`progressbar > progress` node layout used by stand-alone progress
+widgets. This pass adds separate cell-renderer CSS with blue diagonal
+stripes and an inset trough. The tree view's rightmost Progress column
+may be clipped when the widget preview is narrow; scroll the table
+horizontally to inspect the rendered cells.
+
+As before, the GTK2 engine and original C drawing functions remain
+untouched. GTK3's actual cell layout, animation timing, and tab join
+geometry are not identical to GTK2 and require runtime verification.
