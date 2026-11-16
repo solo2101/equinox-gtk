@@ -31,9 +31,15 @@ This copies GTK2, GTK3 and Marco theme files to `~/.themes/` for your user. It d
 
 ## Preview Marco window borders
 
-The initial Marco window decorations match the Equinox light/dark GTK
-palettes with a graded titlebar, slim edges, and beveled control buttons.
-The original GTK2 engine and GTK3 CSS are untouched.
+Marco is being switched to the actual **Equinox 1.50 Metacity artwork**
+instead of our earlier hand-drawn approximation. Source archive:
+`140449-equinox-themes-1.50.tar.gz`, SHA256
+`32b3cedfbc27e466289aa8a0b6d1f3f964a553956d94bf267bd42c749691823c`.
+The original `Equinox Light` provides the Light window frame, and
+`Equinox Evolution Dusk` provides the Dark frame. Original filenames
+and button graphics are preserved; GTK2 and GTK3 control themes are untouched.
+The blue field shown in `marco-theme-viewer` is the preview background,
+not the Marco theme.
 
 ```bash
 python3 scripts/check-marco-theme.py
@@ -77,6 +83,28 @@ Your current border theme remains unchanged until you explicitly apply
 Equinox using `gsettings set org.mate.Marco.general theme 'Equinox-Light'`.
 If the viewer shows another error, use the error's exact line and message
 to fix the theme before applying it.
+
+## Restore the original upstream Marco artwork
+
+The source's original Metacity decorations are imported into
+`themes/Equinox-{Light,Dark}/metacity-1`. The repository workflow
+`.github/workflows/import-original-marco.yml` retrieves the upstream
+theme archive, checks its SHA256, and commits the original XML/PNG files.
+
+If the assets have not arrived in your checkout yet, you can import them
+on Fedora without changing your active Marco theme:
+
+```bash
+curl -fL --retry 3 -o /tmp/equinox-themes-1.50.tar.gz \
+  https://distcache.freebsd.org/ports-distfiles/140449-equinox-themes-1.50.tar.gz
+python3 scripts/import-original-marco.py /tmp/equinox-themes-1.50.tar.gz
+bash scripts/install-user-themes.sh
+marco-theme-viewer Equinox-Light
+```
+
+The importer rejects archives with the wrong SHA256 and checks that
+all original XML-referenced images are present. The window theme only
+changes if you explicitly set the Marco theme using gsettings.
 
 ## Compare in A Widget Factory
 
