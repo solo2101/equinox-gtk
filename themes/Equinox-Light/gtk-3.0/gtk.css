@@ -225,7 +225,8 @@ menubar, toolbar, .toolbar, .primary-toolbar {
   box-shadow: none;
 }
 menubar {
-  padding: 2px 2px 1px 2px;
+  /* Add the missing bottom pixel before the GTK2-style groove. */
+  padding: 2px 2px 2px 2px;
   background-color: @eqx_menuTop;
   background-image: linear-gradient(to bottom,
     @eqx_menuTop 0%, @eqx_menuBottom 100%);
