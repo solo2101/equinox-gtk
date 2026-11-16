@@ -10,7 +10,7 @@ style "equinox-dark" {
   fg[ACTIVE] = "#ffffff"
   fg[PRELIGHT] = "#ffffff"
   fg[SELECTED] = "#ffffff"
-  fg[INSENSITIVE] = "#85898c"
+  fg[INSENSITIVE] = "#a8adaf"
 
   bg[NORMAL] = "#333638"
   bg[ACTIVE] = "#26292b"
@@ -28,7 +28,7 @@ style "equinox-dark" {
   text[ACTIVE] = "#ffffff"
   text[PRELIGHT] = "#ffffff"
   text[SELECTED] = "#ffffff"
-  text[INSENSITIVE] = "#8d9093"
+  text[INSENSITIVE] = "#a8adaf"
 
   engine "equinox" {
     contrast = 1.0
