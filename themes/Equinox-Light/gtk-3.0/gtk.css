@@ -1,6 +1,38 @@
-/* Equinox GTK3 Light: GTK 3.24 styling, refinement 2.
- * Matches the Equinox 1.50 GTK2 baseline without replacing the original engine.
- */
+/* Theme variant: Equinox-Light */
+@define-color eqx_bg #d7d7d7;
+@define-color eqx_fg #252525;
+@define-color eqx_muted #686868;
+@define-color eqx_base #ffffff;
+@define-color eqx_disabledBase #eeeeee;
+@define-color eqx_accent #3978b4;
+@define-color eqx_accentTop #5e9bcc;
+@define-color eqx_top #e3e3e3;
+@define-color eqx_midTop #d6d6d6;
+@define-color eqx_midBottom #d2d2d2;
+@define-color eqx_bottom #c4c4c4;
+@define-color eqx_hoverTop #f1f1f1;
+@define-color eqx_hoverBottom #d6d6d6;
+@define-color eqx_pressTop #bdbdbd;
+@define-color eqx_pressBottom #d2d2d2;
+@define-color eqx_border #777777;
+@define-color eqx_buttonBorder #6b6b6b;
+@define-color eqx_inner rgba(255,255,255,0.78);
+@define-color eqx_outer rgba(0,0,0,0.13);
+@define-color eqx_entryBorder #999999;
+@define-color eqx_entryShadow rgba(0,0,0,0.13);
+@define-color eqx_disabledSurface #d7d7d7;
+@define-color eqx_disabledBorder #ababab;
+@define-color eqx_tabTop #e0e0e0;
+@define-color eqx_tabBottom #bcbcbc;
+@define-color eqx_tabBorder #888888;
+@define-color eqx_trough #bcbcbc;
+@define-color eqx_scaleTop #eeeeee;
+@define-color eqx_scaleBottom #cecece;
+@define-color eqx_scroll #bdbdbd;
+@define-color eqx_barTop #e3e3e3;
+@define-color eqx_separator rgba(52,52,52,0.28);
+@define-color eqx_link #215eab;
+@define-color eqx_tooltip #ededed;
 @define-color theme_bg_color #d7d7d7;
 @define-color theme_fg_color #252525;
 @define-color theme_base_color #ffffff;
@@ -9,227 +41,103 @@
 @define-color theme_selected_fg_color #ffffff;
 @define-color theme_unfocused_fg_color #686868;
 
-* {
-  color: @theme_fg_color;
-  -gtk-icon-shadow: none;
-}
+/* Equinox GTK3.24: consolidated GTK2-reference parity stylesheet.
+   Reference: original src/equinox_draw.c, src/equinox_style.c.
+   No custom GTK3 engine or generated PNGs. */
 
-window, dialog, box, grid, paned, scrolledwindow, viewport,
-notebook, stack, frame, overlay {
-  background-color: @theme_bg_color;
-}
+* { -gtk-icon-shadow: none; }
 
 window, dialog, .background {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
 }
-
-label, cellview, text {
-  color: @theme_fg_color;
-}
-
-label:disabled, button:disabled label, menuitem:disabled label,
-checkbutton:disabled label, radiobutton:disabled label,
-switch:disabled label, .dim-label {
-  color: #686868;
-}
-
-button, combobox button, spinbutton button, .linked button, .titlebutton {
-  color: @theme_fg_color;
-  background-color: #d0d0d0;
-  background-image: linear-gradient(to bottom, #eeeeee, #d0d0d0);
-  border: 1px solid #888888;
-  border-radius: 5px;
-  box-shadow: inset 0 1px #ffffff;
-  padding: 4px 9px;
-  min-height: 18px;
-  min-width: 16px;
-}
-
-button:hover, combobox button:hover {
-  background-image: linear-gradient(to bottom, #fafafa, #dedede);
-  border-color: #696969;
-}
-button:active, button:checked, button:focus:active {
-  background-image: linear-gradient(to bottom, #d1d1d1, #bcbcbc);
-  border-color: #696969;
-}
-button:disabled, combobox button:disabled, spinbutton button:disabled {
-  color: #686868;
-  background-color: #d2d2d2;
-  background-image: none;
-  border-color: #ababab;
-  box-shadow: none;
-}
-
-entry, spinbutton entry, textview text, treeview.view,
-iconview, .view {
-  color: @theme_text_color;
-  background-color: @theme_base_color;
-  border: 1px solid #888888;
-  border-radius: 4px;
-  caret-color: #252525;
-}
-
-entry {
-  min-height: 20px;
-  padding: 4px 6px;
-  box-shadow: inset 0 1px #ededed;
-}
-
-entry:focus, spinbutton entry:focus, textview:focus {
-  border-color: @theme_selected_bg_color;
-}
-
-entry:disabled, textview:disabled, treeview:disabled {
-  color: #686868;
-  background-color: #d2d2d2;
-  border-color: #ababab;
-}
-
+label, cellview { color: @theme_fg_color; }
+label:disabled, cellview:disabled, .dim-label,
+button:disabled label, checkbutton:disabled label,
+radiobutton:disabled label, menuitem:disabled label { color: @eqx_muted; }
 selection, entry selection, textview text selection {
   color: @theme_selected_fg_color;
   background-color: @theme_selected_bg_color;
 }
 
-headerbar, .titlebar, menubar, toolbar, .toolbar, .primary-toolbar {
+/* GTK2 buttonstyle=0 uses two gradient segments separated at 50%. */
+button, combobox button, spinbutton button, .linked button, .titlebutton {
   color: @theme_fg_color;
-  background-color: #d7d7d7;
-  background-image: linear-gradient(to bottom, #e5e5e5, #d7d7d7);
-  border-color: #888888;
+  background-color: @eqx_bottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_top 0%, @eqx_midTop 49%,
+    @eqx_midBottom 50%, @eqx_bottom 100%);
+  border: 1px solid @eqx_buttonBorder;
+  border-radius: 5px;
+  box-shadow: inset 0 1px @eqx_inner, 0 1px @eqx_outer;
+  padding: 4px 7px;
+  min-width: 13px;
+  min-height: 18px;
 }
-
-headerbar {
-  min-height: 26px;
-  border-bottom: 1px solid #888888;
+button:hover, combobox button:hover, spinbutton button:hover {
+  background-image: linear-gradient(to bottom, @eqx_hoverTop, @eqx_hoverBottom);
 }
-
-menubar { padding: 2px; }
-menu, menuitem, .menu, popover, popover.background {
-  color: @theme_fg_color;
-  background-color: @theme_bg_color;
+button:active, button:checked, combobox button:active, spinbutton button:active {
+  background-image: linear-gradient(to bottom, @eqx_pressTop, @eqx_pressBottom);
+  box-shadow: inset 0 1px @eqx_outer;
 }
-menuitem, modelbutton {
-  padding: 3px 7px;
-}
-menuitem:hover, modelbutton:hover, menuitem:selected {
-  color: #ffffff;
-  background-color: @theme_selected_bg_color;
-}
-
-notebook { background-color: @theme_bg_color; }
-notebook > header {
-  background-color: #d7d7d7;
-  border-color: #888888;
-}
-notebook > header > tabs > tab {
-  color: @theme_fg_color;
-  background-image: linear-gradient(to bottom, #eeeeee, #d0d0d0);
-  border: 1px solid #888888;
-  border-radius: 5px 5px 0 0;
-  padding: 4px 9px;
-}
-notebook > header > tabs > tab:checked {
-  color: @theme_fg_color;
+button:focus { border-color: @theme_selected_bg_color; }
+button:disabled, combobox button:disabled, spinbutton button:disabled {
+  color: @eqx_muted;
+  background-color: @eqx_disabledSurface;
   background-image: none;
-  background-color: #ffffff;
-  border-color: #696969;
+  border-color: @eqx_disabledBorder;
+  box-shadow: none;
 }
-notebook > header > tabs > tab:disabled { color: #686868; }
-
-frame > border, .frame {
-  border: 1px solid #888888;
-  border-radius: 4px;
-}
-separator { background-color: #888888; min-height: 1px; min-width: 1px; }
-
-scale trough, scrollbar trough, progressbar trough, levelbar trough {
-  background-color: #bcbcbc;
-  border: 1px solid #888888;
-  border-radius: 4px;
-}
-scale trough { min-height: 5px; min-width: 5px; }
-scale slider {
-  background-image: linear-gradient(to bottom, #eeeeee, #d0d0d0);
-  border: 1px solid #696969;
-  border-radius: 50%;
-  min-width: 13px;
-  min-height: 13px;
-}
-scale highlight, progressbar progress, levelbar block.filled {
-  background-image: linear-gradient(to bottom, #5e9bcc, #3978b4);
-  border-radius: 3px;
-}
-progressbar progress { min-height: 5px; min-width: 5px; }
-scrollbar slider {
-  background-color: #bdbdbd;
-  border: 1px solid #888888;
-  border-radius: 4px;
-  min-width: 8px;
-  min-height: 8px;
-}
-scrollbar slider:hover { background-color: #dedede; }
-scrollbar { background-color: transparent; }
-
-check, radio {
-  background-color: #ffffff;
-  border: 1px solid #696969;
+combobox button { padding: 3px 6px; }
+combobox arrow {
+  -gtk-icon-source: -gtk-icontheme("pan-down-symbolic");
   color: @theme_fg_color;
-  min-width: 13px;
-  min-height: 13px;
+  min-width: 10px;
+  min-height: 10px;
 }
-check { border-radius: 3px; }
-radio { border-radius: 100%; }
-check:checked, radio:checked, check:indeterminate {
-  background-color: @theme_selected_bg_color;
-  color: #ffffff;
-  border-color: #696969;
+combobox:disabled arrow { color: @eqx_muted; }
+combobox entry { border-radius: 4px 0 0 4px; }
+spinbutton { padding: 0; }
+spinbutton entry { min-width: 28px; margin: 0; }
+spinbutton button { min-width: 14px; padding: 2px 5px; }
+.linked button:not(:first-child),
+.linked entry:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
-check:disabled, radio:disabled {
-  color: #686868;
-  background-color: #d2d2d2;
-  border-color: #ababab;
-}
-
-tooltip, tooltip.background {
-  color: @theme_fg_color;
-  background-color: #d0d0d0;
-  border: 1px solid #888888;
-  border-radius: 4px;
-}
-tooltip label { color: @theme_fg_color; }
-
-switch {
-  color: @theme_fg_color;
-  background-color: #bcbcbc;
-  border: 1px solid #888888;
-  border-radius: 12px;
-}
-switch:checked { background-color: @theme_selected_bg_color; }
-switch slider {
-  background-image: linear-gradient(to bottom, #eeeeee, #d0d0d0);
-  border: 1px solid #696969;
-  border-radius: 100%;
+.linked button:not(:last-child),
+.linked entry:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
-.link, label link, button.link { color: #215eab; }
-
-/* Shared GTK3 geometry refinements, kept identical in both variants.
- * Let GTK containers inherit their backgrounds; style actual widget surfaces.
- */
-box, grid, paned, scrolledwindow, viewport, notebook, stack, frame, overlay {
-  background-color: transparent;
+/* GTK2 equinox_draw_entry uses a subtle inset rim; no parent-bg PNGs. */
+entry, textview text {
+  color: @theme_text_color;
+  background-color: @theme_base_color;
 }
-
-/* GTK3 tree views draw their own rows and cells. Do not draw an
- * entry-shaped border around every cell or global selection. */
-treeview.view, iconview, .view {
+entry {
+  caret-color: @theme_fg_color;
+  border: 1px solid @eqx_entryBorder;
+  border-radius: 5px;
+  box-shadow: inset 0 1px @eqx_entryShadow, 0 1px alpha(@eqx_inner, 0.35);
+  min-height: 19px;
+  padding: 3px 5px;
+}
+entry:focus { border-color: @theme_selected_bg_color; }
+entry:disabled, textview:disabled text {
+  color: @eqx_muted;
+  background-color: @eqx_disabledBase;
+  border-color: @eqx_disabledBorder;
+  box-shadow: none;
+}
+treeview.view, iconview {
+  color: @theme_text_color;
+  background-color: @theme_base_color;
   border: none;
   border-radius: 0;
   box-shadow: none;
-}
-treeview.view {
-  background-color: @theme_base_color;
 }
 treeview.view:selected, treeview.view:selected:focus,
 iconview:selected, iconview:selected:focus {
@@ -238,256 +146,189 @@ iconview:selected, iconview:selected:focus {
 }
 treeview header button {
   border-radius: 0;
+  padding: 2px 5px;
   min-height: 17px;
-  padding: 2px 4px;
+  box-shadow: inset 0 1px @eqx_inner;
 }
-treeview header button:first-child { border-top-left-radius: 3px; }
-treeview header button:last-child { border-top-right-radius: 3px; }
 
-/* Compact buttons, but preserve practical hit targets. */
-button, combobox button, spinbutton button, .linked button {
-  min-height: 18px;
-  min-width: 12px;
-  padding: 3px 6px;
+/* GTK2-style menubars, toolbars, menus. */
+menubar, toolbar, .toolbar, .primary-toolbar, headerbar, .titlebar {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+  background-image: linear-gradient(to bottom, @eqx_barTop, @theme_bg_color);
+  border-color: @eqx_border;
 }
+menubar, toolbar { padding: 2px; }
 toolbar button, .toolbar button, headerbar button {
-  min-width: 17px;
   padding: 3px 5px;
+  min-width: 16px;
 }
-spinbutton button { padding: 2px 5px; min-width: 14px; }
-combobox button { padding: 2px 5px; }
-entry { padding: 3px 5px; min-height: 19px; }
+headerbar, .titlebar { min-height: 25px; border-bottom: 1px solid @eqx_border; }
+menu, menuitem, .menu, popover, popover.background {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+}
+menuitem, modelbutton { padding: 3px 7px; }
+menuitem:hover, menuitem:selected, modelbutton:hover {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
 
-/* Keep tab borders on the tab itself, not every nested child. */
+/* GTK3 CSS nodes replace GTK2 widget-level draw_tab calls.
+   The selected tab should visually join the notebook's content surface. */
+notebook { color: @theme_fg_color; background-color: @theme_bg_color; }
+notebook.frame { border: 1px solid @eqx_tabBorder; border-radius: 4px; }
 notebook > header {
-  padding: 0;
-  border: 0;
+  background-color: @theme_bg_color;
   background-image: none;
+  border: none;
+  margin: 0;
+  padding: 0;
 }
 notebook > header > tabs { margin: 0; padding: 0; }
 notebook > header > tabs > tab {
-  min-height: 18px;
-  padding: 2px 7px;
+  color: @theme_fg_color;
+  background-color: @eqx_tabBottom;
+  background-image: linear-gradient(to bottom, @eqx_tabTop, @eqx_tabBottom);
+  border: 1px solid @eqx_tabBorder;
+  border-radius: 5px 5px 0 0;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.6);
+  padding: 3px 7px;
   margin: 0 1px 0 0;
-  box-shadow: none;
+  min-height: 17px;
 }
-notebook > header > tabs > tab label {
-  padding: 0;
-  margin: 0;
-  border: none;
+notebook > header > tabs > tab:checked {
+  background-color: @theme_bg_color;
+  background-image: none;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.3);
+}
+notebook > header.top > tabs > tab:checked { border-bottom-color: @theme_bg_color; }
+notebook > header.bottom > tabs > tab { border-radius: 0 0 5px 5px; }
+notebook > header.bottom > tabs > tab:checked { border-top-color: @theme_bg_color; }
+notebook > header.left > tabs > tab { border-radius: 5px 0 0 5px; }
+notebook > header.left > tabs > tab:checked { border-right-color: @theme_bg_color; }
+notebook > header.right > tabs > tab { border-radius: 0 5px 5px 0; }
+notebook > header.right > tabs > tab:checked { border-left-color: @theme_bg_color; }
+notebook > header > tabs > tab label { color: @theme_fg_color; background-color: transparent; }
+notebook > header > tabs > tab:disabled label { color: @eqx_muted; }
+notebook > header > tabs > tab button,
+notebook > header > tabs > tab button:hover,
+notebook > header > tabs > tab button:active {
   background-color: transparent;
-}
-notebook > header > tabs > tab button {
-  min-height: 12px;
-  min-width: 12px;
-  padding: 0;
-  margin: 0 0 0 4px;
+  background-image: none;
   border: none;
   border-radius: 3px;
   box-shadow: none;
-  background: transparent;
-  background-image: none;
+  min-height: 12px;
+  min-width: 12px;
+  padding: 0;
+  margin: 0 0 0 3px;
 }
 notebook > header > tabs > tab button:hover {
-  background-image: none;
-  background-color: alpha(@theme_fg_color, 0.14);
+  background-color: alpha(@theme_fg_color, 0.12);
 }
-notebook > header.bottom > tabs > tab { border-radius: 0 0 4px 4px; }
-notebook > header.left > tabs > tab { border-radius: 4px 0 0 4px; }
-notebook > header.right > tabs > tab { border-radius: 0 4px 4px 0; }
 
-/* Slim sliders and progress indicators, GTK2-like proportions. */
+/* Slim scale geometry and separators from GTK2 references. */
 scale { padding: 3px; }
+scale trough, progressbar trough, levelbar trough {
+  background-color: @eqx_trough;
+  border: 1px solid @eqx_border;
+  border-radius: 4px;
+}
 scale trough { min-width: 4px; min-height: 4px; }
 scale slider {
-  min-width: 11px;
+  background-color: @eqx_scaleBottom;
+  background-image: linear-gradient(to bottom, @eqx_scaleTop, @eqx_scaleBottom);
+  border: 1px solid @eqx_border;
+  border-radius: 100%;
+  box-shadow: inset 0 1px @eqx_inner;
   min-height: 11px;
-  margin: -4px;
+  min-width: 11px;
 }
 scale.horizontal slider { margin: -4px 0; }
 scale.vertical slider { margin: 0 -4px; }
+scale highlight, progressbar progress, levelbar block.filled {
+  background-color: @theme_selected_bg_color;
+  background-image: linear-gradient(to bottom, @eqx_accentTop, @theme_selected_bg_color);
+  border-radius: 3px;
+}
 progressbar progress, progressbar trough { min-height: 5px; min-width: 5px; }
-
-/* GTK3 classic steppers are disabled on both scrollbars. */
 scrollbar {
   -GtkScrollbar-has-backward-stepper: false;
   -GtkScrollbar-has-forward-stepper: false;
   -GtkScrollbar-has-secondary-backward-stepper: false;
   -GtkScrollbar-has-secondary-forward-stepper: false;
   background-color: transparent;
-  background-image: none;
   border: none;
 }
-scrollbar.horizontal { min-height: 10px; }
 scrollbar.vertical { min-width: 10px; }
-scrollbar trough {
-  background: transparent;
-  border: none;
-  box-shadow: none;
+scrollbar.horizontal { min-height: 10px; }
+scrollbar trough { background-color: transparent; border: none; }
+scrollbar slider {
+  background-color: @eqx_scroll;
+  border: 1px solid @eqx_border;
+  border-radius: 4px;
+  min-width: 7px;
+  min-height: 7px;
+  margin: 1px;
 }
-scrollbar slider { min-width: 7px; min-height: 7px; margin: 1px; }
+scrollbar slider:hover { background-color: @eqx_scaleTop; }
 scrollbar button {
   min-width: 0;
   min-height: 0;
   padding: 0;
-  margin: 0;
   border: none;
   background-color: transparent;
   background-image: none;
 }
 
-/* Dividers should separate sections without drawing multiple edges. */
-paned > separator { background-color: alpha(@theme_fg_color, 0.17); }
-separator { opacity: 0.55; }
-
-@define-color eqx_button_top #e3e3e3;
-@define-color eqx_button_upper #dadada;
-@define-color eqx_button_lower #d2d2d2;
-@define-color eqx_button_bottom #c4c4c4;
-@define-color eqx_button_border #8c8c8c;
-@define-color eqx_button_highlight rgba(255,255,255,0.74);
-@define-color eqx_button_outer rgba(0,0,0,0.12);
-@define-color eqx_hover_top #f1f1f1;
-@define-color eqx_hover_bottom #d6d6d6;
-@define-color eqx_pressed_top #c1c1c1;
-@define-color eqx_pressed_bottom #d2d2d2;
-@define-color eqx_entry_border #939393;
-@define-color eqx_entry_inner rgba(42,42,42,0.16);
-@define-color eqx_entry_highlight rgba(255,255,255,0.72);
-@define-color eqx_tab_idle_top #dedede;
-@define-color eqx_tab_idle_bottom #bcbcbc;
-@define-color eqx_tab_border #858585;
-@define-color eqx_frame_border rgba(60,60,60,0.42);
-@define-color eqx_separator_color rgba(60,60,60,0.3);
-
-/* Equinox 1.50 geometry and shading parity, pass 3.
- * Matched to src/equinox_draw.c:
- *  - equinox_draw_button: multi-stop bevel, inner edge, outer etched shadow
- *  - equinox_draw_entry: upper inner shadow and lower highlight
- *  - equinox_draw_tab: active tab uses its parent's background
- * Colors are variant-specific, rules below are identical.
- */
-
-/* The default buttonstyle=0 uses a soft two-part vertical gradient. */
-button, combobox button, spinbutton button, .linked button, .titlebutton {
-  background-color: @eqx_button_lower;
-  background-image: linear-gradient(to bottom,
-    @eqx_button_top 0%,
-    @eqx_button_upper 49%,
-    @eqx_button_lower 50%,
-    @eqx_button_bottom 100%);
-  border: 1px solid @eqx_button_border;
-  border-radius: 5px;
-  box-shadow:
-    inset 0 1px @eqx_button_highlight,
-    inset 1px 0 alpha(@eqx_button_highlight, 0.32),
-    0 1px @eqx_button_outer;
-}
-button:hover, combobox button:hover, spinbutton button:hover {
-  background-image: linear-gradient(to bottom,
-    @eqx_hover_top 0%, @eqx_hover_top 49%,
-    @eqx_button_upper 50%, @eqx_hover_bottom 100%);
-}
-button:active, button:checked, combobox button:active {
-  background-image: linear-gradient(to bottom,
-    @eqx_pressed_top, @eqx_pressed_bottom);
-  box-shadow: inset 0 1px @eqx_button_outer, inset 0 2px @eqx_button_outer;
-}
-button:focus {
-  border-color: @theme_selected_bg_color;
-}
-button:disabled, combobox button:disabled, spinbutton button:disabled {
-  background-image: none;
-  box-shadow: none;
-}
-
-/* GTK2 entries: a subtle inset rim rather than a plain flat border. */
-entry, spinbutton entry {
-  border: 1px solid @eqx_entry_border;
-  border-radius: 5px;
-  background-color: @theme_base_color;
-  background-image: none;
-  box-shadow:
-    inset 0 1px @eqx_entry_inner,
-    inset 0 2px alpha(@eqx_entry_inner, 0.45),
-    0 1px @eqx_entry_highlight;
-}
-entry:focus, spinbutton entry:focus {
-  border-color: @theme_selected_bg_color;
-}
-entry:disabled, spinbutton entry:disabled {
-  box-shadow: none;
-}
-
-/* GTK2 selected tabs join the page rather than becoming white/black pills. */
-notebook > header > tabs > tab {
-  background-color: @eqx_tab_idle_bottom;
-  background-image: linear-gradient(to bottom,
-    @eqx_tab_idle_top, @eqx_tab_idle_bottom);
-  border: 1px solid @eqx_tab_border;
-  border-radius: 5px 5px 0 0;
-  box-shadow: inset 0 1px alpha(@eqx_button_highlight, 0.72);
-  margin: 0 1px 0 0;
-  padding: 3px 8px;
-}
-notebook > header > tabs > tab:checked {
-  color: @theme_fg_color;
-  background-color: @theme_bg_color;
-  background-image: none;
-  border-color: @eqx_tab_border;
-  box-shadow: inset 0 1px alpha(@eqx_button_highlight, 0.35);
-}
-notebook > header.top > tabs > tab:checked {
-  border-bottom-color: @theme_bg_color;
-}
-notebook > header.bottom > tabs > tab {
-  border-radius: 0 0 5px 5px;
-}
-notebook > header.bottom > tabs > tab:checked {
-  border-top-color: @theme_bg_color;
-}
-notebook > header.left > tabs > tab {
-  border-radius: 5px 0 0 5px;
-}
-notebook > header.left > tabs > tab:checked {
-  border-right-color: @theme_bg_color;
-}
-notebook > header.right > tabs > tab {
-  border-radius: 0 5px 5px 0;
-}
-notebook > header.right > tabs > tab:checked {
-  border-left-color: @theme_bg_color;
-}
-notebook > header > tabs > tab button {
-  background-color: transparent;
-  background-image: none;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-}
-notebook > header > tabs > tab button:hover {
-  background-color: alpha(@theme_fg_color, 0.14);
-  background-image: none;
-}
-
-/* A frame has an etched perimeter rather than a heavy rectangle. */
-frame > border, notebook.frame {
-  border-color: @eqx_frame_border;
-  box-shadow: 0 1px alpha(@eqx_button_highlight, 0.40);
-}
-separator {
-  background-color: @eqx_separator_color;
-  opacity: 0.7;
-}
-paned > separator {
-  background-color: @eqx_separator_color;
-}
-
-/* Use the GTK2-sized indicators and low profile slider rim. */
+/* Checked, mixed and disabled indicator states. */
 check, radio {
+  color: @theme_fg_color;
+  background-color: @theme_base_color;
+  border: 1px solid @eqx_border;
   min-height: 12px;
   min-width: 12px;
 }
-scale slider {
-  box-shadow: inset 0 1px alpha(@eqx_button_highlight, 0.6);
+check { border-radius: 3px; }
+radio { border-radius: 100%; }
+check:checked, check:indeterminate, radio:checked {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
 }
+check:disabled, radio:disabled {
+  color: @eqx_muted;
+  background-color: @eqx_disabledBase;
+  border-color: @eqx_disabledBorder;
+}
+frame > border {
+  border: 1px solid @eqx_border;
+  border-radius: 4px;
+  box-shadow: 0 1px alpha(@eqx_inner, 0.45);
+}
+separator, paned > separator {
+  background-color: @eqx_separator;
+  min-width: 1px;
+  min-height: 1px;
+}
+switch {
+  color: @theme_fg_color;
+  background-color: @eqx_trough;
+  border: 1px solid @eqx_border;
+  border-radius: 12px;
+}
+switch:checked { background-color: @theme_selected_bg_color; }
+switch slider {
+  background-color: @eqx_scaleBottom;
+  background-image: linear-gradient(to bottom, @eqx_scaleTop, @eqx_scaleBottom);
+  border: 1px solid @eqx_border;
+  border-radius: 100%;
+}
+tooltip, tooltip.background {
+  color: @theme_fg_color;
+  background-color: @eqx_tooltip;
+  border: 1px solid @eqx_border;
+  border-radius: 4px;
+}
+tooltip label { color: @theme_fg_color; }
+.link, label link, button.link { color: @eqx_link; }
