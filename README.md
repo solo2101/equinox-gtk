@@ -121,6 +121,25 @@ The importer rejects archives with the wrong SHA256 and checks that
 all original XML-referenced images are present. The window theme only
 changes if you explicitly set the Marco theme using gsettings.
 
+### Confirm the original Marco buttons, not the placeholder buttons
+
+The first Marco implementation used simplified hand-drawn XML buttons.
+The source repository still contains that provisional XML until the original
+upstream archive has been successfully imported. An Equinox titlebar gradient
+does not prove original button artwork has loaded.
+
+```bash
+git pull
+bash scripts/install-original-marco.sh
+python3 scripts/verify-original-marco.py
+marco-theme-viewer Equinox-Light
+```
+
+The verification script reports the PNG button count, referenced image count,
+and archive provenance. Only a PASS for both variants confirms authentic
+Metacity window artwork. A normal GTK theme reinstall now preserves imported
+original Marco artwork instead of silently replacing it with synthetic XML.
+
 ## Compare in A Widget Factory
 
 Run the GTK2 and GTK3 versions separately at the same window size and scale:
