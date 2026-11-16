@@ -22,8 +22,8 @@
 @define-color eqx_entryShadow rgba(0,0,0,0.13);
 @define-color eqx_disabledSurface #d7d7d7;
 @define-color eqx_disabledBorder #ababab;
-@define-color eqx_tabTop #e0e0e0;
-@define-color eqx_tabBottom #bcbcbc;
+@define-color eqx_tabTop #c3c3c3;
+@define-color eqx_tabBottom #aaaaaa;
 @define-color eqx_tabBorder #888888;
 @define-color eqx_trough #bcbcbc;
 @define-color eqx_scaleTop #eeeeee;
@@ -50,6 +50,16 @@
 @define-color eqx_disabledCheckedTop #d7d7d7;
 @define-color eqx_disabledCheckedBottom #bfbfbf;
 @define-color eqx_frameBorder #a0a0a0;
+
+@define-color eqx_menuTop #e7e7e7;
+@define-color eqx_menuBottom #d8d8d8;
+@define-color eqx_toolbarTop #dedede;
+@define-color eqx_toolbarBottom #bcbcbc;
+@define-color eqx_toolbarLine #a3a3a3;
+@define-color eqx_progTroughTop #f0f0f0;
+@define-color eqx_progTroughBottom #c9c9c9;
+@define-color eqx_progAccentDeep #2664a1;
+@define-color eqx_progBorder #4376a1;
 
 /* Equinox GTK3.24: consolidated GTK2-reference parity stylesheet.
    Reference: original src/equinox_draw.c, src/equinox_style.c.
@@ -190,14 +200,29 @@ treeview header button {
   box-shadow: inset 0 1px @eqx_inner;
 }
 
-/* GTK2-style menubars, toolbars, menus. */
+/* Continuous Equinox-style shading across the menu and icon toolbar. */
 menubar, toolbar, .toolbar, .primary-toolbar, headerbar, .titlebar {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
-  background-image: linear-gradient(to bottom, @eqx_barTop, @theme_bg_color);
   border-color: @eqx_border;
 }
-menubar, toolbar { padding: 2px; }
+menubar {
+  padding: 2px;
+  background-image: linear-gradient(to bottom, @eqx_menuTop, @eqx_menuBottom);
+  border-bottom: 1px solid @eqx_toolbarLine;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.55);
+}
+toolbar, .toolbar, .primary-toolbar {
+  padding: 2px;
+  background-color: @eqx_toolbarBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_toolbarTop, @eqx_toolbarBottom);
+  border-bottom: 1px solid @eqx_toolbarLine;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.36);
+}
+headerbar, .titlebar {
+  background-image: linear-gradient(to bottom, @eqx_menuTop, @eqx_toolbarBottom);
+}
 /* The original GTK2 Equinox toolbar paints its background as one strip.
  * Idle toolbar icon buttons are transparent. Borders show only for interaction.
  * Headerbar controls remain normal push buttons because GTK3 adds CSD. */
@@ -280,18 +305,30 @@ notebook > header.top > tabs > tab:checked {
   border-bottom-color: @theme_bg_color;
   margin-bottom: -1px;
 }
-notebook > header.bottom > tabs > tab { border-radius: 0 0 5px 5px; }
+notebook > header.bottom > tabs > tab {
+  border-radius: 0 0 5px 5px;
+  background-image: linear-gradient(to top, @eqx_tabTop, @eqx_tabBottom);
+}
 notebook > header.bottom > tabs > tab:checked {
+  background-image: none;
   border-top-color: @theme_bg_color;
   margin-top: -1px;
 }
-notebook > header.left > tabs > tab { border-radius: 5px 0 0 5px; }
+notebook > header.left > tabs > tab {
+  border-radius: 5px 0 0 5px;
+  background-image: linear-gradient(to right, @eqx_tabTop, @eqx_tabBottom);
+}
 notebook > header.left > tabs > tab:checked {
+  background-image: none;
   border-right-color: @theme_bg_color;
   margin-right: -1px;
 }
-notebook > header.right > tabs > tab { border-radius: 0 5px 5px 0; }
+notebook > header.right > tabs > tab {
+  border-radius: 0 5px 5px 0;
+  background-image: linear-gradient(to left, @eqx_tabTop, @eqx_tabBottom);
+}
 notebook > header.right > tabs > tab:checked {
+  background-image: none;
   border-left-color: @theme_bg_color;
   margin-left: -1px;
 }
@@ -336,12 +373,57 @@ scale slider {
 }
 scale.horizontal slider { margin: -4px 0; }
 scale.vertical slider { margin: 0 -4px; }
-scale highlight, progressbar progress, levelbar block.filled {
+scale highlight, levelbar block.filled {
   background-color: @theme_selected_bg_color;
   background-image: linear-gradient(to bottom, @eqx_accentTop, @theme_selected_bg_color);
   border-radius: 3px;
 }
-progressbar progress, progressbar trough { min-height: 5px; min-width: 5px; }
+/* Original equinox_draw_progressbar_trough() has a beveled full-height channel.
+ * Original equinox_draw_progressbar_fill() draws diagonal bands over blue. */
+progressbar trough {
+  min-height: 14px;
+  min-width: 14px;
+  padding: 1px;
+  background-color: @eqx_progTroughBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_progTroughTop 0%, @eqx_progTroughTop 30%, @eqx_progTroughBottom 100%);
+  border: 1px solid @eqx_frameBorder;
+  border-radius: 5px;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.75),
+              inset 0 2px alpha(@eqx_outer, 0.28);
+}
+progressbar progress {
+  min-height: 12px;
+  min-width: 12px;
+  background-color: @theme_selected_bg_color;
+  background-image:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,0.16) 0px,
+      rgba(255,255,255,0.16) 9px,
+      rgba(0,25,70,0.16) 9px,
+      rgba(0,25,70,0.16) 18px),
+    linear-gradient(to bottom,
+      @eqx_accentTop 0%,
+      @theme_selected_bg_color 45%,
+      @eqx_progAccentDeep 100%);
+  background-size: 25px 25px, 100% 100%;
+  border: 1px solid @eqx_progBorder;
+  border-radius: 4px;
+  box-shadow: inset 0 1px rgba(255,255,255,0.22);
+}
+progressbar.vertical trough, progressbar.vertical progress { min-width: 14px; }
+progressbar.vertical progress {
+  background-image:
+    repeating-linear-gradient(45deg,
+      rgba(255,255,255,0.16) 0px,
+      rgba(255,255,255,0.16) 9px,
+      rgba(0,25,70,0.16) 9px,
+      rgba(0,25,70,0.16) 18px),
+    linear-gradient(to right,
+      @eqx_accentTop 0%,
+      @theme_selected_bg_color 45%,
+      @eqx_progAccentDeep 100%);
+}
 scrollbar {
   -GtkScrollbar-has-backward-stepper: false;
   -GtkScrollbar-has-forward-stepper: false;
