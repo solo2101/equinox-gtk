@@ -168,3 +168,31 @@ GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2 & GTK_THEME=E
 
 Check the menubar directly below the Marco titlebar, especially at the
 left/right edges, and the join between the menubar and icon toolbar.
+
+
+## GTK2 to GTK3 top-edge blending
+
+The GTK2 version is the reference. The Fedora comparison screenshot
+(`20261116-172744`) was inspected at 1x scale in its empty toolbar
+region. The menu starts at image row 22 on both toolkits. The GTK2
+bottom menubar groove is at row 50 and its 1px light ridge at row 51.
+The earlier GTK3 CSS placed those at rows 51 and 52, one pixel too low.
+Both toolkits end the toolbar with a dark shadow at row 88.
+
+To align the groove without moving the toolbar icons or shortening the
+combined chrome, the GTK3 menubar uses `padding: 2px 2px 1px 2px` and
+the toolbar uses `padding: 3px 2px 2px 2px`. The total menu+toolbar
+vertical padding is unchanged from the previous 2px on all sides.
+The bars paint their gradients across the full width with no extra
+side or top border or rounded container. The GTK2 engine and its
+`gtkrc` remain unchanged.
+
+To compare after pulling changes:
+
+```bash
+bash scripts/install-user-themes.sh
+GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2 & GTK_THEME=Equinox-Light awf-gtk3
+```
+
+These reference rows depend on display scaling and AWF window position.
+The new geometry still needs on-device visual confirmation.
