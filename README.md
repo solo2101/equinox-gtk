@@ -6,7 +6,7 @@ Modernizing the classic Equinox 1.50 theme engine for Fedora and MATE.
 
 - **GTK2:** Original C engine compiles and loads on Fedora 43. The original source is preserved on the `legacy` branch.
 - **GTK3:** Light and dark themes use source-guided CSS. The GTK3 stylesheets have been consolidated to match the original button shading, entry bevels, notebook tabs, icons, and widget proportions. Runtime testing of the latest pass is still needed.
-- **Marco:** Original Equinox-inspired light and dark decorations actively developed in this repository. The current pass replaces square title buttons with rounded, beveled controls and a dedicated red close button. Fedora 43 preview comparison is pending.
+- **Marco:** Equinox Light and Dark frames now use the original Equinox Evolution Dawn/Dusk PNG window-button artwork, while keeping our matching titlebar gradients. Fedora 43 preview comparison is pending.
 - **GTK4:** Not implemented.
 
 GTK3 does not load the original GTK2 engine. The optional early PNG experiment is archived under `experiments/gtk3-rendered/` for reference, and is not installed by the standard theme installer.
@@ -31,11 +31,16 @@ This copies GTK2, GTK3 and Marco theme files to `~/.themes/` for your user. It d
 
 ## Preview Marco window borders
 
-We maintain the Equinox Marco design directly in
+We maintain the Equinox Marco frame design in
 `themes/Equinox-{Light,Dark}/metacity-1/metacity-theme-1.xml`.
-This version draws rounded glossy title buttons, custom close/minimize/
-maximize symbols, a silver/dark title gradient, and a thin lower groove.
-It uses Metacity's native drawing commands, not an external art pack.
+The button backgrounds and all close, minimize, maximize, and menu symbols
+are the **original PNG assets** from
+[Aurora-and-Equinox/Equinox-GTK2-themes](https://github.com/Aurora-and-Equinox/Equinox-GTK2-themes).
+Light uses `Equinox Evolution Dawn/metacity-1`, and Dark uses
+`Equinox Evolution Dusk/metacity-1`. Both were copied with their original
+Git blob SHA intact. Our titlebar gradients and frame borders remain.
+See each theme's `ARTWORK-SOURCE.txt` for upstream authorship and license.
+
 The blue background inside `marco-theme-viewer` belongs to the
 preview application, not to the window decoration.
 
