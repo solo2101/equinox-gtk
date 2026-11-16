@@ -55,13 +55,13 @@
 @define-color eqx_menuBottom #303335;
 @define-color eqx_toolbarTop #303335;
 @define-color eqx_toolbarBottom #292c2e;
-@define-color eqx_menuGroove #292c2e;
+@define-color eqx_menuGroove #1b1d1f;
 @define-color eqx_toolbarLine #151819;
 @define-color eqx_progTroughTop #414648;
 @define-color eqx_progTroughBottom #242729;
 @define-color eqx_progAccentDeep #20506e;
 @define-color eqx_progBorder #183849;
-@define-color eqx_toolbarRidge #393d3f;
+@define-color eqx_toolbarRidge #44474a;
 @define-color eqx_tabSheen #484c4f;
 @define-color eqx_tabMid #2e3234;
 /* Equinox GTK3.24: consolidated GTK2-reference parity stylesheet.
