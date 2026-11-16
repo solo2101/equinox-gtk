@@ -41,7 +41,10 @@ jobs:
             status=$?
             set -e
             cat "$log"
-            if grep -Eiq 'Error loading theme|failed to load theme|theme parsing error|invalid theme' "$log"; then
+            # GTK prints unrelated CSS "Theme parsing error" warnings when
+            # running under Xvfb. Those are not Marco window-frame failures.
+            # Check only actual Marco loader rejections.
+            if grep -Eiq '^(Error loading theme:|Failed to load theme:|Error parsing Metacity theme:)' "$log"; then
               echo "::error::Marco renderer rejected $theme"
               exit 1
             fi
