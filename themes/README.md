@@ -82,3 +82,32 @@ bash scripts/compare-gtk2-gtk3.sh dark
 The first window uses the original GTK2 Equinox engine and the second
 uses the GTK3 CSS theme. The script installs the local theme files for
 the current user without changing the active MATE theme.
+
+
+## GTK3 parity pass 6: shared gradients, gray inactive tabs, striped progress
+
+The Fedora AWF side-by-side screenshot revealed that the original GTK2
+inactive tabs were noticeably darker than the GTK3 version. The light
+variant now uses an inactive tab gradient from `#c3c3c3` to
+`#aaaaaa`; selected tabs still join the window background. The dark
+variant also uses darker inactive tab shades. Bottom, left, and right
+tab gradients follow their respective orientation.
+
+The menu and icon toolbar now use distinct but connected gradients,
+with a subtle shadow dividing the toolbar from the application controls.
+
+Progress bars now use full-height beveled troughs, a blue 3-stop
+gradient, repeating diagonal bands and a stripe-position animation.
+These match the paint layers in the original C functions
+`equinox_draw_progressbar_trough()` and
+`equinox_draw_progressbar_fill()`, while remaining pure GTK3 CSS.
+
+To compare:
+
+```bash
+python3 scripts/check-gtk3-css.py
+bash scripts/install-user-themes.sh
+GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2 & GTK_THEME=Equinox-Light awf-gtk3
+```
+
+Visual comparison on the actual Fedora 43 desktop is still required.
