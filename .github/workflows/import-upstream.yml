@@ -1,0 +1,62 @@
+name: Import original Equinox 1.50 source
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/import-upstream.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Download, verify, and commit original files one by one
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$(mktemp)"
+          extract_dir="$(mktemp -d)"
+          trap 'rm -f "$archive"; rm -rf "$extract_dir"' EXIT
+
+          curl --fail --location --retry 4 --retry-delay 3 \
+            "https://mirrors.nju.edu.cn/freebsd-ports/distfiles/121881-equinox-1.50.tar.gz" \
+            --output "$archive"
+
+          echo "0cf8b8cc841e0da7d4a08ab5a70d3bb330fd76bdcb03165a47aaddcd47e02227  $archive" | sha256sum --check -
+
+          tar -xzf "$archive" -C "$extract_dir"
+          test -f "$extract_dir/equinox-1.50/src/equinox_draw.c"
+          test -f "$extract_dir/equinox-1.50/COPYING"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          count=0
+          while IFS= read -r -d '' source_file; do
+            path="${source_file#"$extract_dir/equinox-1.50/"}"
+            mkdir -p "$(dirname "$path")"
+            cp "$source_file" "$path"
+            git add -- "$path"
+            if ! git diff --cached --quiet; then
+              git commit -m "Import upstream Equinox 1.50: $path"
+              count=$((count + 1))
+            fi
+          done < <(find "$extract_dir/equinox-1.50" -type f -print0 | sort -z)
+
+          echo "New upstream file commits: $count"
+          test -f src/equinox_draw.c
+          test -f src/equinox_style.c
+          git push origin HEAD:main
+
+          if ! git ls-remote --exit-code --heads origin legacy >/dev/null; then
+            git push origin HEAD:refs/heads/legacy
+          fi
