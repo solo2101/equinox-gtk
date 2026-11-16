@@ -52,12 +52,12 @@
 @define-color eqx_frameBorder #a0a0a0;
 
 @define-color eqx_menuTop #d7d7d7;
-@define-color eqx_menuBottom #cacaca;
-@define-color eqx_toolbarTop #c9c9c9;
+@define-color eqx_menuBottom #c8c8c8;
+@define-color eqx_toolbarTop #c8c8c8;
 @define-color eqx_toolbarBottom #b6b6b6;
-@define-color eqx_menuGroove #adadad;
+@define-color eqx_menuGroove #acacac;
 @define-color eqx_toolbarLine #979797;
-@define-color eqx_toolbarRidge #e2e2e2;
+@define-color eqx_toolbarRidge #dfdfdf;
 @define-color eqx_tabSheen #cfcfcf;
 @define-color eqx_tabMid #b5b5b5;
 @define-color eqx_progTroughTop #f0f0f0;
@@ -204,30 +204,44 @@ treeview header button {
   box-shadow: inset 0 1px @eqx_inner;
 }
 
-/* Equinox draw_menubar() / draw_toolbar() share the same gradient endpoint:
- * GTK2 at 1x scale measured: menu 215 -> 202, toolbar 201 -> 182.
- * A dark 1px groove and light 1px ridge divide one continuous surface. */
-menubar, toolbar, .toolbar, .primary-toolbar, headerbar, .titlebar {
+/* Flush GTK3 top chrome matching the GTK2 engine:
+ * equinox_draw_menubar() paints across the entire allocation and draws a
+ * single 0.8*background bottom groove. equinox_draw_toolbar() begins at
+ * menubar's ending shade, then draws a 1px top highlight and bottom shadow.
+ * All paint is owned by the bar itself. Never add an outer framed box. */
+menubar, toolbar, .toolbar, .primary-toolbar {
   color: @theme_fg_color;
-  background-color: @theme_bg_color;
-  border-color: @eqx_border;
-}
-menubar {
-  padding: 2px;
-  background-image: linear-gradient(to bottom, @eqx_menuTop, @eqx_menuBottom);
-  border-bottom: 1px solid @eqx_menuGroove;
+  border-style: solid;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-radius: 0;
+  margin: 0;
   box-shadow: none;
 }
+menubar {
+  padding: 0 2px;
+  background-color: @eqx_menuTop;
+  background-image: linear-gradient(to bottom,
+    @eqx_menuTop 0%, @eqx_menuBottom 100%);
+  border-bottom: 1px solid @eqx_menuGroove;
+}
 toolbar, .toolbar, .primary-toolbar {
-  padding: 2px;
+  padding: 1px 2px;
   background-color: @eqx_toolbarBottom;
   background-image: linear-gradient(to bottom,
-    @eqx_toolbarTop, @eqx_toolbarBottom);
+    @eqx_toolbarTop 0%, @eqx_toolbarBottom 100%);
   border-bottom: 1px solid @eqx_toolbarLine;
   box-shadow: inset 0 1px @eqx_toolbarRidge;
 }
+/* Client-side headerbars are separate GTK3 window decorations. Do not
+ * impose the GTK2 toolbar groove on titlebars. */
 headerbar, .titlebar {
-  background-image: linear-gradient(to bottom, @eqx_menuTop, @eqx_toolbarBottom);
+  color: @theme_fg_color;
+  background-color: @eqx_menuTop;
+  background-image: linear-gradient(to bottom,
+    @eqx_menuTop, @eqx_toolbarBottom);
+  border-color: @eqx_border;
 }
 /* The original GTK2 Equinox toolbar paints its background as one strip.
  * Idle toolbar icon buttons are transparent. Borders show only for interaction.
