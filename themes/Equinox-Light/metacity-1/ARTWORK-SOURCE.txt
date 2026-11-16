@@ -3,7 +3,7 @@ Original Equinox titlebar button artwork
 
 Source: https://github.com/Aurora-and-Equinox/Equinox-GTK2-themes
 Upstream revision: cbd0a2d61f3a37440e6fb267e4f3d10abcfaec38
-Upstream path: Equinox Evolution Dawn/metacity-1/
+Upstream path: Equinox Evolution Rounded/metacity-1/
 
 Source theme author: Matthieu James
 Upstream repository includes a GNU GPL version 3 LICENSE.
@@ -25,3 +25,6 @@ states. The old hand-drawn button circles have been removed.
 
 The 24 total PNGs across Light and Dark are original Git blobs,
 checked against their upstream Git object hashes.
+
+Light titlebar artwork uses the original Rounded set. Minimize and maximize
+icons are dark; inactive icons use the upstream muted sprites directly.
