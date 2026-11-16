@@ -51,13 +51,13 @@
 @define-color eqx_disabledCheckedBottom #bfbfbf;
 @define-color eqx_frameBorder #a0a0a0;
 
-@define-color eqx_menuTop #d7d7d7;
-@define-color eqx_menuBottom #c8c8c8;
-@define-color eqx_toolbarTop #c8c8c8;
-@define-color eqx_toolbarBottom #b6b6b6;
-@define-color eqx_menuGroove #acacac;
+@define-color eqx_menuTop #d8d8d8;
+@define-color eqx_menuBottom #cbcbcb;
+@define-color eqx_toolbarTop #cbcbcb;
+@define-color eqx_toolbarBottom #b5b5b5;
+@define-color eqx_menuGroove #adadad;
 @define-color eqx_toolbarLine #979797;
-@define-color eqx_toolbarRidge #dfdfdf;
+@define-color eqx_toolbarRidge #e1e1e1;
 @define-color eqx_tabSheen #cfcfcf;
 @define-color eqx_tabMid #b5b5b5;
 @define-color eqx_progTroughTop #f0f0f0;
