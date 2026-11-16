@@ -263,12 +263,28 @@ toolbar button:disabled, .toolbar button:disabled, .primary-toolbar button:disab
 }
 headerbar button { padding: 3px 5px; min-width: 16px; }
 headerbar, .titlebar { min-height: 25px; border-bottom: 1px solid @eqx_border; }
-menu, menuitem, .menu, popover, popover.background {
+/* Menuitem backgrounds must stay transparent so the menubar's own
+ * vertical gradient remains visible behind Options, System themes, etc.
+ * Previously menuitem had a solid @theme_bg_color background, masking
+ * the gradient except in the blank space after Help. */
+menu, .menu, popover, popover.background {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
 }
+menuitem {
+  color: @theme_fg_color;
+  background-color: transparent;
+  background-image: none;
+}
+menubar > menuitem,
+menubar > menuitem > label,
+menubar > menuitem > box {
+  background-color: transparent;
+  background-image: none;
+}
 menuitem, modelbutton { padding: 3px 7px; }
-menuitem:hover, menuitem:selected, modelbutton:hover {
+menuitem:hover, menuitem:selected, modelbutton:hover,
+menubar > menuitem:hover, menubar > menuitem:selected {
   color: @theme_selected_fg_color;
   background-color: @theme_selected_bg_color;
 }
