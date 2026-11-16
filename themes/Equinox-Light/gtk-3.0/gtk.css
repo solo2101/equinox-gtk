@@ -198,10 +198,40 @@ menubar, toolbar, .toolbar, .primary-toolbar, headerbar, .titlebar {
   border-color: @eqx_border;
 }
 menubar, toolbar { padding: 2px; }
-toolbar button, .toolbar button, headerbar button {
+/* The original GTK2 Equinox toolbar paints its background as one strip.
+ * Idle toolbar icon buttons are transparent. Borders show only for interaction.
+ * Headerbar controls remain normal push buttons because GTK3 adds CSD. */
+toolbar button, .toolbar button, .primary-toolbar button {
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  border-radius: 4px;
+  box-shadow: none;
   padding: 3px 5px;
   min-width: 16px;
+  min-height: 18px;
 }
+toolbar button:hover, .toolbar button:hover, .primary-toolbar button:hover {
+  background-color: @eqx_bottom;
+  background-image: linear-gradient(to bottom, @eqx_top, @eqx_bottom);
+  border-color: @eqx_buttonBorder;
+  box-shadow: inset 0 1px @eqx_inner;
+}
+toolbar button:active, toolbar button:checked,
+.toolbar button:active, .toolbar button:checked,
+.primary-toolbar button:active, .primary-toolbar button:checked {
+  background-color: @eqx_activeBottom;
+  background-image: linear-gradient(to bottom, @eqx_activeTop, @eqx_activeBottom);
+  border-color: @eqx_buttonBorder;
+  box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
+}
+toolbar button:disabled, .toolbar button:disabled, .primary-toolbar button:disabled {
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+headerbar button { padding: 3px 5px; min-width: 16px; }
 headerbar, .titlebar { min-height: 25px; border-bottom: 1px solid @eqx_border; }
 menu, menuitem, .menu, popover, popover.background {
   color: @theme_fg_color;
@@ -390,4 +420,22 @@ tooltip, tooltip.background {
   border-radius: 4px;
 }
 tooltip label { color: @theme_fg_color; }
-.link, label link, button.link { color: @eqx_link; }
+/* GTK2 GtkLinkButton is a text link, not a beveled push button.
+ * GTK3 AWF assigns the .link class; reset the generic button surface. */
+button.link, button.link:hover, button.link:focus,
+button.link:active, button.link:checked, button.link:disabled {
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0 2px;
+  min-width: 0;
+  min-height: 0;
+}
+button.link, button.link label, label link, .link {
+  color: @eqx_link;
+}
+button.link:disabled, button.link:disabled label {
+  color: @eqx_muted;
+}
