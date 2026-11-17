@@ -6,5 +6,5 @@ Comment=Classic Equinox light controls and window borders
 [X-GNOME-Metatheme]
 GtkTheme=Equinox-Light
 MetacityTheme=Equinox-Light
-IconTheme=Adwaita
+IconTheme=Delft
 CursorTheme=Adwaita
