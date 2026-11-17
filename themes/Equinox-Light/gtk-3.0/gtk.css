@@ -255,7 +255,8 @@ entry:disabled, textview:disabled text {
   background-color: @eqx_disabledBase;
   box-shadow: none;
 }
-treeview.view, iconview {
+/* GTK3 file and icon views, including Caja's file canvas. */
+.view, treeview.view, iconview, iconview.view {
   color: @theme_text_color;
   background-color: @theme_base_color;
   border: none;
@@ -375,6 +376,14 @@ menuitem:hover, menuitem:selected, modelbutton:hover,
 menubar > menuitem:hover, menubar > menuitem:selected {
   color: @theme_selected_fg_color;
   background-color: @theme_selected_bg_color;
+}
+/* Explicit label colors override inheritance, so selected menus need
+ * the foreground applied to child labels too. */
+menuitem:hover label, menuitem:selected label,
+menuitem:hover > box label, menuitem:selected > box label,
+modelbutton:hover label, menubar > menuitem:hover label,
+menubar > menuitem:selected label {
+  color: @theme_selected_fg_color;
 }
 
 /* Notebook tabs: fresh GTK3-native rebuild.
