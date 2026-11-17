@@ -114,6 +114,7 @@ def trace_tab_selection(window, notebook, labels, orientation):
     dispatch_events()
     for page in (0, 1, 2, 3):
         notebook.set_current_page(page)
+        notebook.queue_draw()  # Diagnose whether explicit repaint updates tab faces.
         dispatch_events()
         time.sleep(0.04)
         dispatch_events()
