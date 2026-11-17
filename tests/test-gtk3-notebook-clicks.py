@@ -114,6 +114,10 @@ def trace_tab_selection(window, notebook, labels, orientation):
         dispatch_events()
         colors = [tab_background_rgb(window, label) for label in labels]
         print(f"TAB COLORS selected={page + 1}: {colors}", flush=True)
+        if page in (0, 1):
+            print(f"CSS TREE selected={page + 1}:\\n" +
+                  notebook.get_style_context().to_string(
+                      Gtk.StyleContextPrintFlags.RECURSE), flush=True)
 
 
 
