@@ -41,9 +41,9 @@ for theme in Equinox-Light Equinox-Dark; do
   done
   # MATE Appearance Preferences requires metatheme metadata at theme root.
   metadata="$root/themes/$theme/index.theme"
-  test -f "$metadata" || { printf 'Missing metatheme: %s\\n' "$metadata" >&2; exit 1; }
+  test -f "$metadata" || { printf 'Missing metatheme: %s\n' "$metadata" >&2; exit 1; }
   install -m 0644 "$metadata" "$HOME/.themes/$theme/index.theme"
-  printf 'Installed: %s/index.theme\\n' "$theme"
+  printf 'Installed: %s/index.theme\n' "$theme"
 done
 
 printf '\nGTK2 tests:\n'
