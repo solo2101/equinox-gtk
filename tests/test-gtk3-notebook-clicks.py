@@ -115,7 +115,11 @@ def trace_tab_selection(window, notebook, labels, orientation):
     dispatch_events()
     for page in (0, 1, 2, 3):
         notebook.set_current_page(page)
-        notebook.queue_draw()  # Diagnose whether explicit repaint updates tab faces.
+        notebook.queue_resize()
+        notebook.queue_draw()
+        window.queue_draw()
+        window.get_window().invalidate_rect(None, True)
+        window.get_window().process_updates(True)
         dispatch_events()
         # A real GLib main loop is needed for GTK's frame clock to draw.
         loop = GLib.MainLoop()
