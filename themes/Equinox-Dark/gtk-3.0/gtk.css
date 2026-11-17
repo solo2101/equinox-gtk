@@ -467,7 +467,25 @@ scale trough, progressbar trough, levelbar trough {
   border-color: @eqx_border;
   border-radius: 4px;
 }
-scale trough { min-width: 4px; min-height: 4px; }
+/* Equinox draw_scale_trough: recessed four-stop channel.
+ * Its dark-to-light cross-section rotates with track orientation. */
+scale trough {
+  min-width: 4px;
+  min-height: 4px;
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_trough, 0.56) 0%,
+    shade(@eqx_trough, 0.78) 8%,
+    shade(@eqx_trough, 1.03) 80%,
+    @eqx_trough 100%);
+  box-shadow: 0 1px alpha(@eqx_inner, 0.5);
+}
+scale.vertical trough {
+  background-image: linear-gradient(to right,
+    shade(@eqx_trough, 0.56) 0%,
+    shade(@eqx_trough, 0.78) 8%,
+    shade(@eqx_trough, 1.03) 80%,
+    @eqx_trough 100%);
+}
 scale slider {
   min-height: 11px;
   min-width: 11px;
@@ -572,17 +590,61 @@ scrollbar {
   background-color: transparent;
   border: none;
 }
-scrollbar.vertical { min-width: 10px; }
-scrollbar.horizontal { min-height: 10px; }
-scrollbar trough { background-color: transparent; border: none; }
+/* Equinox GTK2: scrollbarstyle=1, scrollbartrough=0.
+ * GTK2 draws a recessed cross-axis trough and a highlighted 4-stop thumb.
+ * Keep GTK3 overlay indicators operational; style their trough/thumb too. */
+scrollbar.vertical { min-width: 13px; }
+scrollbar.horizontal { min-height: 13px; }
+scrollbar trough {
+  background-color: @theme_bg_color;
+  background-image: linear-gradient(to right,
+    shade(@theme_bg_color, 0.92) 0%,
+    shade(@theme_bg_color, 0.98) 22%,
+    @theme_bg_color 55%,
+    shade(@theme_bg_color, 0.98) 82%,
+    shade(@theme_bg_color, 0.92) 100%);
+  border: none;
+  box-shadow: inset 1px 0 alpha(@eqx_outer, 0.25);
+}
+scrollbar.horizontal trough {
+  background-image: linear-gradient(to bottom,
+    shade(@theme_bg_color, 0.92) 0%,
+    shade(@theme_bg_color, 0.98) 22%,
+    @theme_bg_color 55%,
+    shade(@theme_bg_color, 0.98) 82%,
+    shade(@theme_bg_color, 0.92) 100%);
+  box-shadow: inset 0 1px alpha(@eqx_outer, 0.25);
+}
 scrollbar slider {
   background-color: @eqx_scroll;
+  background-image: linear-gradient(to right,
+    shade(@eqx_scroll, 1.16) 0%,
+    shade(@eqx_scroll, 0.98) 50%,
+    shade(@eqx_scroll, 0.86) 50%,
+    @eqx_scroll 100%);
+  box-shadow: inset 1px 0 alpha(@eqx_inner, 0.75),
+              0 1px alpha(@eqx_outer, 0.35);
   border-radius: 4px;
-  min-width: 7px;
-  min-height: 7px;
+  min-width: 10px;
+  min-height: 10px;
   margin: 1px;
 }
-scrollbar slider:hover { background-color: @eqx_scaleTop; }
+scrollbar.horizontal slider {
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_scroll, 1.16) 0%,
+    shade(@eqx_scroll, 0.98) 50%,
+    shade(@eqx_scroll, 0.86) 50%,
+    @eqx_scroll 100%);
+}
+scrollbar slider:hover {
+  background-color: @eqx_scaleTop;
+  background-image: linear-gradient(to right,
+    shade(@eqx_scaleTop, 1.10), @eqx_scaleTop);
+}
+scrollbar.horizontal slider:hover {
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_scaleTop, 1.10), @eqx_scaleTop);
+}
 scrollbar button {
   min-width: 0;
   min-height: 0;
