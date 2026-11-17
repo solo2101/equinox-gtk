@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Equinox Light
+Comment=Classic Equinox light controls and window borders
+
+[X-GNOME-Metatheme]
+GtkTheme=Equinox-Light
+MetacityTheme=Equinox-Light
+IconTheme=Adwaita
+CursorTheme=Adwaita
