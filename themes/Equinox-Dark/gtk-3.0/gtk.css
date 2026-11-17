@@ -413,11 +413,16 @@ notebook > header > tabs > tab {
   background-color: @eqx_tabBottom;
   background-image: linear-gradient(to bottom, @eqx_tabTop, @eqx_tabBottom);
   border: 1px solid alpha(@eqx_tabBorder, 0.68);
-  border-radius: 1px 1px 0 0;
+  border-radius: 4px 4px 0 0;
   box-shadow: none;
   margin: 2px 1px 0 0;
   padding: 3px 7px;
   min-height: 17px;
+}
+/* Inactive top tabs end cleanly above the page frame, like GTK2.
+ * Keep border width to avoid moving tabs or changing hit targets. */
+notebook > header.top > tabs > tab:not(:checked) {
+  border-bottom-color: transparent;
 }
 notebook > header > tabs > tab:hover {
   background-color: @eqx_tabTop;
