@@ -330,8 +330,11 @@ notebook {
   background-color: @theme_bg_color;
 }
 notebook.frame {
-  border: none;
-  border-radius: 0;
+  /* The notebook owns its outer allocation. A transparent top edge keeps
+   * the GTK2 flush tabs while preserving GTK3's native tab repaint path. */
+  border: 1px solid @eqx_frameBorder;
+  border-top-width: 0;
+  border-radius: 3px;
   box-shadow: none;
 }
 notebook > header,
@@ -360,9 +363,9 @@ notebook > header > tabs {
 notebook.frame > stack {
   background-color: @eqx_notebookPage;
   background-image: none;
-  border: 1px solid @eqx_frameBorder;
-  border-radius: 3px;
-  box-shadow: inset 0 1px alpha(@eqx_inner, 0.18);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 /* Keep the notebook page frame, not an extra box around the whole tab bar. */
 notebook.frame > header {
