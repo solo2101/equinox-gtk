@@ -85,6 +85,38 @@ def check_page_surface(window, notebook, orientation):
     print(f"Visible {orientation.value_nick} page surface: {rgb}")
 
 
+
+def tab_background_rgb(window, tab_label):
+    """Sample the tab face just above its label, avoiding letter pixels."""
+    backing = tab_label.get_window()
+    origin = backing.get_origin()
+    rect = tab_label.get_allocation()
+    screen_x = origin[0] + rect.x + rect.width // 2
+    screen_y = origin[1] + rect.y - 4
+    win_origin = window.get_window().get_origin()
+    x = screen_x - win_origin[0]
+    y = screen_y - win_origin[1]
+    pb = Gdk.pixbuf_get_from_window(window.get_window(), x, y, 1, 1)
+    if pb is None:
+        raise RuntimeError(f"Unable to sample notebook tab at {x},{y}")
+    raw = pb.get_pixels()
+    return tuple(raw[:3])
+
+
+def trace_tab_selection(window, notebook, labels, orientation):
+    """Trace selected-tab face colors before adding a visual assertion."""
+    if orientation != Gtk.PositionType.TOP:
+        return
+    for page in (0, 1, 2, 3):
+        notebook.set_current_page(page)
+        dispatch_events()
+        time.sleep(0.04)
+        dispatch_events()
+        colors = [tab_background_rgb(window, label) for label in labels]
+        print(f"TAB COLORS selected={page + 1}: {colors}", flush=True)
+
+
+
 def main():
     if not Gtk.init_check():
         raise SystemExit("GTK3 display unavailable")
@@ -112,6 +144,7 @@ def main():
             if not wait_for_page(notebook, selected):
                 failures.append(f"{orientation.value_nick}: click Tab {selected + 1} "
                                 f"left selected page {notebook.get_current_page() + 1}")
+        trace_tab_selection(win, notebook, labels, orientation)
         check_page_surface(win, notebook, orientation)
         print(f"Checked {orientation.value_nick} tab orientation")
     win.destroy()
