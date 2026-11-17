@@ -178,6 +178,23 @@ def main():
     win.show_all()
     dispatch_events()
 
+    if os.environ.get("GTK_THEME") == "Equinox-Light":
+        # Diagnostic-only override. Never written to the production CSS.
+        # An extreme color difference reveals whether GTK redraws the
+        # :checked node, independent of our gradients and page borders.
+        provider = Gtk.CssProvider()
+        provider.load_from_data(
+            b"notebook > header > tabs > tab { "
+            b"background-image: none; background-color: #00aa00; "
+            b"box-shadow: none; } "
+            b"notebook > header > tabs > tab:checked { "
+            b"background-image: none; background-color: #ff2222; "
+            b"box-shadow: inset 0 -4px #ff2222; }")
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(), provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        dispatch_events()
+
     failures = []
     for orientation in (Gtk.PositionType.TOP, Gtk.PositionType.BOTTOM,
                         Gtk.PositionType.LEFT, Gtk.PositionType.RIGHT):
