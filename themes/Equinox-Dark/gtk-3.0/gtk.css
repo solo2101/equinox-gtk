@@ -86,7 +86,10 @@
  * BORDERS: recessed tracks and small controls with identical rim colors.
  */
 button, combobox button, spinbutton button, .linked button, .titlebutton {
-  box-shadow: inset 0 1px @eqx_inner, 0 1px @eqx_outer;
+  /* GTK2 equinox_draw_button: raised fill, inner highlight, drop edge. */
+  box-shadow: inset 0 1px @eqx_inner,
+              inset 1px 0 alpha(@eqx_inner, 0.36),
+              0 1px @eqx_outer;
 }
 treeview header button, scale slider, switch slider,
 toolbar button:hover, .toolbar button:hover, .primary-toolbar button:hover {
@@ -108,6 +111,8 @@ treeview.view .progressbar, treeview .progressbar,
 treeview.view.progressbar, .progressbar {
   background-color: @theme_selected_bg_color;
   border: 1px solid @eqx_progBorder;
+  /* GTK2 draws a light rim on its blue fill. */
+  border-top-color: shade(@eqx_progBorder, 1.13);
 }
 /* Recessed controls share a 1px rim, with widget-specific border colors.
  * Trough depth and frame shadow variants stay in their respective rules. */
@@ -127,7 +132,8 @@ button:active, button:checked,
 toolbar button:active, toolbar button:checked,
 .toolbar button:active, .toolbar button:checked,
 .primary-toolbar button:active, .primary-toolbar button:checked {
-  box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
+  box-shadow: inset 0 1px alpha(@eqx_outer, 0.65),
+              inset 0 2px alpha(@eqx_outer, 0.12);
 }
 
 
@@ -537,7 +543,8 @@ progressbar progress {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   border-radius: 4px;
-  box-shadow: inset 0 1px rgba(255,255,255,0.22);
+  box-shadow: inset 0 1px rgba(255,255,255,0.22),
+              0 1px alpha(@eqx_outer, 0.20);
 }
 progressbar.vertical trough, progressbar.vertical progress { min-width: 14px; }
 progressbar.vertical progress {
