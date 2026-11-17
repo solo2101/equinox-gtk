@@ -872,6 +872,22 @@ paned > separator.vertical {
   min-width: 1px;
   min-height: 1px;
 }
+/* Caja's vertical sidebar divider uses a horizontal GtkPaned handle.
+ * Restore the original narrow dark/light groove without affecting
+ * other applications or the drag behavior. */
+.caja-navigation-window paned.horizontal > separator {
+  min-width: 3px;
+  background-color: transparent;
+  background-image: linear-gradient(to right,
+    alpha(@eqx_frameShade, 0.72) 0px,
+    alpha(@eqx_frameShade, 0.72) 1px,
+    alpha(@eqx_frameHighlight, 0.30) 1px,
+    alpha(@eqx_frameHighlight, 0.30) 2px,
+    transparent 2px);
+  background-size: 3px 100%;
+  background-repeat: no-repeat;
+}
+
 switch {
   color: @theme_fg_color;
   background-color: @eqx_trough;
