@@ -1,0 +1,37 @@
+name: Validate MATE Production Deployment
+
+on:
+  push:
+    branches: [main, production]
+    paths:
+      - 'scripts/deploy-mate.sh'
+      - '.github/workflows/deploy-mate.yml'
+  pull_request:
+    paths:
+      - 'scripts/deploy-mate.sh'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate bash deployment syntax
+        run: bash -n scripts/deploy-mate.sh
+      - name: Check deployment script keeps icon and desktop settings unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'org.mate.interface gtk-theme' scripts/deploy-mate.sh
+          grep -q 'org.mate.Marco.general theme' scripts/deploy-mate.sh
+          grep -q 'scripts/install-user-themes.sh' scripts/deploy-mate.sh
+          ! grep -qE 'gsettings set org.mate.interface icon-theme|gsettings set org.mate.panel' scripts/deploy-mate.sh
+      - name: Validate source files were included
+        run: |
+          test -f scripts/check-gtk3-css.py
+          test -f scripts/check-marco-theme.py
+          test -f themes/Equinox-Light/metacity-1/button_normal.png
+          test -f themes/Equinox-Dark/metacity-1/button_normal.png
