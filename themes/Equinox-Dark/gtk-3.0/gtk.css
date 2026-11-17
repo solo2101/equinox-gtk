@@ -296,6 +296,27 @@ iconview:selected, iconview:selected:focus {
   background-color: @theme_selected_bg_color;
 }
 
+/* Caja sidebar header: the Places selector is a flat toggle button in
+ * Caja, not a combo box. Match the older unobtrusive GTK2 appearance.
+ * Restrict this to the sidebar title row and retain menu interactions. */
+.caja-navigation-window .caja-side-pane > box.horizontal > button {
+  color: @theme_fg_color;
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 2px 4px;
+  min-height: 0;
+}
+.caja-navigation-window .caja-side-pane > box.horizontal > button:hover,
+.caja-navigation-window .caja-side-pane > box.horizontal > button:checked {
+  background-color: alpha(@eqx_tabBorder, 0.12);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
 /* Thin separators beneath Caja's Places header and breadcrumb bar.
  * Apply them to the pane contents, not the controls themselves, so
  * the line spans the full width without changing button geometry. */
