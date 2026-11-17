@@ -159,7 +159,7 @@ button, combobox button, spinbutton button, .linked button, .titlebutton {
   background-image: linear-gradient(to bottom,
     @eqx_top 0%, @eqx_midTop 49%,
     @eqx_midBottom 50%, @eqx_bottom 100%);
-  border: 1px solid @eqx_buttonBorder;
+  border: 1px solid alpha(@eqx_buttonBorder, 0.88);
   border-radius: 5px;
   padding: 5px 8px;
   min-width: 13px;
@@ -405,7 +405,7 @@ notebook > header > tabs > tab {
   color: @theme_fg_color;
   background-color: @eqx_tabBottom;
   background-image: linear-gradient(to bottom, @eqx_tabTop, @eqx_tabBottom);
-  border: 1px solid @eqx_tabBorder;
+  border: 1px solid alpha(@eqx_tabBorder, 0.82);
   border-radius: 5px 5px 0 0;
   box-shadow: inset 0 1px alpha(@eqx_inner, 0.65);
   margin: 0 1px 0 0;
@@ -422,8 +422,23 @@ notebook > header > tabs > tab:checked:hover {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
   background-image: none;
-  border-color: @eqx_tabBorder;
+  border-color: alpha(@eqx_tabBorder, 0.82);
   box-shadow: inset 0 1px alpha(@eqx_inner, 0.35);
+}
+/* Connect only the currently selected tab to the page background.
+ * No negative margins, tab-position selectors or layout changes.
+ * Keep orientation-specific rules AFTER the shared checked-state rule. */
+notebook > header.top > tabs > tab:checked {
+  border-bottom-color: @theme_bg_color;
+}
+notebook > header.bottom > tabs > tab:checked {
+  border-top-color: @theme_bg_color;
+}
+notebook > header.left > tabs > tab:checked {
+  border-right-color: @theme_bg_color;
+}
+notebook > header.right > tabs > tab:checked {
+  border-left-color: @theme_bg_color;
 }
 notebook > header.bottom > tabs > tab {
   border-radius: 0 0 5px 5px;
