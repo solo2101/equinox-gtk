@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Equinox Dark
+Comment=Classic Equinox dark controls and window borders
+
+[X-GNOME-Metatheme]
+GtkTheme=Equinox-Dark
+MetacityTheme=Equinox-Dark
+IconTheme=Papirus-Dark
+CursorTheme=Adwaita
