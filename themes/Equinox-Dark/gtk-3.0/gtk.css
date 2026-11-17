@@ -589,9 +589,13 @@ check, radio {
 }
 check { border-radius: 3px; }
 radio { border-radius: 100%; }
+/* All checked indicators use the same accent surface as selected switches.
+ * Geometry and glyph rendering remain widget-specific. */
+check:checked, check:indeterminate, radio:checked, switch:checked {
+  background-color: @theme_selected_bg_color;
+}
 check:checked, check:indeterminate, radio:checked {
   color: @theme_selected_fg_color;
-  background-color: @theme_selected_bg_color;
 }
 check:disabled, radio:disabled {
   color: @eqx_muted;
@@ -604,8 +608,13 @@ check:disabled, radio:disabled {
  * Its IN/OUT/ETCHED shadow values otherwise share one CSS node.
  * The default stays neutral; callers adding the optional
  * .eqx-shadow-* classes get the original four GTK2 fills. */
+/* Frame geometry is common to all shadow types, including etched variants.
+ * GTK3 does not expose GtkFrame::shadow-type as a distinct CSS state.
+ * Optional compatibility classes are still required for IN/OUT selection. */
 frame > border {
-  border: 1px solid alpha(@eqx_frameEdge, 0.84);
+  border-style: solid;
+  border-width: 1px;
+  border-color: alpha(@eqx_frameEdge, 0.84);
   border-radius: 3px;
   background-color: transparent;
   background-image: none;
@@ -705,11 +714,21 @@ switch {
   background-color: @eqx_trough;
   border-radius: 12px;
 }
-switch:checked { background-color: @theme_selected_bg_color; }
 switch slider {
   background-color: @eqx_scaleBottom;
   background-image: linear-gradient(to bottom, @eqx_scaleTop, @eqx_scaleBottom);
   border-radius: 100%;
+}
+/* Disabled range and switch widgets keep their shape, not active shine. */
+scale:disabled trough, scale:disabled slider,
+switch:disabled, switch:disabled slider, scrollbar:disabled slider {
+  background-image: none;
+  background-color: @eqx_disabledSurface;
+  border-color: @eqx_disabledBorder;
+  box-shadow: none;
+}
+switch:disabled, switch:disabled slider {
+  color: @eqx_muted;
 }
 tooltip, tooltip.background {
   color: @theme_fg_color;
