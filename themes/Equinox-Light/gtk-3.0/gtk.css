@@ -282,6 +282,20 @@ iconview:selected, iconview:selected:focus {
   background-color: @theme_selected_bg_color;
 }
 
+/* Caja Places sidebar: the classic layout has a softly tinted pane,
+ * separate from the white file canvas. Do not style other GTK views. */
+.caja-navigation-window .caja-side-pane,
+.caja-navigation-window .caja-side-pane > notebook scrolledwindow,
+.caja-navigation-window .caja-side-pane > notebook viewport.frame,
+.caja-navigation-window .caja-side-pane treeview.view:not(:selected) {
+  background-color: shade(@theme_base_color, 0.94);
+}
+.caja-navigation-window .caja-side-pane treeview.view:selected,
+.caja-navigation-window .caja-side-pane treeview.view:selected:focus {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
+
 treeview header button {
   border-radius: 0;
   padding: 2px 5px;
