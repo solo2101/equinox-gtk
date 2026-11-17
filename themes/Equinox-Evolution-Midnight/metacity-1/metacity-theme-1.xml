@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Equinox Evolution Midnight Marco theme.
+     Original Equinox 1.50 colors and bevels adapted to the Marco
+     Metacity v1 window-decoration format. GTK2 engine unchanged.
+     Generated markup is intentionally self-contained. -->
+<metacity_theme>
+  <info>
+    <name>Equinox-Evolution-Midnight</name>
+    <author>Equinox GTK modernization contributors</author>
+    <copyright>2026 Equinox GTK modernization contributors</copyright>
+    <date>2026-11-16</date>
+    <description>Equinox Evolution Midnight frame with original Equinox Evolution PNG titlebar buttons and states.</description>
+  </info>
+
+  <frame_geometry name="normal"
+      rounded_top_left="true" rounded_top_right="true"
+      rounded_bottom_left="false" rounded_bottom_right="false">
+    <distance name="left_width" value="1"/>
+    <distance name="right_width" value="1"/>
+    <distance name="bottom_height" value="1"/>
+    <distance name="left_titlebar_edge" value="8"/>
+    <distance name="right_titlebar_edge" value="8"/>
+    <distance name="button_width" value="18"/>
+    <distance name="button_height" value="18"/>
+    <distance name="title_vertical_pad" value="3"/>
+    <border name="title_border" left="7" right="7" top="2" bottom="2"/>
+    <border name="button_border" left="2" right="2" top="2" bottom="2"/>
+  </frame_geometry>
+  <frame_geometry name="maximized" parent="normal"
+      rounded_top_left="false" rounded_top_right="false">
+    <distance name="left_width" value="0"/>
+    <distance name="right_width" value="0"/>
+    <distance name="bottom_height" value="0"/>
+    <distance name="left_titlebar_edge" value="5"/>
+    <distance name="right_titlebar_edge" value="5"/>
+  </frame_geometry>
+  <frame_geometry name="border_only" has_title="false"
+      rounded_top_left="false" rounded_top_right="false">
+    <distance name="left_width" value="1"/>
+    <distance name="right_width" value="1"/>
+    <distance name="bottom_height" value="1"/>
+    <distance name="left_titlebar_edge" value="0"/>
+    <distance name="right_titlebar_edge" value="0"/>
+    <distance name="button_width" value="0"/>
+    <distance name="button_height" value="0"/>
+    <distance name="title_vertical_pad" value="0"/>
+    <border name="title_border" left="0" right="0" top="0" bottom="0"/>
+    <border name="button_border" left="0" right="0" top="0" bottom="0"/>
+  </frame_geometry>
+
+  <draw_ops name="blank"></draw_ops>
+  <draw_ops name="frame_focus">
+    <rectangle color="#777777" x="0" y="0" width="width - 1" height="height - 1" filled="false"/>
+  </draw_ops>
+  <draw_ops name="frame_unfocus">
+    <rectangle color="#a3a3a3" x="0" y="0" width="width - 1" height="height - 1" filled="false"/>
+  </draw_ops>
+  <!-- The top of a GTK application is one contiguous Equinox surface:
+       the Marco gradient reaches the GTK menubar's opening shade.
+       Do not draw a dark bottom stroke at the join. -->
+  <draw_ops name="titlebar_focus">
+    <gradient type="vertical" x="0" y="0" width="width" height="height">
+      <color value="#f0f0f0"/>
+      <color value="#e3e3e3"/>
+      <color value="#d8d8d8"/>
+    </gradient>
+    <line color="#f8f8f8" x1="2" y1="1" x2="width - 3" y2="1"/>
+  </draw_ops>
+  <draw_ops name="titlebar_unfocus">
+    <gradient type="vertical" x="0" y="0" width="width" height="height">
+      <color value="#e8e8e8"/>
+      <color value="#d8d8d8"/>
+    </gradient>
+  </draw_ops>
+  <draw_ops name="edge_left">
+    <rectangle color="#c8c8c8" x="0" y="0" width="width" height="height" filled="true"/>
+    <line color="#8f8f8f" x1="0" y1="0" x2="0" y2="height - 1"/>
+  </draw_ops>
+  <draw_ops name="edge_right">
+    <rectangle color="#c8c8c8" x="0" y="0" width="width" height="height" filled="true"/>
+    <line color="#8f8f8f" x1="width - 1" y1="0" x2="width - 1" y2="height - 1"/>
+  </draw_ops>
+  <draw_ops name="edge_bottom">
+    <rectangle color="#c8c8c8" x="0" y="0" width="width" height="height" filled="true"/>
+    <line color="#8f8f8f" x1="0" y1="height - 1" x2="width - 1" y2="height - 1"/>
+  </draw_ops>
+  <draw_ops name="title_focus">
+    <title color="#222222" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
+  </draw_ops>
+  <draw_ops name="title_unfocus">
+    <title color="#777777" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
+  </draw_ops>
+  <draw_ops name="icon_close">
+    <image filename="close.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_close_hover">
+    <image filename="close.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_minimize">
+    <image filename="min.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_maximize">
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_restore">
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_menu">
+    <image filename="menu.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_close_inactive">
+    <image filename="close_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_minimize_inactive">
+    <image filename="min_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_maximize_inactive">
+    <image filename="max_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_restore_inactive">
+    <image filename="max_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="icon_menu_inactive">
+    <image filename="menu_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_close_normal">
+    <image filename="button_normal.png" x="0" y="0" width="width" height="height"/>
+    <image filename="close.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_minimize_normal">
+    <image filename="button_normal.png" x="0" y="0" width="width" height="height"/>
+    <image filename="min.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_maximize_normal">
+    <image filename="button_normal.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_restore_normal">
+    <image filename="button_normal.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_menu_normal">
+    <image filename="button_normal.png" x="0" y="0" width="width" height="height"/>
+    <image filename="menu.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_close_prelight">
+    <image filename="button_prelight.png" x="0" y="0" width="width" height="height"/>
+    <image filename="close.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_minimize_prelight">
+    <image filename="button_prelight.png" x="0" y="0" width="width" height="height"/>
+    <image filename="min.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_maximize_prelight">
+    <image filename="button_prelight.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_restore_prelight">
+    <image filename="button_prelight.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_menu_prelight">
+    <image filename="button_prelight.png" x="0" y="0" width="width" height="height"/>
+    <image filename="menu.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_close_pressed">
+    <image filename="button_pressed.png" x="0" y="0" width="width" height="height"/>
+    <image filename="close.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_minimize_pressed">
+    <image filename="button_pressed.png" x="0" y="0" width="width" height="height"/>
+    <image filename="min.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_maximize_pressed">
+    <image filename="button_pressed.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_restore_pressed">
+    <image filename="button_pressed.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_menu_pressed">
+    <image filename="button_pressed.png" x="0" y="0" width="width" height="height"/>
+    <image filename="menu.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_close_unfocused">
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="close_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_minimize_unfocused">
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="min_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_maximize_unfocused">
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_restore_unfocused">
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="max_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <draw_ops name="button_menu_unfocused">
+    <image filename="button_inactive.png" x="0" y="0" width="width" height="height"/>
+    <image filename="menu_inactive.png" x="5" y="5" width="8" height="8"/>
+  </draw_ops>
+  <frame_style name="normal_focused" geometry="normal">
+    <piece position="entire_background" draw_ops="frame_focus"/>
+    <piece position="titlebar" draw_ops="titlebar_focus"/>
+    <piece position="left_edge" draw_ops="edge_left"/>
+    <piece position="right_edge" draw_ops="edge_right"/>
+    <piece position="bottom_edge" draw_ops="edge_bottom"/>
+    <piece position="title" draw_ops="title_focus"/>
+    <button function="menu" state="normal" draw_ops="button_menu_normal"/>
+    <button function="menu" state="prelight" draw_ops="button_menu_prelight"/>
+    <button function="menu" state="pressed" draw_ops="button_menu_pressed"/>
+    <button function="minimize" state="normal" draw_ops="button_minimize_normal"/>
+    <button function="minimize" state="prelight" draw_ops="button_minimize_prelight"/>
+    <button function="minimize" state="pressed" draw_ops="button_minimize_pressed"/>
+    <button function="maximize" state="normal" draw_ops="button_maximize_normal"/>
+    <button function="maximize" state="prelight" draw_ops="button_maximize_prelight"/>
+    <button function="maximize" state="pressed" draw_ops="button_maximize_pressed"/>
+    <button function="close" state="normal" draw_ops="button_close_normal"/>
+    <button function="close" state="prelight" draw_ops="button_close_prelight"/>
+    <button function="close" state="pressed" draw_ops="button_close_pressed"/>
+  </frame_style>
+  <frame_style name="normal_unfocused" geometry="normal">
+    <piece position="entire_background" draw_ops="frame_unfocus"/>
+    <piece position="titlebar" draw_ops="titlebar_unfocus"/>
+    <piece position="left_edge" draw_ops="edge_left"/>
+    <piece position="right_edge" draw_ops="edge_right"/>
+    <piece position="bottom_edge" draw_ops="edge_bottom"/>
+    <piece position="title" draw_ops="title_unfocus"/>
+    <button function="menu" state="normal" draw_ops="button_menu_unfocused"/>
+    <button function="menu" state="prelight" draw_ops="button_menu_prelight"/>
+    <button function="menu" state="pressed" draw_ops="button_menu_pressed"/>
+    <button function="minimize" state="normal" draw_ops="button_minimize_unfocused"/>
+    <button function="minimize" state="prelight" draw_ops="button_minimize_prelight"/>
+    <button function="minimize" state="pressed" draw_ops="button_minimize_pressed"/>
+    <button function="maximize" state="normal" draw_ops="button_maximize_unfocused"/>
+    <button function="maximize" state="prelight" draw_ops="button_maximize_prelight"/>
+    <button function="maximize" state="pressed" draw_ops="button_maximize_pressed"/>
+    <button function="close" state="normal" draw_ops="button_close_unfocused"/>
+    <button function="close" state="prelight" draw_ops="button_close_prelight"/>
+    <button function="close" state="pressed" draw_ops="button_close_pressed"/>
+  </frame_style>
+  <frame_style name="maximized_focused" geometry="maximized">
+    <piece position="entire_background" draw_ops="frame_focus"/>
+    <piece position="titlebar" draw_ops="titlebar_focus"/>
+    <piece position="title" draw_ops="title_focus"/>
+    <button function="menu" state="normal" draw_ops="button_menu_normal"/>
+    <button function="menu" state="prelight" draw_ops="button_menu_prelight"/>
+    <button function="menu" state="pressed" draw_ops="button_menu_pressed"/>
+    <button function="minimize" state="normal" draw_ops="button_minimize_normal"/>
+    <button function="minimize" state="prelight" draw_ops="button_minimize_prelight"/>
+    <button function="minimize" state="pressed" draw_ops="button_minimize_pressed"/>
+    <button function="maximize" state="normal" draw_ops="button_restore_normal"/>
+    <button function="maximize" state="prelight" draw_ops="button_restore_prelight"/>
+    <button function="maximize" state="pressed" draw_ops="button_restore_pressed"/>
+    <button function="close" state="normal" draw_ops="button_close_normal"/>
+    <button function="close" state="prelight" draw_ops="button_close_prelight"/>
+    <button function="close" state="pressed" draw_ops="button_close_pressed"/>
+  </frame_style>
+  <frame_style name="maximized_unfocused" geometry="maximized">
+    <piece position="entire_background" draw_ops="frame_unfocus"/>
+    <piece position="titlebar" draw_ops="titlebar_unfocus"/>
+    <piece position="title" draw_ops="title_unfocus"/>
+    <button function="menu" state="normal" draw_ops="button_menu_unfocused"/>
+    <button function="menu" state="prelight" draw_ops="button_menu_prelight"/>
+    <button function="menu" state="pressed" draw_ops="button_menu_pressed"/>
+    <button function="minimize" state="normal" draw_ops="button_minimize_unfocused"/>
+    <button function="minimize" state="prelight" draw_ops="button_minimize_prelight"/>
+    <button function="minimize" state="pressed" draw_ops="button_minimize_pressed"/>
+    <button function="maximize" state="normal" draw_ops="button_restore_unfocused"/>
+    <button function="maximize" state="prelight" draw_ops="button_restore_prelight"/>
+    <button function="maximize" state="pressed" draw_ops="button_restore_pressed"/>
+    <button function="close" state="normal" draw_ops="button_close_unfocused"/>
+    <button function="close" state="prelight" draw_ops="button_close_prelight"/>
+    <button function="close" state="pressed" draw_ops="button_close_pressed"/>
+  </frame_style>
+  <frame_style name="border_only" geometry="border_only">
+    <piece position="entire_background" draw_ops="frame_unfocus"/>
+    <piece position="left_edge" draw_ops="edge_left"/>
+    <piece position="right_edge" draw_ops="edge_right"/>
+    <piece position="bottom_edge" draw_ops="edge_bottom"/>
+    <!-- Marco requires button drawing slots even when has_title="false".
+         No-op operations keep border-only windows free of button artwork. -->
+    <button function="close" state="normal" draw_ops="blank"/>
+    <button function="close" state="prelight" draw_ops="blank"/>
+    <button function="close" state="pressed" draw_ops="blank"/>
+    <button function="maximize" state="normal" draw_ops="blank"/>
+    <button function="maximize" state="prelight" draw_ops="blank"/>
+    <button function="maximize" state="pressed" draw_ops="blank"/>
+    <button function="minimize" state="normal" draw_ops="blank"/>
+    <button function="minimize" state="prelight" draw_ops="blank"/>
+    <button function="minimize" state="pressed" draw_ops="blank"/>
+    <button function="menu" state="normal" draw_ops="blank"/>
+    <button function="menu" state="prelight" draw_ops="blank"/>
+    <button function="menu" state="pressed" draw_ops="blank"/>
+  </frame_style>
+  <frame_style_set name="normal">
+    <frame focus="yes" state="normal" resize="both" style="normal_focused"/>
+    <frame focus="no" state="normal" resize="both" style="normal_unfocused"/>
+    <frame focus="yes" state="maximized" style="maximized_focused"/>
+    <frame focus="no" state="maximized" style="maximized_unfocused"/>
+    <frame focus="yes" state="shaded" style="normal_focused"/>
+    <frame focus="no" state="shaded" style="normal_unfocused"/>
+    <frame focus="yes" state="maximized_and_shaded" style="maximized_focused"/>
+    <frame focus="no" state="maximized_and_shaded" style="maximized_unfocused"/>
+  </frame_style_set>
+  <frame_style_set name="border">
+    <frame focus="yes" state="normal" resize="both" style="border_only"/>
+    <frame focus="no" state="normal" resize="both" style="border_only"/>
+    <frame focus="yes" state="maximized" style="border_only"/>
+    <frame focus="no" state="maximized" style="border_only"/>
+    <frame focus="yes" state="shaded" style="border_only"/>
+    <frame focus="no" state="shaded" style="border_only"/>
+    <frame focus="yes" state="maximized_and_shaded" style="border_only"/>
+    <frame focus="no" state="maximized_and_shaded" style="border_only"/>
+  </frame_style_set>
+  <window type="normal" style_set="normal"/>
+  <window type="dialog" style_set="normal"/>
+  <window type="modal_dialog" style_set="normal"/>
+  <window type="menu" style_set="normal"/>
+  <window type="utility" style_set="normal"/>
+  <window type="border" style_set="border"/>
+  <menu_icon function="close" state="normal" draw_ops="icon_close"/>
+  <menu_icon function="minimize" state="normal" draw_ops="icon_minimize"/>
+  <menu_icon function="maximize" state="normal" draw_ops="icon_maximize"/>
+  <menu_icon function="unmaximize" state="normal" draw_ops="icon_restore"/>
+</metacity_theme>

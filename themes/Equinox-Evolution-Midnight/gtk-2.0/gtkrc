@@ -1,0 +1,51 @@
+# Equinox Evolution Midnight, GTK2 controls theme for the original Equinox 1.50 engine.
+# Copyright of the original engine belongs to its original authors.
+gtk-color-scheme = "fg_color:#dddddd\nbg_color:#494949\nbase_color:#353535\ntext_color:#dddddd\nselected_bg_color:#626262\nselected_fg_color:#ffffff"
+
+style "equinox-evolution-midnight" {
+  xthickness = 2
+  ythickness = 2
+
+  fg[NORMAL] = "#dddddd"
+  fg[ACTIVE] = "#ffffff"
+  fg[PRELIGHT] = "#ffffff"
+  fg[SELECTED] = "#ffffff"
+  fg[INSENSITIVE] = "#999999"
+
+  bg[NORMAL] = "#494949"
+  bg[ACTIVE] = "#3b3b3b"
+  bg[PRELIGHT] = "#606060"
+  bg[SELECTED] = "#626262"
+  bg[INSENSITIVE] = "#494949"
+
+  base[NORMAL] = "#353535"
+  base[ACTIVE] = "#414141"
+  base[PRELIGHT] = "#515151"
+  base[SELECTED] = "#626262"
+  base[INSENSITIVE] = "#414141"
+
+  text[NORMAL] = "#dddddd"
+  text[ACTIVE] = "#ffffff"
+  text[PRELIGHT] = "#ffffff"
+  text[SELECTED] = "#ffffff"
+  text[INSENSITIVE] = "#999999"
+
+  engine "equinox" {
+    contrast = 1.0
+    curvature = 5.0
+    menubarstyle = 1
+    menubarborders = 1
+    toolbarstyle = 1
+    buttonstyle = 0
+    menuitemstyle = 0
+    scrollbarstyle = 1
+    scrollbartrough = 0
+    scalesliderstyle = 0
+    checkradiostyle = 0
+    progressbarstyle = 0
+    separatorstyle = 1
+    animation = TRUE
+  }
+}
+
+class "*" style "equinox-evolution-midnight"

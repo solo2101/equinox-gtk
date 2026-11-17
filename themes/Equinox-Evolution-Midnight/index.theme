@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Equinox Evolution Midnight
+Comment=Classic Equinox Evolution Midnight charcoal controls and window borders
+
+[X-GNOME-Metatheme]
+GtkTheme=Equinox-Evolution-Midnight
+MetacityTheme=Equinox-Evolution-Midnight
+IconTheme=Delft-Darkest
+CursorTheme=Adwaita

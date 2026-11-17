@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Open two independent A Widget Factory windows, GTK2 and GTK3.
-# Usage: bash scripts/compare-gtk2-gtk3.sh [light|dark]
+# Usage: bash scripts/compare-gtk2-gtk3.sh [light|dark|midnight]
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -8,7 +8,8 @@ variant="${1:-${GTK_THEME:-light}}"
 case "${variant,,}" in
   light|equinox-light) theme="Equinox-Light" ;;
   dark|equinox-dark) theme="Equinox-Dark" ;;
-  *) echo "Usage: $0 [light|dark]" >&2; exit 2 ;;
+  midnight|equinox-evolution-midnight) theme="Equinox-Evolution-Midnight" ;;
+  *) echo "Usage: $0 [light|dark|midnight]" >&2; exit 2 ;;
 esac
 
 for app in awf-gtk2 awf-gtk3; do

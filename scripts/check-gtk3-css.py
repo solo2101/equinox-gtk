@@ -23,7 +23,7 @@ def main() -> int:
     paths = ([pathlib.Path(p).resolve() for p in sys.argv[1:]]
              if len(sys.argv) > 1 else [
                  root / "themes" / name / "gtk-3.0" / "gtk.css"
-                 for name in ("Equinox-Light", "Equinox-Dark")
+                 for name in ("Equinox-Light", "Equinox-Dark", "Equinox-Evolution-Midnight")
              ])
     try:
         gtk = ctypes.CDLL("libgtk-3.so.0")
