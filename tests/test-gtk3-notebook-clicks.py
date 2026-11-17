@@ -88,12 +88,12 @@ def check_page_surface(window, notebook, orientation):
 
 
 def tab_background_rgb(window, tab_label):
-    """Sample the tab face just above its label, avoiding letter pixels."""
+    """Sample the tab face to the left of its label, avoiding text and top border."""
     backing = tab_label.get_window()
     origin = backing.get_origin()
     rect = tab_label.get_allocation()
-    screen_x = origin[0] + rect.x + rect.width // 2
-    screen_y = origin[1] + rect.y - 4
+    screen_x = origin[0] + rect.x - 4
+    screen_y = origin[1] + rect.y + rect.height // 2
     win_origin = window.get_window().get_origin()
     x = screen_x - win_origin[0]
     y = screen_y - win_origin[1]
