@@ -41,7 +41,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for theme in Equinox-Light Equinox-Dark Adwaita Equinox-Notebook-Baseline; do
+          echo "Diagnostic Equinox tab selection with high-contrast user CSS..."
+          xvfb-run -a env GTK_THEME=Equinox-Light EQUINOX_DIAGNOSTIC=high-contrast \
+            /usr/bin/python3 tests/test-gtk3-notebook-clicks.py
+          for theme in Adwaita Equinox-Light Equinox-Dark Equinox-Notebook-Baseline; do
             echo "Testing $theme tab click handling..."
             xvfb-run -a env GTK_THEME="$theme" \
               /usr/bin/python3 tests/test-gtk3-notebook-clicks.py
