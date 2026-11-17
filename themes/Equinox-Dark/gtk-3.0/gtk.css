@@ -267,6 +267,21 @@ iconview:selected, iconview:selected:focus {
   color: @theme_selected_fg_color;
   background-color: @theme_selected_bg_color;
 }
+/* Caja file canvas uses a custom view inside its notebook.
+ * Scope the light/dark base colors here, not to generic .view, so
+ * popup menus and their labels keep their original styling. */
+.caja-navigation-window .caja-notebook .view,
+.caja-navigation-window .caja-notebook .view text {
+  color: @theme_text_color;
+  background-color: @theme_base_color;
+}
+.caja-navigation-window .caja-notebook .view:selected,
+.caja-navigation-window .caja-notebook .view:selected:focus,
+.caja-navigation-window .caja-notebook .view text:selected {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
+
 treeview header button {
   border-radius: 0;
   padding: 2px 5px;
