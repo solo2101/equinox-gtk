@@ -77,7 +77,7 @@
 
 * { -gtk-icon-shadow: none; }
 
-/* Shared Equinox bevels and borders (phase 1).
+/* Shared Equinox effects: raised, recessed, handles and progress fills.
  * Keep light/dark colors in the palette. Widget geometry and state-specific
  * overrides stay with their widgets. Define shared effects before overrides.
  *
@@ -101,10 +101,12 @@ scale slider, switch slider {
   background-image: linear-gradient(to bottom, @eqx_scaleTop, @eqx_scaleBottom);
   border-radius: 100%;
 }
-/* Full progress bars and cell-renderer progress share the same edge color. */
+/* Shared progress fill foundation. GTK3 progress widgets and tree cell
+ * renderers require different gradient stripe widths and geometry. */
 progressbar progress,
 treeview.view .progressbar, treeview .progressbar,
 treeview.view.progressbar, .progressbar {
+  background-color: @theme_selected_bg_color;
   border: 1px solid @eqx_progBorder;
 }
 /* Recessed controls share a 1px rim, with widget-specific border colors.
@@ -161,6 +163,8 @@ button:hover {
   background-image: linear-gradient(to bottom,
     @eqx_hoverTop, @eqx_hoverBottom);
 }
+/* Shared pressed fill. Toolbar buttons inherit this value while retaining
+ * their simpler two-stop gradient and border overrides. */
 button:active, button:checked, combobox button:active,
 spinbutton button:active {
   background-color: @eqx_activeBottom;
@@ -307,7 +311,8 @@ headerbar, .titlebar {
     @eqx_menuTop, @eqx_toolbarBottom);
   border-color: @eqx_border;
 }
-/* The original GTK2 Equinox toolbar paints its background as one strip.
+/* Toolbar geometry and state-specific gradient overlays.
+ * The original GTK2 Equinox toolbar paints its background as one strip.
  * Idle toolbar icon buttons are transparent. Borders show only for interaction.
  * Headerbar controls remain normal push buttons because GTK3 adds CSD. */
 toolbar button, .toolbar button, .primary-toolbar button {
@@ -328,7 +333,6 @@ toolbar button:hover, .toolbar button:hover, .primary-toolbar button:hover {
 toolbar button:active, toolbar button:checked,
 .toolbar button:active, .toolbar button:checked,
 .primary-toolbar button:active, .primary-toolbar button:checked {
-  background-color: @eqx_activeBottom;
   background-image: linear-gradient(to bottom, @eqx_activeTop, @eqx_activeBottom);
   border-color: @eqx_buttonBorder;
 }
@@ -455,7 +459,8 @@ notebook > header > tabs > tab button:hover {
   background-color: alpha(@theme_fg_color, 0.12);
 }
 
-/* Slim scale geometry and separators from GTK2 references. */
+/* Ranges: shared recessed track paint followed by individual slider
+ * dimensions and GTK2-oriented progress animations. */
 scale { padding: 3px; }
 scale trough, progressbar trough, levelbar trough {
   background-color: @eqx_trough;
@@ -497,7 +502,6 @@ progressbar trough {
 progressbar progress {
   min-height: 12px;
   min-width: 12px;
-  background-color: @theme_selected_bg_color;
   background-image:
     repeating-linear-gradient(135deg,
       rgba(255,255,255,0.16) 0px,
@@ -546,7 +550,6 @@ treeview.view.trough, .trough {
 }
 treeview.view .progressbar, treeview .progressbar,
 treeview.view.progressbar, .progressbar {
-  background-color: @theme_selected_bg_color;
   background-image:
     repeating-linear-gradient(135deg,
       rgba(255,255,255,0.16) 0px,
