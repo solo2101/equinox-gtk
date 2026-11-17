@@ -104,6 +104,43 @@ def tab_background_rgb(window, tab_label):
     return tuple(raw[:3])
 
 
+
+def check_selected_tab_paint(window, notebook, labels, orientation):
+    """Check selected tab paint moves, not only the notebook page.
+
+    Measure the same tab while inactive and then selected. A persistent
+    highlight on the first tab should fail on every tab orientation.
+    """
+    theme = os.environ.get("GTK_THEME", "")
+    if theme not in ("Equinox-Light", "Equinox-Dark"):
+        return
+    samples = []
+    for selected in (0, 1):
+        click_tab(labels[selected])
+        if not wait_for_page(notebook, selected):
+            raise AssertionError(
+                f"{orientation.value_nick}: click failed for paint test")
+        # Let the GTK frame clock paint before sampling pixels.
+        loop = GLib.MainLoop()
+        GLib.timeout_add(160, loop.quit)
+        loop.run()
+        dispatch_events()
+        tab_colors = [tab_background_rgb(window, label)
+                      for label in labels[:2]]
+        samples.append(tab_colors)
+    for tab in (0, 1):
+        inactive = samples[1 - tab][tab]
+        active = samples[tab][tab]
+        delta = max(abs(active[i] - inactive[i]) for i in range(3))
+        if delta < 8:
+            raise AssertionError(
+                f"{theme} {orientation.value_nick} tab {tab + 1}: "
+                f"paint unchanged when selection moved: "
+                f"active={active}, inactive={inactive}")
+    print(f"PASS: {theme} {orientation.value_nick} selected tab paint "
+          f"follows clicks: {samples}", flush=True)
+
+
 def trace_tab_selection(window, notebook, labels, orientation):
     """Trace selected-tab face colors before adding a visual assertion."""
     if orientation != Gtk.PositionType.TOP:
@@ -212,6 +249,7 @@ def main():
                                 f"left selected page {notebook.get_current_page() + 1}")
         trace_tab_selection(win, notebook, labels, orientation)
         if os.environ.get("EQUINOX_DIAGNOSTIC") != "high-contrast":
+            check_selected_tab_paint(win, notebook, labels, orientation)
             check_page_surface(win, notebook, orientation)
         print(f"Checked {orientation.value_nick} tab orientation")
     win.destroy()
