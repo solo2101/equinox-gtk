@@ -7,6 +7,7 @@ Run with a virtual X display and xdotool:
 Uses real X11 mouse clicks, not gtk_notebook_set_current_page().
 """
 import os
+import base64
 import subprocess
 import sys
 import time
@@ -123,6 +124,15 @@ def trace_tab_selection(window, notebook, labels, orientation):
         dispatch_events()
         colors = [tab_background_rgb(window, label) for label in labels]
         print(f"TAB COLORS selected={page + 1}: {colors}", flush=True)
+        if (os.environ.get("GTK_THEME") == "Equinox-Light"
+                and page in (0, 1)):
+            capture = Gdk.pixbuf_get_from_window(
+                window.get_window(), 0, 0, 260, 86)
+            target = f"/tmp/equinox-tab-state-{page + 1}.png"
+            capture.savev(target, "png", [], [])
+            with open(target, "rb") as screenshot_file:
+                encoded = base64.b64encode(screenshot_file.read()).decode("ascii")
+            print(f"TAB_SCREENSHOT page={page + 1} base64={encoded}", flush=True)
         if page in (0, 1):
             from gi.repository import Gdk
             pix = Gdk.pixbuf_get_from_window(window.get_window(), 0, 0,
