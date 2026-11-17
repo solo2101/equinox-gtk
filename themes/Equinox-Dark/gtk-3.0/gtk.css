@@ -95,6 +95,26 @@ toolbar button:hover, .toolbar button:hover, .primary-toolbar button:hover {
 scrollbar slider, check, radio, switch, switch slider {
   border: 1px solid @eqx_border;
 }
+/* Recessed controls share a 1px rim, with widget-specific border colors.
+ * Trough depth and frame shadow variants stay in their respective rules. */
+entry, scale trough, progressbar trough, levelbar trough,
+switch, check, radio, treeview.view .trough, treeview .trough,
+treeview.view.trough, .trough {
+  border-style: solid;
+  border-width: 1px;
+}
+/* Subtle inset shade for small wells. Inactive controls keep their recessed
+ * identity; disabled indicators suppress this bevel below. */
+scale trough, levelbar trough, switch, check, radio {
+  box-shadow: inset 0 1px alpha(@eqx_entryShadow, 0.45);
+}
+/* One pressed/checked inset treatment for buttons, including toolbars. */
+button:active, button:checked,
+toolbar button:active, toolbar button:checked,
+.toolbar button:active, .toolbar button:checked,
+.primary-toolbar button:active, .primary-toolbar button:checked {
+  box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
+}
 
 
 window, dialog, .background {
@@ -134,7 +154,6 @@ spinbutton button:active {
   background-color: @eqx_activeBottom;
   background-image: linear-gradient(to bottom,
     @eqx_activeTop 0%, @eqx_activeMid 50%, @eqx_activeBottom 100%);
-  box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
 }
 button:focus { border-color: @theme_selected_bg_color; }
 button:disabled, combobox button:disabled, spinbutton button:disabled {
@@ -197,7 +216,7 @@ entry, textview text {
 }
 entry {
   caret-color: @theme_fg_color;
-  border: 1px solid @eqx_entryBorder;
+  border-color: @eqx_entryBorder;
   border-radius: 5px;
   box-shadow: inset 0 1px @eqx_entryShadow, 0 1px alpha(@eqx_inner, 0.35);
   min-height: 19px;
@@ -297,7 +316,6 @@ toolbar button:active, toolbar button:checked,
   background-color: @eqx_activeBottom;
   background-image: linear-gradient(to bottom, @eqx_activeTop, @eqx_activeBottom);
   border-color: @eqx_buttonBorder;
-  box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
 }
 toolbar button:disabled, .toolbar button:disabled, .primary-toolbar button:disabled {
   background-color: transparent;
@@ -426,7 +444,7 @@ notebook > header > tabs > tab button:hover {
 scale { padding: 3px; }
 scale trough, progressbar trough, levelbar trough {
   background-color: @eqx_trough;
-  border: 1px solid @eqx_border;
+  border-color: @eqx_border;
   border-radius: 4px;
 }
 scale trough { min-width: 4px; min-height: 4px; }
@@ -460,7 +478,7 @@ progressbar trough {
   background-color: @eqx_progTroughBottom;
   background-image: linear-gradient(to bottom,
     @eqx_progTroughTop 0%, @eqx_progTroughTop 30%, @eqx_progTroughBottom 100%);
-  border: 1px solid @eqx_frameBorder;
+  border-color: @eqx_frameBorder;
   border-radius: 5px;
   box-shadow: inset 0 1px alpha(@eqx_inner, 0.75),
               inset 0 2px alpha(@eqx_outer, 0.28);
@@ -512,7 +530,7 @@ treeview.view.trough, .trough {
   background-color: @eqx_progTroughBottom;
   background-image: linear-gradient(to bottom,
     @eqx_progTroughTop, @eqx_progTroughBottom);
-  border: 1px solid @eqx_frameBorder;
+  border-color: @eqx_frameBorder;
   border-radius: 3px;
   box-shadow: inset 0 1px alpha(@eqx_inner, 0.60);
 }
@@ -579,6 +597,7 @@ check:disabled, radio:disabled {
   color: @eqx_muted;
   background-color: @eqx_disabledBase;
   border-color: @eqx_disabledBorder;
+  box-shadow: none;
 }
 /* GTK2 Equinox frame parity.
  * GTK3 GtkFrame only exposes border.flat for shadow type NONE.
