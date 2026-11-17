@@ -13,7 +13,7 @@ import time
 
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, Gtk, GLib
 
 
 def dispatch_events():
@@ -116,7 +116,10 @@ def trace_tab_selection(window, notebook, labels, orientation):
         notebook.set_current_page(page)
         notebook.queue_draw()  # Diagnose whether explicit repaint updates tab faces.
         dispatch_events()
-        time.sleep(0.04)
+        # A real GLib main loop is needed for GTK's frame clock to draw.
+        loop = GLib.MainLoop()
+        GLib.timeout_add(130, loop.quit)
+        loop.run()
         dispatch_events()
         colors = [tab_background_rgb(window, label) for label in labels]
         print(f"TAB COLORS selected={page + 1}: {colors}", flush=True)
