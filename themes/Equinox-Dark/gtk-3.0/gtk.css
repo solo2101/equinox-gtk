@@ -296,6 +296,16 @@ iconview:selected, iconview:selected:focus {
   background-color: @theme_selected_bg_color;
 }
 
+/* Thin separators beneath Caja's Places header and breadcrumb bar.
+ * Apply them to the pane contents, not the controls themselves, so
+ * the line spans the full width without changing button geometry. */
+.caja-navigation-window .caja-side-pane > notebook scrolledwindow.frame {
+  border-top: 1px solid @eqx_frameEdge;
+}
+.caja-navigation-window .caja-notebook > stack {
+  border-top: 1px solid @eqx_frameEdge;
+}
+
 /* Caja bottom statusbar: a clear two-tone separator matches the GTK2
  * file-window footer while retaining the native GTK3 statusbar layout. */
 .caja-navigation-window statusbar {
