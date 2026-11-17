@@ -387,7 +387,14 @@ notebook {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
 }
+/* Put the frame on the page stack, not on the whole notebook.
+ * The notebook root contains the header, which otherwise gets a border
+ * above the tabs. This retains tab order, size and click handling. */
 notebook.frame {
+  border: 0;
+  border-radius: 0;
+}
+notebook.frame > stack {
   border: 1px solid @eqx_frameBorder;
   border-radius: 4px;
 }
