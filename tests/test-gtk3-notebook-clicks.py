@@ -147,7 +147,8 @@ def trace_tab_selection(window, notebook, labels, orientation):
         if page in (0, 1):
             print(f"CSS TREE selected={page + 1}:\\n" +
                   notebook.get_style_context().to_string(
-                      Gtk.StyleContextPrintFlags.RECURSE), flush=True)
+                      Gtk.StyleContextPrintFlags.RECURSE |
+                      Gtk.StyleContextPrintFlags.SHOW_STYLE)[:14000], flush=True)
 
 
 
