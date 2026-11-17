@@ -317,62 +317,22 @@ menubar > menuitem:hover, menubar > menuitem:selected {
   background-color: @theme_selected_bg_color;
 }
 
-/* GTK2 Equinox notebook page: sampled Fedora 14 at ~#e8e8e8
- * against theme normal background #d7d7d7. Use a relative shade
- * so dark and light variants remain coherent. */
-@define-color eqx_notebookPage shade(@theme_bg_color, 1.08);
-
-/* GTK2 notebook parity: the page owns its border, never the tab strip.
- * An outer notebook.frame border outlines the header and creates the
- * extraneous box visible in AWF GTK3. Keep the original inactive gradient
- * and blend the selected tab into the page surface. */
-notebook {
-  color: @theme_fg_color;
-  background-color: @theme_bg_color;
-}
+/* GTK2 tab curves and shaded inactive tabs, using native GTK3 CSS nodes.
+ * The checked tab overlaps the page edge by one pixel to make a joined tab.
+ */
+notebook { color: @theme_fg_color; background-color: @theme_bg_color; }
 notebook.frame {
-  /* The notebook owns its outer allocation. A transparent top edge keeps
-   * the GTK2 flush tabs while preserving GTK3's native tab repaint path. */
   border: 1px solid @eqx_frameBorder;
-  border-top-width: 0;
-  border-radius: 3px;
-  box-shadow: none;
+  border-radius: 4px;
 }
-notebook > header,
-notebook > header.top,
-notebook > header.bottom,
-notebook > header.left,
-notebook > header.right {
-  background-color: transparent;
+notebook > header {
+  background-color: @theme_bg_color;
   background-image: none;
   border: none;
-  border-radius: 0;
-  box-shadow: none;
   margin: 0;
   padding: 0;
 }
-notebook > header > tabs {
-  margin: 0;
-  padding: 0;
-  border: none;
-  box-shadow: none;
-}
-/* GtkNotebook's stack CSS node paints the page frame in all four
- * orientations. This does not reposition tabs or overlap their click area:
- * GTK3 keeps ownership of page switching and input. In the original GTK2
- * Equinox renderer the page border is visible, with tabs above/beside it. */
-notebook.frame > stack {
-  background-color: @eqx_notebookPage;
-  background-image: none;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-/* Keep the notebook page frame, not an extra box around the whole tab bar. */
-notebook.frame > header {
-  border: 0;
-  box-shadow: none;
-}
+notebook > header > tabs { margin: 0; padding: 0; }
 notebook > header > tabs > tab {
   color: @theme_fg_color;
   background-color: @eqx_tabBottom;
@@ -380,30 +340,21 @@ notebook > header > tabs > tab {
     @eqx_tabSheen 0%, @eqx_tabTop 10%,
     @eqx_tabMid 52%, @eqx_tabBottom 100%);
   border: 1px solid @eqx_tabBorder;
-  border-radius: 3px 3px 0 0;
-  box-shadow: inset 0 1px alpha(@eqx_tabSheen, 0.55);
+  border-radius: 5px 5px 0 0;
+  box-shadow: inset 0 1px alpha(@eqx_tabSheen, 0.70);
   padding: 4px 8px;
   margin: 0 1px 0 0;
   min-height: 17px;
 }
 notebook > header > tabs > tab:checked {
   color: @theme_fg_color;
-  background-color: @eqx_notebookPage;
+  background-color: @theme_bg_color;
   background-image: none;
-  /* GTK3 repaints the checked tab's active marker reliably. We preserve
-   * the GTK2 page-color fill and use a narrow selected-state indicator. */
-  box-shadow: inset 0 -3px @theme_selected_bg_color,
-              inset 0 1px alpha(@eqx_inner, 0.3);
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.3);
 }
 notebook > header.top > tabs > tab:checked {
-  border-bottom-color: @eqx_notebookPage;
-  margin-bottom: 0;
-}
-notebook > header.top > tabs {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border: none;
-  box-shadow: none;
+  border-bottom-color: @theme_bg_color;
+  margin-bottom: -1px;
 }
 notebook > header.bottom > tabs > tab {
   border-radius: 0 0 5px 5px;
@@ -413,8 +364,8 @@ notebook > header.bottom > tabs > tab {
 }
 notebook > header.bottom > tabs > tab:checked {
   background-image: none;
-  border-top-color: @eqx_notebookPage;
-  margin-top: 0;
+  border-top-color: @theme_bg_color;
+  margin-top: -1px;
 }
 notebook > header.left > tabs > tab {
   border-radius: 5px 0 0 5px;
@@ -424,8 +375,8 @@ notebook > header.left > tabs > tab {
 }
 notebook > header.left > tabs > tab:checked {
   background-image: none;
-  border-right-color: @eqx_notebookPage;
-  margin-right: 0;
+  border-right-color: @theme_bg_color;
+  margin-right: -1px;
 }
 notebook > header.right > tabs > tab {
   border-radius: 0 5px 5px 0;
@@ -435,8 +386,8 @@ notebook > header.right > tabs > tab {
 }
 notebook > header.right > tabs > tab:checked {
   background-image: none;
-  border-left-color: @eqx_notebookPage;
-  margin-left: 0;
+  border-left-color: @theme_bg_color;
+  margin-left: -1px;
 }
 notebook > header > tabs > tab label {
   color: @theme_fg_color;
