@@ -124,7 +124,7 @@ def trace_tab_selection(window, notebook, labels, orientation):
         dispatch_events()
         colors = [tab_background_rgb(window, label) for label in labels]
         print(f"TAB COLORS selected={page + 1}: {colors}", flush=True)
-        if (os.environ.get("GTK_THEME") in ("Equinox-Light", "Adwaita")
+        if (os.environ.get("GTK_THEME") in ("Equinox-Light", "Adwaita", "Equinox-Notebook-Baseline")
                 and page in (0, 1)):
             capture = Gdk.pixbuf_get_from_window(
                 window.get_window(), 0, 0, 260, 86)
@@ -178,7 +178,7 @@ def main():
     win.show_all()
     dispatch_events()
 
-    if os.environ.get("GTK_THEME") in ("Equinox-Light", "Adwaita"):
+    if os.environ.get("GTK_THEME") in ("Equinox-Light", "Adwaita", "Equinox-Notebook-Baseline"):
         # Diagnostic-only override. Never written to the production CSS.
         # An extreme color difference reveals whether GTK redraws the
         # :checked node, independent of our gradients and page borders.
