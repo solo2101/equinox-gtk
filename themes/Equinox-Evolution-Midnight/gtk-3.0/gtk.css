@@ -288,16 +288,10 @@ iconview:selected, iconview:selected:focus {
   background-color: @theme_bg_color;
   background-image: none;
 }
-/* Classic Midnight sidebar is darker than the main widget surface. */
 .caja-navigation-window .caja-side-pane > notebook scrolledwindow,
 .caja-navigation-window .caja-side-pane > notebook viewport.frame,
 .caja-navigation-window .caja-side-pane treeview.view:not(:selected) {
   background-color: #353535;
-}
-.caja-navigation-window .caja-side-pane > notebook scrolledwindow,
-.caja-navigation-window .caja-side-pane > notebook viewport.frame,
-.caja-navigation-window .caja-side-pane treeview.view:not(:selected) {
-  background-color: shade(@theme_bg_color, 0.92);
 }
 .caja-navigation-window .caja-side-pane treeview.view:selected,
 .caja-navigation-window .caja-side-pane treeview.view:selected:focus {
