@@ -392,7 +392,10 @@ notebook > header > tabs > tab:checked {
   color: @theme_fg_color;
   background-color: @eqx_notebookPage;
   background-image: none;
-  box-shadow: inset 0 1px alpha(@eqx_inner, 0.3);
+  /* GTK3 repaints the checked tab's active marker reliably. We preserve
+   * the GTK2 page-color fill and use a narrow selected-state indicator. */
+  box-shadow: inset 0 -3px @theme_selected_bg_color,
+              inset 0 1px alpha(@eqx_inner, 0.3);
 }
 notebook > header.top > tabs > tab:checked {
   border-bottom-color: @eqx_notebookPage;
