@@ -78,6 +78,26 @@
 
 * { -gtk-icon-shadow: none; }
 
+/* Shared Equinox bevels and borders (phase 1).
+ * Keep light/dark colors in the palette. Widget geometry and state-specific
+ * overrides stay with their widgets. Define shared effects before overrides.
+ *
+ * RAISED: regular controls and their external drop edge.
+ * RAISED-INNER: small handles, header buttons and toolbar hover surfaces.
+ * BORDERS: recessed tracks and small controls with identical rim colors.
+ */
+button, combobox button, spinbutton button, .linked button, .titlebutton {
+  box-shadow: inset 0 1px @eqx_inner, 0 1px @eqx_outer;
+}
+treeview header button, scale slider, switch slider,
+toolbar button:hover, .toolbar button:hover, .primary-toolbar button:hover {
+  box-shadow: inset 0 1px @eqx_inner;
+}
+scrollbar slider, check, radio, switch, switch slider {
+  border: 1px solid @eqx_border;
+}
+
+
 window, dialog, .background {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
@@ -102,7 +122,6 @@ button, combobox button, spinbutton button, .linked button, .titlebutton {
     @eqx_midBottom 50%, @eqx_bottom 100%);
   border: 1px solid @eqx_buttonBorder;
   border-radius: 5px;
-  box-shadow: inset 0 1px @eqx_inner, 0 1px @eqx_outer;
   padding: 5px 8px;
   min-width: 13px;
   min-height: 18px;
@@ -208,7 +227,6 @@ treeview header button {
   border-radius: 0;
   padding: 2px 5px;
   min-height: 17px;
-  box-shadow: inset 0 1px @eqx_inner;
 }
 
 /* Flush GTK3 top chrome matching the GTK2 engine:
@@ -273,7 +291,6 @@ toolbar button:hover, .toolbar button:hover, .primary-toolbar button:hover {
   background-color: @eqx_bottom;
   background-image: linear-gradient(to bottom, @eqx_top, @eqx_bottom);
   border-color: @eqx_buttonBorder;
-  box-shadow: inset 0 1px @eqx_inner;
 }
 toolbar button:active, toolbar button:checked,
 .toolbar button:active, .toolbar button:checked,
@@ -419,7 +436,6 @@ scale slider {
   background-image: linear-gradient(to bottom, @eqx_scaleTop, @eqx_scaleBottom);
   border: 1px solid @eqx_border;
   border-radius: 100%;
-  box-shadow: inset 0 1px @eqx_inner;
   min-height: 11px;
   min-width: 11px;
 }
@@ -532,7 +548,6 @@ scrollbar.horizontal { min-height: 10px; }
 scrollbar trough { background-color: transparent; border: none; }
 scrollbar slider {
   background-color: @eqx_scroll;
-  border: 1px solid @eqx_border;
   border-radius: 4px;
   min-width: 7px;
   min-height: 7px;
@@ -552,7 +567,6 @@ scrollbar button {
 check, radio {
   color: @theme_fg_color;
   background-color: @theme_base_color;
-  border: 1px solid @eqx_border;
   min-height: 12px;
   min-width: 12px;
 }
@@ -671,14 +685,12 @@ paned > separator.vertical {
 switch {
   color: @theme_fg_color;
   background-color: @eqx_trough;
-  border: 1px solid @eqx_border;
   border-radius: 12px;
 }
 switch:checked { background-color: @theme_selected_bg_color; }
 switch slider {
   background-color: @eqx_scaleBottom;
   background-image: linear-gradient(to bottom, @eqx_scaleTop, @eqx_scaleBottom);
-  border: 1px solid @eqx_border;
   border-radius: 100%;
 }
 tooltip, tooltip.background {
