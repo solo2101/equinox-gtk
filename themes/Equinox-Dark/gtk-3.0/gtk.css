@@ -92,8 +92,20 @@ treeview header button, scale slider, switch slider,
 toolbar button:hover, .toolbar button:hover, .primary-toolbar button:hover {
   box-shadow: inset 0 1px @eqx_inner;
 }
-scrollbar slider, check, radio, switch, switch slider {
+scrollbar slider, check, radio, switch, switch slider, scale slider {
   border: 1px solid @eqx_border;
+}
+/* Shared handle paint; sizes remain under individual widgets. */
+scale slider, switch slider {
+  background-color: @eqx_scaleBottom;
+  background-image: linear-gradient(to bottom, @eqx_scaleTop, @eqx_scaleBottom);
+  border-radius: 100%;
+}
+/* Full progress bars and cell-renderer progress share the same edge color. */
+progressbar progress,
+treeview.view .progressbar, treeview .progressbar,
+treeview.view.progressbar, .progressbar {
+  border: 1px solid @eqx_progBorder;
 }
 /* Recessed controls share a 1px rim, with widget-specific border colors.
  * Trough depth and frame shadow variants stay in their respective rules. */
@@ -452,10 +464,6 @@ scale trough, progressbar trough, levelbar trough {
 }
 scale trough { min-width: 4px; min-height: 4px; }
 scale slider {
-  background-color: @eqx_scaleBottom;
-  background-image: linear-gradient(to bottom, @eqx_scaleTop, @eqx_scaleBottom);
-  border: 1px solid @eqx_border;
-  border-radius: 100%;
   min-height: 11px;
   min-width: 11px;
 }
@@ -506,7 +514,6 @@ progressbar progress {
   animation-duration: 1.5s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  border: 1px solid @eqx_progBorder;
   border-radius: 4px;
   box-shadow: inset 0 1px rgba(255,255,255,0.22);
 }
@@ -550,7 +557,6 @@ treeview.view.progressbar, .progressbar {
       @eqx_accentTop 0%,
       @theme_selected_bg_color 45%,
       @eqx_progAccentDeep 100%);
-  border: 1px solid @eqx_progBorder;
   border-radius: 3px;
   box-shadow: inset 0 1px rgba(255,255,255,0.20);
 }
@@ -715,11 +721,7 @@ switch {
   background-color: @eqx_trough;
   border-radius: 12px;
 }
-switch slider {
-  background-color: @eqx_scaleBottom;
-  background-image: linear-gradient(to bottom, @eqx_scaleTop, @eqx_scaleBottom);
-  border-radius: 100%;
-}
+/* Switch thumb uses the shared handle surface. */
 /* Disabled range and switch widgets keep their shape, not active shine. */
 scale:disabled trough, scale:disabled slider,
 switch:disabled, switch:disabled slider, scrollbar:disabled slider {
