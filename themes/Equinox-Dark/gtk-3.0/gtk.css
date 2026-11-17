@@ -492,7 +492,7 @@ notebook > header > tabs > tab {
   color: @theme_fg_color;
   background-color: @eqx_tabBottom;
   background-image: linear-gradient(to bottom, @eqx_tabTop, @eqx_tabBottom);
-  border: 1px solid alpha(@eqx_tabBorder, 0.68);
+  border: 1px solid alpha(@eqx_tabBorder, 0.82);
   border-radius: 4px 4px 0 0;
   box-shadow: none;
   margin: 2px 1px 0 0;
@@ -512,9 +512,9 @@ notebook > header > tabs > tab:hover {
 notebook > header > tabs > tab:checked,
 notebook > header > tabs > tab:checked:hover {
   color: @theme_fg_color;
-  background-color: @eqx_tabSelected;
-  background-image: linear-gradient(to bottom, @eqx_tabMid, @eqx_tabSelected);
-  border-color: alpha(@eqx_tabBorder, 0.68);
+  background-color: @theme_bg_color;
+  background-image: none;
+  border-color: alpha(@eqx_tabBorder, 0.82);
   box-shadow: none;
 }
 /* Join the selected tab to the page stack. A 1px overlap hides the
@@ -523,22 +523,22 @@ notebook > header > tabs > tab:checked:hover {
 notebook > header.top > tabs > tab:checked {
   margin-top: 0;
   margin-bottom: -1px;
-  border-bottom-color: @eqx_tabSelected;
+  border-bottom-color: @theme_bg_color;
 }
 notebook > header.bottom > tabs > tab:checked {
   margin-bottom: 0;
   margin-top: -1px;
-  border-top-color: @eqx_tabSelected;
+  border-top-color: @theme_bg_color;
 }
 notebook > header.left > tabs > tab:checked {
   margin-left: 0;
   margin-right: -1px;
-  border-right-color: @eqx_tabSelected;
+  border-right-color: @theme_bg_color;
 }
 notebook > header.right > tabs > tab:checked {
   margin-right: 0;
   margin-left: -1px;
-  border-left-color: @eqx_tabSelected;
+  border-left-color: @theme_bg_color;
 }
 notebook > header.bottom > tabs > tab {
   border-radius: 0 0 1px 1px;
