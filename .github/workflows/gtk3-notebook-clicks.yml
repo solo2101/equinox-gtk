@@ -32,7 +32,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for theme in Equinox-Light Equinox-Dark; do
+          for theme in Equinox-Light Equinox-Dark Adwaita; do
             echo "Testing $theme tab click handling..."
             xvfb-run -a env GTK_THEME="$theme" \
               /usr/bin/python3 tests/test-gtk3-notebook-clicks.py
