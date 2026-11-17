@@ -1,156 +1,66 @@
 # Equinox GTK
 
-Modernizing the classic Equinox 1.50 theme engine for Fedora and MATE.
+Equinox GTK is a work-in-progress revival of the classic Equinox 1.50 theme for Fedora MATE. It includes **Equinox Light** and **Equinox Dark**, with GTK2, GTK3, and Marco window borders.
 
-## Current status
+Developed and tested primarily on **Fedora 43 MATE**.
 
-- **GTK2:** Original C engine compiles and loads on Fedora 43. The original source is preserved on the `legacy` branch.
-- **GTK3:** Light and dark themes use source-guided CSS. The GTK3 stylesheets have been consolidated to match the original button shading, entry bevels, notebook tabs, icons, and widget proportions. Runtime testing of the latest pass is still needed.
-- **Marco:** Equinox Light and Dark frames now use the original Equinox Evolution Rounded/Dusk PNG window-button artwork, while keeping our matching titlebar gradients. Fedora 43 preview comparison is pending.
-- **GTK4:** Not implemented.
+## Install
 
-GTK3 does not load the original GTK2 engine. The optional early PNG experiment is archived under `experiments/gtk3-rendered/` for reference, and is not installed by the standard theme installer.
-
-## Production MATE deployment
-
-A production snapshot is maintained on the `production` branch. Use it
-instead of ongoing `main` development for a stable Fedora 43 MATE desktop.
+Install the build dependencies:
 
 ```bash
-git fetch origin
-git switch production
-git pull --ff-only
-bash scripts/deploy-mate.sh light
+sudo dnf install -y git gcc make gtk2-devel pkgconf-pkg-config autoconf automake libtool python3
 ```
 
-Choose `dark` instead of `light` for Equinox-Dark. Deployment verifies
-the GTK3 CSS, original Marco PNGs, and presence of the compiled GTK2
-engine, then installs both theme variants under `~/.themes` and applies
-GTK and Marco settings for the requested variant. It does not change
-your icon theme or MATE panel configuration. It snapshots your current
-appearance settings for rollback:
+Clone the stable release and build the original GTK2 engine:
 
 ```bash
-bash scripts/deploy-mate.sh restore
-```
-
-If the GTK2 engine is missing, the script displays the required build
-commands and stops before changing the active theme.
-
-The GTK3 frame-shadow compatibility module remains an experimental
-opt-in. To test its full four-shadow support on a single app:
-
-```bash
-GTK_THEME=Equinox-Light GTK3_MODULES="$HOME/.local/lib/equinox-gtk/libequinox-frame-compat.so" awf-gtk3
-```
-
-The original-renderer experiment is excluded from production.
-
-## Build and install the GTK2 engine
-
-```bash
-sudo dnf install gcc make gtk2-devel pkgconf-pkg-config autoconf automake libtool
+git clone --branch production https://github.com/solo2101/equinox-gtk.git
+cd equinox-gtk
 ./configure --prefix=/usr --libdir=/usr/lib64 --enable-animation
 make -j"$(nproc)"
 sudo make install
+sudo ldconfig
 ```
 
-## Install the GTK2, GTK3 and Marco themes
+Install and activate the Light theme:
+
+```bash
+bash scripts/deploy-mate.sh light
+```
+
+For Dark, run `bash scripts/deploy-mate.sh dark` instead. The script validates the themes, installs both versions in `~/.themes`, and applies the chosen GTK and Marco appearance. Restart open applications to reload the styling.
+
+Alternatively, install without changing your current theme:
 
 ```bash
 bash scripts/install-user-themes.sh
-python3 scripts/check-gtk3-css.py
 ```
 
-This copies GTK2, GTK3 and Marco theme files to `~/.themes/` for your user. It does not change the active desktop theme.
+Then select **Equinox Light** or **Equinox Dark** in MATE **Appearance Preferences**.
 
-## Preview Marco window borders
+## Recommended icons
 
-We maintain the Equinox Marco frame design in
-`themes/Equinox-{Light,Dark}/metacity-1/metacity-theme-1.xml`.
-The button backgrounds and all close, minimize, maximize, and menu symbols
-are the **original PNG assets** from
-[Aurora-and-Equinox/Equinox-GTK2-themes](https://github.com/Aurora-and-Equinox/Equinox-GTK2-themes).
-Light uses `Equinox Evolution Rounded/metacity-1`, and Dark uses
-`Equinox Evolution Dusk/metacity-1`. Both were copied with their original
-Git blob SHA intact. Our titlebar gradients and frame borders remain.
-See each theme's `ARTWORK-SOURCE.txt` for upstream authorship and license.
+Equinox looks best with the **Delft** icon family:
 
-The blue background inside `marco-theme-viewer` belongs to the
-preview application, not to the window decoration.
+- **Equinox Light:** Delft
+- **Equinox Dark:** Delft-Darkest
 
-```bash
-python3 scripts/check-marco-theme.py
-bash scripts/install-user-themes.sh
-marco-theme-viewer Equinox-Light
-marco-theme-viewer Equinox-Dark
-```
+The icons are optional and installed separately. The MATE Appearance Preferences theme entries include these icon selections; the command-line deployment script leaves your existing icons unchanged.
 
-Previewing does **not** switch your window manager theme. To apply only the
-window borders, leaving GTK and icon themes alone:
+## Project status
 
-```bash
-gsettings get org.mate.Marco.general theme
-gsettings set org.mate.Marco.general theme 'Equinox-Light'
-# Or: gsettings set org.mate.Marco.general theme 'Equinox-Dark'
-```
+| Component | Status |
+| --- | --- |
+| GTK2 | Original Equinox engine supported |
+| GTK3 | Light and Dark themes usable; visual refinements ongoing |
+| Marco | Matching window decorations included |
+| GTK4 | Not implemented |
 
-The preceding `get` command shows the current theme name for restoring
-later. The theme uses Marco's compatible v1 Metacity format under
-`metacity-1/metacity-theme-1.xml`. The first pass requires visual
-verification with `marco-theme-viewer` on Fedora 43.
+This project is **still a work in progress**. GTK3 uses CSS rather than the original GTK2 drawing engine, so some controls and application-specific layouts differ. Testing has focused on Fedora 43 MATE.
 
-### Marco preview rejects the theme with a missing button error
+The `production` branch holds the stable release. The `main` branch contains ongoing development.
 
-Marco requires close, minimize, maximize, and menu button definitions for
-every frame style, even border-only frames. The initial Equinox Marco themes
-omitted them from `border_only`. Both variants now include no-op slots.
+## Credits
 
-```bash
-git pull
-bash scripts/install-user-themes.sh
-python3 scripts/check-marco-theme.py
-marco-theme-viewer Equinox-Light
-```
-
-The structural validator now checks every frame style. The
-`Validate Marco Themes` GitHub Actions workflow also attempts to load
-both themes with `marco-theme-viewer` under Xvfb.
-
-Your current border theme remains unchanged until you explicitly apply
-Equinox using `gsettings set org.mate.Marco.general theme 'Equinox-Light'`.
-If the viewer shows another error, use the error's exact line and message
-to fix the theme before applying it.
-
-## Optional upstream reference
-
-The `scripts/import-original-marco.py` importer and optional
-`install-original-marco.sh` remain available for historical research.
-They are **not** part of the current Equinox Marco design workflow.
-
-The original-archive GitHub workflow is manual-only, saves its results as
-a reference artifact, and does not overwrite our modified theme files.
-Running `bash scripts/install-user-themes.sh` installs the latest
-authored design from this checkout. If older upstream artwork was installed
-before, the installer saves a one-time backup in
-`~/.local/share/equinox-gtk/upstream-marco-backup/`.
-
-## Compare in A Widget Factory
-
-Run the GTK2 and GTK3 versions separately at the same window size and scale:
-
-```bash
-GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2
-GTK_THEME=Equinox-Light awf-gtk3
-
-GTK2_RC_FILES="$HOME/.themes/Equinox-Dark/gtk-2.0/gtkrc" awf-gtk2
-GTK_THEME=Equinox-Dark awf-gtk3
-```
-
-AWF's status line can retain the last theme it selected from its menus. Launch with the environment overrides shown above, and avoid manually changing the theme inside AWF while comparing.
-
-GTK3 CSS is checked by the `Validate GTK3 CSS` GitHub workflow. See [theme details](themes/README.md).
-
-## Upstream
-
-Original Equinox 1.50 source, authors, license, and history are preserved in `AUTHORS`, `COPYING`, and `ChangeLog`. The original source uses the GNU Library General Public License v2 or later as specified in its source headers.
+Based on the original Equinox 1.50 project. Original authorship and license details are preserved in [AUTHORS](AUTHORS), [COPYING](COPYING), and [ChangeLog](ChangeLog).
