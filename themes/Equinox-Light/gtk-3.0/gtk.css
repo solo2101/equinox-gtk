@@ -300,17 +300,17 @@ iconview:selected, iconview:selected:focus {
  * Apply them to the pane contents, not the controls themselves, so
  * the line spans the full width without changing button geometry. */
 .caja-navigation-window .caja-side-pane > notebook scrolledwindow.frame {
-  border-top: 1px solid @eqx_frameEdge;
+  border-top: 1px solid shade(@eqx_frameEdge, 0.80);
 }
 .caja-navigation-window .caja-notebook > stack {
-  border-top: 1px solid @eqx_frameEdge;
+  border-top: 1px solid shade(@eqx_frameEdge, 0.80);
 }
 
 /* Caja bottom statusbar: a clear two-tone separator matches the GTK2
  * file-window footer while retaining the native GTK3 statusbar layout. */
 .caja-navigation-window statusbar {
   background-color: @theme_bg_color;
-  border-top: 1px solid @eqx_frameEdge;
+  border-top: 1px solid shade(@eqx_frameEdge, 0.80);
   box-shadow: inset 0 1px alpha(@eqx_frameHighlight, 0.65);
 }
 
@@ -897,8 +897,8 @@ paned > separator.vertical {
   min-width: 3px;
   background-color: transparent;
   background-image: linear-gradient(to right,
-    alpha(@eqx_frameShade, 0.48) 0px,
-    alpha(@eqx_frameShade, 0.48) 1px,
+    alpha(@eqx_frameShade, 0.72) 0px,
+    alpha(@eqx_frameShade, 0.72) 1px,
     alpha(@eqx_frameHighlight, 0.84) 1px,
     alpha(@eqx_frameHighlight, 0.84) 2px,
     transparent 2px);
