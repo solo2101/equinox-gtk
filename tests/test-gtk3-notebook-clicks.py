@@ -107,6 +107,11 @@ def trace_tab_selection(window, notebook, labels, orientation):
     """Trace selected-tab face colors before adding a visual assertion."""
     if orientation != Gtk.PositionType.TOP:
         return
+    # Remove hover from all tabs before measuring their checked style.
+    # The preceding mouse-click test ends with the pointer on tab 1.
+    subprocess.run(["xdotool", "mousemove", "--sync", "690", "380"],
+                   check=True)
+    dispatch_events()
     for page in (0, 1, 2, 3):
         notebook.set_current_page(page)
         dispatch_events()
