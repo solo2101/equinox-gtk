@@ -1,17 +1,17 @@
 /* Theme variant: Equinox-Evolution-Midnight (GTK2 Midnight screenshot reference) */
-@define-color eqx_bg #494949;
+@define-color eqx_bg #4e4e4e;
 @define-color eqx_fg #dddddd;
 @define-color eqx_muted #999999;
-@define-color eqx_base #353535;
-@define-color eqx_disabledBase #414141;
+@define-color eqx_base #383838;
+@define-color eqx_disabledBase #424242;
 @define-color eqx_accent #497da5;
 @define-color eqx_accentTop #679cc2;
-@define-color eqx_top #606060;
-@define-color eqx_midTop #585858;
-@define-color eqx_midBottom #505050;
-@define-color eqx_bottom #444444;
-@define-color eqx_hoverTop #696969;
-@define-color eqx_hoverBottom #535353;
+@define-color eqx_top #626262;
+@define-color eqx_midTop #595959;
+@define-color eqx_midBottom #525252;
+@define-color eqx_bottom #454545;
+@define-color eqx_hoverTop #6a6a6a;
+@define-color eqx_hoverBottom #555555;
 @define-color eqx_pressTop #3b3b3b;
 @define-color eqx_pressBottom #515151;
 @define-color eqx_border #292929;
@@ -20,10 +20,10 @@
 @define-color eqx_outer rgba(0,0,0,0.29);
 @define-color eqx_entryBorder #282828;
 @define-color eqx_entryShadow rgba(0,0,0,0.25);
-@define-color eqx_disabledSurface #454545;
+@define-color eqx_disabledSurface #444444;
 @define-color eqx_disabledBorder #333333;
-@define-color eqx_tabTop #505050;
-@define-color eqx_tabBottom #3d3d3d;
+@define-color eqx_tabTop #555555;
+@define-color eqx_tabBottom #414141;
 @define-color eqx_tabBorder #303030;
 @define-color eqx_trough #323232;
 @define-color eqx_scaleTop #646464;
@@ -34,10 +34,10 @@
 @define-color eqx_separatorDark shade(@theme_bg_color, 0.68);
 @define-color eqx_separatorLight shade(@theme_bg_color, 1.15);
 @define-color eqx_link #92c2e5;
-@define-color eqx_tooltip #515151;
-@define-color theme_bg_color #494949;
+@define-color eqx_tooltip #525252;
+@define-color theme_bg_color #4e4e4e;
 @define-color theme_fg_color #dddddd;
-@define-color theme_base_color #353535;
+@define-color theme_base_color #383838;
 @define-color theme_text_color #dddddd;
 @define-color theme_selected_bg_color #626262;
 @define-color theme_selected_fg_color #ffffff;
@@ -52,21 +52,21 @@
 @define-color eqx_disabledCheckedTop #4a4a4a;
 @define-color eqx_disabledCheckedBottom #3b3b3b;
 @define-color eqx_frameBorder #292929;
-@define-color eqx_frameWell #414141;
+@define-color eqx_frameWell #454545;
 @define-color eqx_frameLift #515151;
 @define-color eqx_frameEdge #323232;
 @define-color eqx_frameShade #1f1f1f;
 @define-color eqx_frameHighlight #707070;
 
-@define-color eqx_menuTop #535353;
-@define-color eqx_menuBottom #494949;
-@define-color eqx_toolbarTop #494949;
-@define-color eqx_toolbarBottom #404040;
-@define-color eqx_menuGroove #2a2a2a;
-@define-color eqx_toolbarLine #303030;
-@define-color eqx_toolbarRidge #656565;
-@define-color eqx_tabSheen #5b5b5b;
-@define-color eqx_tabMid #444444;
+@define-color eqx_menuTop #b3b3b3;
+@define-color eqx_menuBottom #a6a6a6;
+@define-color eqx_toolbarTop #4c4c4c;
+@define-color eqx_toolbarBottom #464646;
+@define-color eqx_menuGroove #888888;
+@define-color eqx_toolbarLine #313131;
+@define-color eqx_toolbarRidge #565656;
+@define-color eqx_tabSheen #5c5c5c;
+@define-color eqx_tabMid #4a4a4a;
 @define-color eqx_progTroughTop #515151;
 @define-color eqx_progTroughBottom #333333;
 @define-color eqx_progAccentDeep #235f8c;
@@ -288,6 +288,12 @@ iconview:selected, iconview:selected:focus {
   background-color: @theme_bg_color;
   background-image: none;
 }
+/* Classic Midnight sidebar is darker than the main widget surface. */
+.caja-navigation-window .caja-side-pane > notebook scrolledwindow,
+.caja-navigation-window .caja-side-pane > notebook viewport.frame,
+.caja-navigation-window .caja-side-pane treeview.view:not(:selected) {
+  background-color: #353535;
+}
 .caja-navigation-window .caja-side-pane > notebook scrolledwindow,
 .caja-navigation-window .caja-side-pane > notebook viewport.frame,
 .caja-navigation-window .caja-side-pane treeview.view:not(:selected) {
@@ -391,13 +397,14 @@ toolbar, .toolbar, .primary-toolbar {
 }
 /* Client-side headerbars are separate GTK3 window decorations. Do not
  * impose the GTK2 toolbar groove on titlebars. */
+/* Midnight title bars are silver like the original Marco frame. */
 headerbar, .titlebar {
-  color: @theme_fg_color;
-  background-color: @eqx_menuTop;
-  background-image: linear-gradient(to bottom,
-    @eqx_menuTop, @eqx_toolbarBottom);
-  border-color: @eqx_border;
+  color: #333333;
+  background-color: #b3b3b3;
+  background-image: linear-gradient(to bottom, #c5c5c5, #a6a6a6);
+  border-color: #828282;
 }
+headerbar label, .titlebar label { color: #333333; }
 /* Toolbar geometry and state-specific gradient overlays.
  * The original GTK2 Equinox toolbar paints its background as one strip.
  * Idle toolbar icon buttons are transparent. Borders show only for interaction.
@@ -450,6 +457,17 @@ menubar > menuitem > box {
   background-color: transparent;
   background-image: none;
 }
+/* Original Midnight application menubar uses dark labels on silver,
+ * while popup menus retain light labels on charcoal. */
+menubar > menuitem, menubar > menuitem > label,
+menubar > menuitem label {
+  color: #393939;
+}
+menubar > menuitem:hover, menubar > menuitem:hover label,
+menubar > menuitem:selected, menubar > menuitem:selected label {
+  color: @theme_selected_fg_color;
+}
+
 menuitem, modelbutton { padding: 3px 7px; }
 menuitem:hover, menuitem:selected, modelbutton:hover,
 menubar > menuitem:hover, menubar > menuitem:selected {
@@ -993,4 +1011,15 @@ treeview .progressbar, treeview.view.progressbar {
     alpha(#a1c8e2, 0.23) 0px, alpha(#a1c8e2, 0.23) 8px,
     transparent 8px, transparent 17px),
     linear-gradient(to bottom, #6099c2, #286b9c);
+}
+
+/* MATE desktop panel uses the dark charcoal strip from Midnight.
+ * This does not affect Caja's light application menubar. */
+#PanelToplevel, .mate-panel-menu-bar, mate-panel {
+  background-color: #333333;
+  background-image: linear-gradient(to bottom, #3a3a3a, #2c2c2c);
+  color: #dddddd;
+}
+.mate-panel-menu-bar > menuitem, .mate-panel-menu-bar > menuitem label {
+  color: #dddddd;
 }
