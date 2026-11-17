@@ -296,6 +296,16 @@ iconview:selected, iconview:selected:focus {
   background-color: @theme_selected_bg_color;
 }
 
+/* Continue the Caja location-bar surface behind Places and its close
+ * control. This changes only the sidebar header, not the file pane. */
+.caja-navigation-window .caja-side-pane > box.horizontal {
+  background-color: @eqx_toolbarBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_toolbarTop, @eqx_toolbarBottom);
+  border: 0;
+  box-shadow: none;
+}
+
 /* Caja Places selector: restore the compact GTK2 raised button.
  * Keep the adjacent close control and dropdown behavior untouched. */
 .caja-navigation-window .caja-side-pane > box.horizontal > button:first-child {
