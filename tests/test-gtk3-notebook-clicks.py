@@ -120,6 +120,27 @@ def trace_tab_selection(window, notebook, labels, orientation):
         colors = [tab_background_rgb(window, label) for label in labels]
         print(f"TAB COLORS selected={page + 1}: {colors}", flush=True)
         if page in (0, 1):
+            from gi.repository import Gdk
+            pix = Gdk.pixbuf_get_from_window(window.get_window(), 0, 0,
+                                             window.get_allocated_width(),
+                                             window.get_allocated_height())
+            raw = pix.get_pixels()
+            origin = window.get_window().get_origin()
+            for i, label in enumerate(labels):
+                origin_tab = label.get_window().get_origin()
+                a = label.get_allocation()
+                bx = origin_tab[0] + a.x - origin[0]
+                by = origin_tab[1] + a.y - origin[1]
+                probes = []
+                for dx, dy in ((-4, 2), (a.width + 3, 2),
+                               (-4, a.height//2), (a.width//2, -4),
+                               (a.width//2, a.height+3)):
+                    px, py = bx+dx, by+dy
+                    offset = py * pix.get_rowstride() + px * pix.get_n_channels()
+                    probes.append((px, py, tuple(raw[offset:offset+3])))
+                print(f"TAB PROBES selected={page+1} tab={i+1} "
+                      f"alloc={(bx,by,a.width,a.height)}: {probes}", flush=True)
+        if page in (0, 1):
             print(f"CSS TREE selected={page + 1}:\\n" +
                   notebook.get_style_context().to_string(
                       Gtk.StyleContextPrintFlags.RECURSE), flush=True)
