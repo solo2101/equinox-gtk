@@ -433,19 +433,23 @@ notebook > header > tabs > tab:checked:hover {
   border-color: alpha(@eqx_tabBorder, 0.82);
   box-shadow: inset 0 1px alpha(@eqx_inner, 0.35);
 }
-/* Connect only the currently selected tab to the page background.
- * No negative margins, tab-position selectors or layout changes.
- * Keep orientation-specific rules AFTER the shared checked-state rule. */
+/* Join the selected tab to the page stack. A 1px overlap hides the
+ * stack border beneath the active tab without altering inactive tab layout.
+ * Selection still uses :checked and GTK's native tab switching. */
 notebook > header.top > tabs > tab:checked {
+  margin-bottom: -1px;
   border-bottom-color: @theme_bg_color;
 }
 notebook > header.bottom > tabs > tab:checked {
+  margin-top: -1px;
   border-top-color: @theme_bg_color;
 }
 notebook > header.left > tabs > tab:checked {
+  margin-right: -1px;
   border-right-color: @theme_bg_color;
 }
 notebook > header.right > tabs > tab:checked {
+  margin-left: -1px;
   border-left-color: @theme_bg_color;
 }
 notebook > header.bottom > tabs > tab {
