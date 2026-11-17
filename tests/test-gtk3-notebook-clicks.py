@@ -134,7 +134,6 @@ def trace_tab_selection(window, notebook, labels, orientation):
                 encoded = base64.b64encode(screenshot_file.read()).decode("ascii")
             print(f"TAB_SCREENSHOT page={page + 1} base64={encoded}", flush=True)
         if page in (0, 1):
-            from gi.repository import Gdk
             pix = Gdk.pixbuf_get_from_window(window.get_window(), 0, 0,
                                              window.get_allocated_width(),
                                              window.get_allocated_height())
