@@ -124,7 +124,7 @@ def trace_tab_selection(window, notebook, labels, orientation):
         dispatch_events()
         colors = [tab_background_rgb(window, label) for label in labels]
         print(f"TAB COLORS selected={page + 1}: {colors}", flush=True)
-        if (os.environ.get("GTK_THEME") == "Equinox-Light"
+        if (os.environ.get("GTK_THEME") in ("Equinox-Light", "Adwaita")
                 and page in (0, 1)):
             capture = Gdk.pixbuf_get_from_window(
                 window.get_window(), 0, 0, 260, 86)
