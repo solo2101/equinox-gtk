@@ -120,6 +120,10 @@ def check_selected_tab_paint(window, notebook, labels, orientation):
         if not wait_for_page(notebook, selected):
             raise AssertionError(
                 f"{orientation.value_nick}: click failed for paint test")
+        # Move pointer off the tab so hover cannot fake selected paint.
+        subprocess.run(["xdotool", "mousemove", "--sync", "690", "380"],
+                       check=True)
+        dispatch_events()
         # Let the GTK frame clock paint before sampling pixels.
         loop = GLib.MainLoop()
         GLib.timeout_add(160, loop.quit)
