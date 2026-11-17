@@ -60,29 +60,29 @@
        Do not draw a dark bottom stroke at the join. -->
   <draw_ops name="titlebar_focus">
     <gradient type="vertical" x="0" y="0" width="width" height="height">
-      <color value="#f0f0f0"/>
-      <color value="#e3e3e3"/>
-      <color value="#d8d8d8"/>
+      <color value="#c7c7c7"/>
+      <color value="#b4b4b4"/>
+      <color value="#a6a6a6"/>
     </gradient>
-    <line color="#f8f8f8" x1="2" y1="1" x2="width - 3" y2="1"/>
+    <line color="#d5d5d5" x1="2" y1="1" x2="width - 3" y2="1"/>
   </draw_ops>
   <draw_ops name="titlebar_unfocus">
     <gradient type="vertical" x="0" y="0" width="width" height="height">
-      <color value="#e8e8e8"/>
-      <color value="#d8d8d8"/>
+      <color value="#b9b9b9"/>
+      <color value="#a6a6a6"/>
     </gradient>
   </draw_ops>
   <draw_ops name="edge_left">
-    <rectangle color="#c8c8c8" x="0" y="0" width="width" height="height" filled="true"/>
-    <line color="#8f8f8f" x1="0" y1="0" x2="0" y2="height - 1"/>
+    <rectangle color="#a6a6a6" x="0" y="0" width="width" height="height" filled="true"/>
+    <line color="#858585" x1="0" y1="0" x2="0" y2="height - 1"/>
   </draw_ops>
   <draw_ops name="edge_right">
-    <rectangle color="#c8c8c8" x="0" y="0" width="width" height="height" filled="true"/>
-    <line color="#8f8f8f" x1="width - 1" y1="0" x2="width - 1" y2="height - 1"/>
+    <rectangle color="#a6a6a6" x="0" y="0" width="width" height="height" filled="true"/>
+    <line color="#858585" x1="width - 1" y1="0" x2="width - 1" y2="height - 1"/>
   </draw_ops>
   <draw_ops name="edge_bottom">
-    <rectangle color="#c8c8c8" x="0" y="0" width="width" height="height" filled="true"/>
-    <line color="#8f8f8f" x1="0" y1="height - 1" x2="width - 1" y2="height - 1"/>
+    <rectangle color="#a6a6a6" x="0" y="0" width="width" height="height" filled="true"/>
+    <line color="#858585" x1="0" y1="height - 1" x2="width - 1" y2="height - 1"/>
   </draw_ops>
   <draw_ops name="title_focus">
     <title color="#222222" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
