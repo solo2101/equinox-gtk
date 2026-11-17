@@ -28,11 +28,20 @@ jobs:
             python3-gi gir1.2-gtk-3.0 xvfb xauth xdotool
       - name: Install Equinox GTK3 themes
         run: bash scripts/install-user-themes.sh
+      - name: Create diagnostic Equinox theme without notebook CSS
+        run: |
+          mkdir -p "$HOME/.themes/Equinox-Notebook-Baseline/gtk-3.0"
+          awk '
+            /^\/\* GTK2 Equinox notebook page:/ {skip=1}
+            /^\/\* Slim scale geometry and separators/ {skip=0}
+            !skip {print}
+          ' themes/Equinox-Light/gtk-3.0/gtk.css > \
+            "$HOME/.themes/Equinox-Notebook-Baseline/gtk-3.0/gtk.css"
       - name: Click each tab using actual X11 mouse events
         shell: bash
         run: |
           set -euo pipefail
-          for theme in Equinox-Light Equinox-Dark Adwaita; do
+          for theme in Equinox-Light Equinox-Dark Adwaita Equinox-Notebook-Baseline; do
             echo "Testing $theme tab click handling..."
             xvfb-run -a env GTK_THEME="$theme" \
               /usr/bin/python3 tests/test-gtk3-notebook-clicks.py
