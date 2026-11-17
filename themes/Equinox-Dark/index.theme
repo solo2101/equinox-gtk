@@ -6,5 +6,5 @@ Comment=Classic Equinox dark controls and window borders
 [X-GNOME-Metatheme]
 GtkTheme=Equinox-Dark
 MetacityTheme=Equinox-Dark
-IconTheme=Papirus-Dark
+IconTheme=Adwaita
 CursorTheme=Adwaita
