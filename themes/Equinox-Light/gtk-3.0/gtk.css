@@ -593,26 +593,43 @@ scrollbar button {
   background-image: none;
 }
 
-/* Checked, mixed and disabled indicator states. */
+/* GTK2-inspired indicator wells. Check and radio share the same 1px
+ * recessed rim and surface treatment; only their corner geometry differs.
+ * Preserve GTK's built-in check mark, mixed dash and radio bullet icons.
+ * Neither widget layout nor the selected-state machinery is modified. */
 check, radio {
   color: @theme_fg_color;
   background-color: @theme_base_color;
+  background-image: linear-gradient(to bottom,
+    alpha(@eqx_entryShadow, 0.10), alpha(@eqx_inner, 0.08));
+  border-color: @eqx_entryBorder;
+  box-shadow: inset 0 1px alpha(@eqx_entryShadow, 0.75),
+              0 1px alpha(@eqx_inner, 0.45);
   min-height: 12px;
   min-width: 12px;
 }
 check { border-radius: 3px; }
 radio { border-radius: 100%; }
-/* All checked indicators use the same accent surface as selected switches.
- * Geometry and glyph rendering remain widget-specific. */
-check:checked, check:indeterminate, radio:checked, switch:checked {
-  background-color: @theme_selected_bg_color;
-}
+/* Selected indicators share one accented inset paint layer. */
 check:checked, check:indeterminate, radio:checked {
   color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+  background-image: linear-gradient(to bottom,
+    @eqx_accentTop, @theme_selected_bg_color);
+  border-color: @eqx_progBorder;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.32),
+              0 1px alpha(@eqx_outer, 0.25);
 }
-check:disabled, radio:disabled {
+/* Muted indicators still retain a 1px well; disabled selected and mixed
+ * states take the same insensitive paint, not the active blue fill. */
+check:disabled, radio:disabled,
+check:checked:disabled, check:indeterminate:disabled,
+radio:checked:disabled {
+  color: @eqx_muted;
   background-color: @eqx_disabledBase;
-  box-shadow: none;
+  background-image: none;
+  border-color: @eqx_disabledBorder;
+  box-shadow: inset 0 1px alpha(@eqx_entryShadow, 0.18);
 }
 /* GTK2 Equinox frame parity.
  * GTK3 GtkFrame only exposes border.flat for shadow type NONE.
@@ -725,6 +742,7 @@ switch {
   background-color: @eqx_trough;
   border-radius: 12px;
 }
+switch:checked { background-color: @theme_selected_bg_color; }
 /* Switch thumb uses the shared handle surface. */
 /* Disabled range and switch widgets keep their shape, not active shine. */
 scale:disabled trough, scale:disabled slider,
