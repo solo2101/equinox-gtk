@@ -282,36 +282,26 @@ iconview:selected, iconview:selected:focus {
   background-color: @theme_selected_bg_color;
 }
 
-/* Caja Places sidebar: the classic layout has a softly tinted pane,
- * separate from the white file canvas. Do not style other GTK views. */
-.caja-navigation-window .caja-side-pane,
+/* Caja sidebar: the header uses the main theme gray all the way
+ * through its padding. The Places list retains its separate pane color. */
+.caja-navigation-window .caja-side-pane {
+  background-color: @theme_bg_color;
+  background-image: none;
+}
 .caja-navigation-window .caja-side-pane > notebook scrolledwindow,
 .caja-navigation-window .caja-side-pane > notebook viewport.frame,
 .caja-navigation-window .caja-side-pane treeview.view:not(:selected) {
   background-color: shade(@theme_base_color, 0.94);
-}
-/* The Caja title box has a 4px container border. Paint its surrounding
- * strip on the sidebar itself so no differently colored gutters remain.
- * Keep the Places list below on its existing background. */
-.caja-navigation-window .caja-side-pane {
-  background-image: linear-gradient(to bottom,
-    @eqx_toolbarTop, @eqx_toolbarBottom);
-  background-size: 100% 36px;
-  background-position: left top;
-  background-repeat: no-repeat;
 }
 .caja-navigation-window .caja-side-pane treeview.view:selected,
 .caja-navigation-window .caja-side-pane treeview.view:selected:focus {
   color: @theme_selected_fg_color;
   background-color: @theme_selected_bg_color;
 }
-
-/* Continue the Caja location-bar surface behind Places and its close
- * control. This changes only the sidebar header, not the file pane. */
+/* Flat background behind the selector and close button. */
 .caja-navigation-window .caja-side-pane > box.horizontal {
-  background-color: @eqx_toolbarBottom;
-  background-image: linear-gradient(to bottom,
-    @eqx_toolbarTop, @eqx_toolbarBottom);
+  background-color: @theme_bg_color;
+  background-image: none;
   border: 0;
   box-shadow: none;
 }
