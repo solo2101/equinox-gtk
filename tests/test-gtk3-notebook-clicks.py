@@ -178,7 +178,7 @@ def main():
     win.show_all()
     dispatch_events()
 
-    if False:  # Turn off high-contrast diagnostics; test real theme drawing.
+    if os.environ.get("EQUINOX_DIAGNOSTIC") == "high-contrast":
         # Diagnostic-only override. Never written to the production CSS.
         # An extreme color difference reveals whether GTK redraws the
         # :checked node, independent of our gradients and page borders.
@@ -207,7 +207,8 @@ def main():
                 failures.append(f"{orientation.value_nick}: click Tab {selected + 1} "
                                 f"left selected page {notebook.get_current_page() + 1}")
         trace_tab_selection(win, notebook, labels, orientation)
-        check_page_surface(win, notebook, orientation)
+        if os.environ.get("EQUINOX_DIAGNOSTIC") != "high-contrast":
+            check_page_surface(win, notebook, orientation)
         print(f"Checked {orientation.value_nick} tab orientation")
     win.destroy()
     if failures:
