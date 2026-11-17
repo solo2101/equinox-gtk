@@ -11,6 +11,41 @@ Modernizing the classic Equinox 1.50 theme engine for Fedora and MATE.
 
 GTK3 does not load the original GTK2 engine. The optional early PNG experiment is archived under `experiments/gtk3-rendered/` for reference, and is not installed by the standard theme installer.
 
+## Production MATE deployment
+
+A production snapshot is maintained on the `production` branch. Use it
+instead of ongoing `main` development for a stable Fedora 43 MATE desktop.
+
+```bash
+git fetch origin
+git switch production
+git pull --ff-only
+bash scripts/deploy-mate.sh light
+```
+
+Choose `dark` instead of `light` for Equinox-Dark. Deployment verifies
+the GTK3 CSS, original Marco PNGs, and presence of the compiled GTK2
+engine, then installs both theme variants under `~/.themes` and applies
+GTK and Marco settings for the requested variant. It does not change
+your icon theme or MATE panel configuration. It snapshots your current
+appearance settings for rollback:
+
+```bash
+bash scripts/deploy-mate.sh restore
+```
+
+If the GTK2 engine is missing, the script displays the required build
+commands and stops before changing the active theme.
+
+The GTK3 frame-shadow compatibility module remains an experimental
+opt-in. To test its full four-shadow support on a single app:
+
+```bash
+GTK_THEME=Equinox-Light GTK3_MODULES="$HOME/.local/lib/equinox-gtk/libequinox-frame-compat.so" awf-gtk3
+```
+
+The original-renderer experiment is excluded from production.
+
 ## Build and install the GTK2 engine
 
 ```bash
