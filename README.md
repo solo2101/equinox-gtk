@@ -41,7 +41,7 @@ Then select **Equinox Light** or **Equinox Dark** in MATE **Appearance Preferenc
 
 ## Recommended icons
 
-Equinox looks best with the **Delft** icon family:
+Equinox looks best with the [**Delft icon family**](https://github.com/madmaxms/iconpack-delft):
 
 - **Equinox Light:** Delft
 - **Equinox Dark:** Delft-Darkest
