@@ -1,6 +1,6 @@
 # Equinox Evolution Midnight, GTK2 controls theme for the original Equinox 1.50 engine.
 # Copyright of the original engine belongs to its original authors.
-gtk-color-scheme = "fg_color:#dddddd\nbg_color:#494949\nbase_color:#353535\ntext_color:#dddddd\nselected_bg_color:#626262\nselected_fg_color:#ffffff"
+gtk-color-scheme = "fg_color:#dddddd\nbg_color:#4e4e4e\nbase_color:#383838\ntext_color:#dddddd\nselected_bg_color:#626262\nselected_fg_color:#ffffff"
 
 style "equinox-evolution-midnight" {
   xthickness = 2
@@ -12,13 +12,13 @@ style "equinox-evolution-midnight" {
   fg[SELECTED] = "#ffffff"
   fg[INSENSITIVE] = "#999999"
 
-  bg[NORMAL] = "#494949"
+  bg[NORMAL] = "#4e4e4e"
   bg[ACTIVE] = "#3b3b3b"
   bg[PRELIGHT] = "#606060"
   bg[SELECTED] = "#626262"
-  bg[INSENSITIVE] = "#494949"
+  bg[INSENSITIVE] = "#4e4e4e"
 
-  base[NORMAL] = "#353535"
+  base[NORMAL] = "#383838"
   base[ACTIVE] = "#414141"
   base[PRELIGHT] = "#515151"
   base[SELECTED] = "#626262"
