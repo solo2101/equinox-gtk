@@ -290,6 +290,16 @@ iconview:selected, iconview:selected:focus {
 .caja-navigation-window .caja-side-pane treeview.view:not(:selected) {
   background-color: shade(@theme_base_color, 0.94);
 }
+/* The Caja title box has a 4px container border. Paint its surrounding
+ * strip on the sidebar itself so no differently colored gutters remain.
+ * Keep the Places list below on its existing background. */
+.caja-navigation-window .caja-side-pane {
+  background-image: linear-gradient(to bottom,
+    @eqx_toolbarTop, @eqx_toolbarBottom);
+  background-size: 100% 36px;
+  background-position: left top;
+  background-repeat: no-repeat;
+}
 .caja-navigation-window .caja-side-pane treeview.view:selected,
 .caja-navigation-window .caja-side-pane treeview.view:selected:focus {
   color: @theme_selected_fg_color;
