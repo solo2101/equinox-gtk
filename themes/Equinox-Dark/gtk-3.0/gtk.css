@@ -145,7 +145,7 @@ button, combobox button, spinbutton button, .linked button, .titlebutton {
   min-width: 13px;
   min-height: 18px;
 }
-button:hover, combobox button:hover, spinbutton button:hover {
+button:hover {
   background-image: linear-gradient(to bottom,
     @eqx_hoverTop, @eqx_hoverBottom);
 }
@@ -155,20 +155,15 @@ spinbutton button:active {
   background-image: linear-gradient(to bottom,
     @eqx_activeTop 0%, @eqx_activeMid 50%, @eqx_activeBottom 100%);
 }
-button:focus { border-color: @theme_selected_bg_color; }
 button:disabled, combobox button:disabled, spinbutton button:disabled {
-  color: @eqx_muted;
   background-color: @eqx_disabledBottom;
   background-image: linear-gradient(to bottom,
     @eqx_disabledTop, @eqx_disabledBottom);
-  border-color: @eqx_disabledBorder;
   box-shadow: inset 0 1px alpha(@eqx_inner, 0.45);
 }
 button:checked:disabled, button:active:disabled {
-  color: @eqx_muted;
   background-image: linear-gradient(to bottom,
     @eqx_disabledCheckedTop, @eqx_disabledCheckedBottom);
-  border-color: @eqx_disabledBorder;
   box-shadow: none;
 }
 
@@ -222,11 +217,19 @@ entry {
   min-height: 19px;
   padding: 3px 5px;
 }
-entry:focus { border-color: @theme_selected_bg_color; }
-entry:disabled, textview:disabled text {
+/* Shared interaction states. Keep tab selection and widget geometry local.
+ * Focus uses one accent rim; disabled controls share text and border colors.
+ * Widget-specific gradients, fills, and bevel suppression remain below. */
+button:focus, entry:focus {
+  border-color: @theme_selected_bg_color;
+}
+button:disabled, entry:disabled, check:disabled, radio:disabled {
   color: @eqx_muted;
-  background-color: @eqx_disabledBase;
   border-color: @eqx_disabledBorder;
+}
+textview:disabled text { color: @eqx_muted; border-color: @eqx_disabledBorder; }
+entry:disabled, textview:disabled text {
+  background-color: @eqx_disabledBase;
   box-shadow: none;
 }
 treeview.view, iconview {
@@ -598,9 +601,7 @@ check:checked, check:indeterminate, radio:checked {
   color: @theme_selected_fg_color;
 }
 check:disabled, radio:disabled {
-  color: @eqx_muted;
   background-color: @eqx_disabledBase;
-  border-color: @eqx_disabledBorder;
   box-shadow: none;
 }
 /* GTK2 Equinox frame parity.
