@@ -1,6 +1,6 @@
 # Equinox Evolution Dusk, GTK2 controls theme for the original Equinox 1.50 engine.
 # Copyright of the original engine belongs to its original authors.
-gtk-color-scheme = "fg_color:#ededed\\nbg_color:#7a7a7a\\nbase_color:#dddddd\\ntext_color:#252525\\nselected_bg_color:#80b9d8\\nselected_fg_color:#202020"
+gtk-color-scheme = "fg_color:#ededed\nbg_color:#7a7a7a\nbase_color:#dddddd\ntext_color:#252525\nselected_bg_color:#80b9d8\nselected_fg_color:#202020"
 
 style "equinox-evolution-dusk" {
   xthickness = 2
