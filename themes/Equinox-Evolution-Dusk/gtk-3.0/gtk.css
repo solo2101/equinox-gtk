@@ -160,9 +160,9 @@ button, combobox button, spinbutton button, .linked button, .titlebutton {
     @eqx_midTop 0%, @eqx_midBottom 55%, @eqx_bottom 100%);
   border: 1px solid alpha(@eqx_buttonBorder, 0.88);
   border-radius: 5px;
-  padding: 5px 8px;
+  padding: 2px 6px;
   min-width: 13px;
-  min-height: 18px;
+  min-height: 17px;
 }
 button:hover {
   background-image: linear-gradient(to bottom,
@@ -205,7 +205,7 @@ combobox arrow {
 combobox:disabled arrow, combobox button:disabled arrow {
   border-top-color: @eqx_muted;
 }
-combobox button { padding: 3px 6px; }
+combobox button { padding: 2px 5px; }
 combobox entry { border-radius: 4px 0 0 4px; }
 spinbutton { padding: 0; }
 spinbutton entry { min-width: 28px; margin: 0; }
