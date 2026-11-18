@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9">
+  <!-- Equinox recessed handle, Equinox-Evolution panel, surface #d1d1d1. -->
+  <defs>
+    <linearGradient id="well" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a5a5a5" stop-opacity=".58"/>
+      <stop offset=".50" stop-color="#bdbdbd" stop-opacity=".30"/>
+      <stop offset="1" stop-color="#f0f0f0" stop-opacity=".48"/>
+    </linearGradient>
+  </defs>
+  <circle cx="4.5" cy="4.5" r="2.25" fill="url(#well)"/>
+  <path d="M2.25 4.5 A2.25 2.25 0 0 1 6.75 4.5"
+        fill="none" stroke="#9a9a9a" stroke-opacity=".46" stroke-width=".7"/>
+  <path d="M2.25 4.5 A2.25 2.25 0 0 0 6.75 4.5"
+        fill="none" stroke="#f0f0f0" stroke-opacity=".68" stroke-width=".7"/>
+</svg>

@@ -44,6 +44,13 @@
 @define-color theme_selected_fg_color #202020;
 @define-color theme_unfocused_fg_color #bbbbbb;
 
+/* Equinox-specific MATE panel colors. Not shared with application menus. */
+@define-color eqx_panelTop #898989;
+@define-color eqx_panelBottom #626262;
+@define-color eqx_panelFg #f4f4f4;
+@define-color eqx_panelHighlight #a0a0a0;
+@define-color eqx_panelEdge #4e4e4e;
+
 
 @define-color eqx_activeTop #717171;
 @define-color eqx_activeMid #6a6a6a;
@@ -1025,22 +1032,37 @@ separator.vertical {
   background-position: left top, right top;
   background-repeat: no-repeat;
 }
-/* Paned handles are drag targets, not GtkSeparator decorations.
- * Keep the faded rule off handles and preserve their hit area. */
+/* Original Equinox GTK2 draws a single inset circle at the center of
+ * GtkPaned and handlebox grips. Paint only the real GTK3 drag separator;
+ * do not style generic separators, menus, or panel buttons. */
 paned > separator,
 paned > separator.horizontal,
 paned > separator.vertical {
   background-color: transparent;
-  background-image: none;
-  background-size: auto;
+  background-image: url("equinox-grip.svg");
+  background-position: center center;
+  background-size: 9px 9px;
+  background-repeat: no-repeat;
   -gtk-icon-source: none;
   border: 0;
   min-width: 1px;
   min-height: 1px;
 }
-/* Caja's vertical sidebar divider uses a horizontal GtkPaned handle.
- * Restore the original narrow dark/light groove without affecting
- * other applications or the drag behavior. */
+/* Keep the paned's native drag target. Widen only the splitter axis enough
+ * for the 9px grip to show, without forcing the entire pane's height. */
+paned.horizontal > separator { min-width: 9px; }
+paned.vertical > separator { min-height: 9px; }
+/* Caja already has its own slim divider. Preserve the stable v2.0
+ * window layout and groove, without a round GTK3 splitter grip. */
+.caja-navigation-window paned > separator {
+  min-width: 1px;
+  min-height: 1px;
+  background-color: transparent;
+  background-image: none;
+  background-size: auto;
+  background-repeat: no-repeat;
+  -gtk-icon-source: none;
+}
 .caja-navigation-window paned.horizontal > separator {
   min-width: 3px;
   background-color: transparent;
@@ -1052,6 +1074,21 @@ paned > separator.vertical {
     transparent 2px);
   background-size: 3px 100%;
   background-repeat: no-repeat;
+}
+
+/* MATE renders its 10px applet handle with gtk_render_handle() using this
+ * exact widget path. Limit the artwork to the existing applet drag zone.
+ * No changes to PanelMenuBar, its popups, or button hit areas. */
+MatePanelAppletFrameDBus > MatePanelAppletFrameDBus {
+  /* MATE clips the GTK-rendered handle to 10px at the applet edge.
+   * Centering within the full applet hides it outside that clip. */
+  background-image: url("equinox-panel-grip.svg");
+  background-size: 9px 9px;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+MatePanelAppletFrameDBus > MatePanelAppletFrameDBus:dir(rtl) {
+  background-position: right center;
 }
 
 switch {
@@ -1160,4 +1197,30 @@ filechooser placessidebar row:selected:focus label {
 filechooser placessidebar row:disabled,
 filechooser placessidebar row:disabled label {
   color: @eqx_muted;
+}
+
+/* MATE panel background ONLY. In GTK3, PanelToplevel is the panel CSS
+ * node (MATE panel-toplevel.c), for top/bottom/left/right bars.
+ * Avoid .mate-panel-menu-bar as a standalone selector: MATE also assigns
+ * it to popup windows, and the old broad rules broke app menus.
+ * Respect MATE's separate custom-background settings. These rules affect
+ * colors, not panel sizing, buttons, clock, window list or popup menus. */
+PanelToplevel.mate-panel-menu-bar:not(.mate-custom-panel-background) {
+  color: @eqx_panelFg;
+  background-color: @eqx_panelBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelTop, @eqx_panelBottom);
+  box-shadow: inset 0 1px @eqx_panelHighlight,
+              inset 0 -1px @eqx_panelEdge;
+}
+/* Preserve a bevel across the narrow axis of left/right vertical panels. */
+PanelToplevel.mate-panel-menu-bar.vertical:not(.mate-custom-panel-background) {
+  background-image: linear-gradient(to right, @eqx_panelTop, @eqx_panelBottom);
+  box-shadow: inset 1px 0 @eqx_panelHighlight,
+              inset -1px 0 @eqx_panelEdge;
+}
+/* Only the three direct top-level menu labels inherit the panel text
+ * color. Do not touch their backgrounds, padding or dropdown popups. */
+PanelToplevel.mate-panel-menu-bar menubar > menuitem,
+PanelToplevel.mate-panel-menu-bar menubar > menuitem > label {
+  color: @eqx_panelFg;
 }
