@@ -1045,21 +1045,27 @@ paned > separator.vertical {
  * for the 9px grip to show, without forcing the entire pane's height. */
 paned.horizontal > separator { min-width: 9px; }
 paned.vertical > separator { min-height: 9px; }
-/* Caja's sidebar divider retains its original light/dark groove behind
- * the same Equinox grip. The center dot shows where to drag. */
-.caja-navigation-window paned.horizontal > separator {
-  min-width: 9px;
+/* Caja already has its own slim divider. Preserve the stable v2.0
+ * window layout and groove, without a round GTK3 splitter grip. */
+.caja-navigation-window paned > separator {
+  min-width: 1px;
+  min-height: 1px;
   background-color: transparent;
-  background-image:
-    url("equinox-grip.svg"),
-    linear-gradient(to right,
-      alpha(@eqx_frameShade, 0.72) 0px,
-      alpha(@eqx_frameShade, 0.72) 1px,
-      alpha(@eqx_frameHighlight, 0.84) 1px,
-      alpha(@eqx_frameHighlight, 0.84) 2px,
-      transparent 2px);
-  background-position: center center, center top;
-  background-size: 9px 9px, 3px 100%;
+  background-image: none;
+  background-size: auto;
+  background-repeat: no-repeat;
+  -gtk-icon-source: none;
+}
+.caja-navigation-window paned.horizontal > separator {
+  min-width: 3px;
+  background-color: transparent;
+  background-image: linear-gradient(to right,
+    alpha(@eqx_frameShade, 0.72) 0px,
+    alpha(@eqx_frameShade, 0.72) 1px,
+    alpha(@eqx_frameHighlight, 0.84) 1px,
+    alpha(@eqx_frameHighlight, 0.84) 2px,
+    transparent 2px);
+  background-size: 3px 100%;
   background-repeat: no-repeat;
 }
 
@@ -1067,11 +1073,15 @@ paned.vertical > separator { min-height: 9px; }
  * exact widget path. Limit the artwork to the existing applet drag zone.
  * No changes to PanelMenuBar, its popups, or button hit areas. */
 MatePanelAppletFrameDBus > MatePanelAppletFrameDBus {
-  /* Panel background colors differ from window surfaces, especially Dawn. */
+  /* MATE clips the GTK-rendered handle to 10px at the applet edge.
+   * Centering within the full applet hides it outside that clip. */
   background-image: url("equinox-panel-grip.svg");
   background-size: 9px 9px;
-  background-position: center center;
+  background-position: left center;
   background-repeat: no-repeat;
+}
+MatePanelAppletFrameDBus > MatePanelAppletFrameDBus:dir(rtl) {
+  background-position: right center;
 }
 
 switch {
