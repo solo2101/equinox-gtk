@@ -3,16 +3,6 @@
 @define-color eqx_fg #dddddd;
 
 @define-color eqx_columnHeaderText #303030;@define-color eqx_muted #999999;
-@define-color eqx_panelTop #414141;
-@define-color eqx_panelBottom #323232;
-@define-color eqx_panelFg #eeeeee;
-@define-color eqx_panelHoverTop #595959;
-@define-color eqx_panelHoverBottom #454545;
-@define-color eqx_panelPressedTop #292929;
-@define-color eqx_panelPressedBottom #393939;
-@define-color eqx_panelTaskTop #505050;
-@define-color eqx_panelTaskBottom #3b3b3b;
-@define-color eqx_panelEdge #676767;
 @define-color eqx_base #383838;
 @define-color eqx_disabledBase #424242;
 @define-color eqx_accent #497da5;
@@ -1172,87 +1162,4 @@ filechooser placessidebar row:selected:focus label {
 filechooser placessidebar row:disabled,
 filechooser placessidebar row:disabled label {
   color: @eqx_muted;
-}
-
-/* Panel-specific controls. The .mate-panel-menu-bar class also appears on
- * popup windows, so NEVER use it as the ancestor of a button or menu rule.
- * Actual panel roots: PanelToplevel (mate-panel), #PanelPlug (X11 applets).
- * Leave PanelMenuBar, menuitem, and popup menu CSS completely untouched.
- */
-PanelToplevel button, #PanelToplevel button, #PanelPlug button,
-.eqx-panel-preview button {
-  color: @eqx_panelFg;
-  background-color: transparent;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  box-shadow: none;
-  min-width: 0;
-  min-height: 0;
-  margin: 2px 1px;
-  padding: 1px 4px;
-}
-PanelToplevel button label, #PanelToplevel button label, #PanelPlug button label,
-.eqx-panel-preview button label {
-  color: @eqx_panelFg;
-}
-PanelToplevel button:hover, #PanelToplevel button:hover,
-#PanelPlug button:hover, .eqx-panel-preview button:hover {
-  background-color: @eqx_panelHoverBottom;
-  background-image: none;
-  border-color: @eqx_panelEdge;
-  box-shadow: none;
-}
-PanelToplevel button:active, PanelToplevel button:checked,
-#PanelToplevel button:active, #PanelToplevel button:checked,
-#PanelPlug button:active, #PanelPlug button:checked,
-.eqx-panel-preview button:active, .eqx-panel-preview button:checked {
-  background-color: @eqx_panelPressedBottom;
-  background-image: none;
-  border-color: @eqx_panelEdge;
-  box-shadow: none;
-}
-PanelToplevel button:disabled, #PanelToplevel button:disabled,
-#PanelPlug button:disabled, .eqx-panel-preview button:disabled {
-  color: alpha(@eqx_panelFg, 0.55);
-  background-color: transparent;
-  background-image: none;
-  border-color: transparent;
-  box-shadow: none;
-}
-/* Compact standalone panel menu button, with margin on all four sides. */
-PanelToplevel #mate-panel-main-menu-button,
-#PanelToplevel #mate-panel-main-menu-button,
-#PanelPlug #mate-panel-main-menu-button,
-.eqx-panel-preview #mate-panel-main-menu-button {
-  margin: 2px;
-  padding: 2px 7px;
-}
-/* Preserve the task-list applet's own spacing and click/checked behavior. */
-PanelToplevel #tasklist-button, #PanelToplevel #tasklist-button,
-#PanelPlug #tasklist-button, .eqx-panel-preview #tasklist-button {
-  background-color: @eqx_panelTaskBottom;
-  background-image: none;
-  border-color: @eqx_panelEdge;
-  box-shadow: none;
-}
-PanelToplevel #tasklist-button:hover, #PanelToplevel #tasklist-button:hover,
-#PanelPlug #tasklist-button:hover, .eqx-panel-preview #tasklist-button:hover {
-  background-color: @eqx_panelHoverBottom;
-  background-image: none;
-}
-PanelToplevel #tasklist-button:active, PanelToplevel #tasklist-button:checked,
-#PanelToplevel #tasklist-button:active, #PanelToplevel #tasklist-button:checked,
-#PanelPlug #tasklist-button:active, #PanelPlug #tasklist-button:checked,
-.eqx-panel-preview #tasklist-button:active,
-.eqx-panel-preview #tasklist-button:checked {
-  background-color: @eqx_panelPressedBottom;
-  background-image: none;
-}
-/* Test-only surface: the real MATE panel already provides its background. */
-.eqx-panel-preview {
-  color: @eqx_panelFg;
-  background-color: @eqx_panelBottom;
-  background-image: linear-gradient(to bottom, @eqx_panelTop, @eqx_panelBottom);
-  padding: 3px;
 }
