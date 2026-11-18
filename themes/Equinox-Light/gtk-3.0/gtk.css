@@ -1200,3 +1200,76 @@ PanelToplevel.mate-panel-menu-bar menubar > menuitem,
 PanelToplevel.mate-panel-menu-bar menubar > menuitem > label {
   color: @eqx_panelFg;
 }
+
+/* Equinox MATE panel BUTTONS only. Real roots are PanelToplevel for
+ * in-process launchers and #PanelPlug for out-of-process applets.
+ * Never use .mate-panel-menu-bar as an ancestor: MATE also assigns it
+ * to other windows, including popups. These rules must not escape
+ * their real panel roots. */
+PanelToplevel button,
+#PanelPlug button {
+  color: @eqx_panelFg;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: none;
+  margin: 2px 1px;
+  padding: 1px 3px;
+}
+PanelToplevel button label,
+#PanelPlug button label {
+  color: @eqx_panelFg;
+}
+PanelToplevel button:hover,
+#PanelPlug button:hover {
+  background-color: alpha(@eqx_panelFg, 0.11);
+  background-image: none;
+  border-color: alpha(@eqx_panelFg, 0.18);
+  box-shadow: none;
+}
+PanelToplevel button:active,
+PanelToplevel button:checked,
+#PanelPlug button:active,
+#PanelPlug button:checked {
+  background-color: shade(@eqx_panelBottom, 0.90);
+  background-image: none;
+  border-color: alpha(@eqx_panelFg, 0.25);
+  box-shadow: inset 0 1px alpha(@eqx_panelEdge, 0.45);
+}
+PanelToplevel button:disabled,
+#PanelPlug button:disabled {
+  color: alpha(@eqx_panelFg, 0.48);
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+PanelToplevel button:disabled label,
+#PanelPlug button:disabled label {
+  color: alpha(@eqx_panelFg, 0.48);
+}
+
+/* The Applications / Places / System strip contains GtkMenuItems, not
+ * buttons. Only its immediate children get compact panel button paint.
+ * Never select menu > menuitem or a global menuitem selector. */
+PanelToplevel menubar > menuitem,
+PanelToplevel PanelMenuBar > menuitem {
+  color: @eqx_panelFg;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: none;
+  margin: 2px 1px;
+  padding: 1px 6px;
+}
+PanelToplevel menubar > menuitem:hover,
+PanelToplevel menubar > menuitem:selected,
+PanelToplevel PanelMenuBar > menuitem:hover,
+PanelToplevel PanelMenuBar > menuitem:selected {
+  background-color: alpha(@eqx_panelFg, 0.11);
+  background-image: none;
+  border-color: alpha(@eqx_panelFg, 0.18);
+  box-shadow: none;
+}
