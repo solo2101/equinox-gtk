@@ -1204,21 +1204,23 @@ PanelToplevel.mate-panel-menu-bar menubar > menuitem > label {
   color: @eqx_panelFg;
 }
 
-/* Equinox MATE panel BUTTONS only. Do not target .mate-panel-menu-bar
- * globally: MATE uses that class on popup windows too. PanelToplevel is
- * the real panel root and #PanelPlug is the X11 applet window. */
-/* Give resting controls an actual raised surface and a narrow gap so the
- * panel's color is visible around each button. Do not set panel height. */
+/* Equinox panel button roles: the old GTK2 panel treats menubar items
+ * as flat labels, launchers as icons, and Wnck tasklist entries as raised
+ * window buttons. Keep every selector below on real panel roots:
+ * PanelToplevel or #PanelPlug. Never use .mate-panel-menu-bar by itself. */
+
+/* General panel actions and launchers do not wear tasklist button frames.
+ * The applications menu uses GtkMenuItems, handled separately below. */
 PanelToplevel button,
 #PanelPlug button {
   color: @eqx_panelFg;
-  background-color: @eqx_panelButtonBottom;
-  background-image: linear-gradient(to bottom, @eqx_panelButtonTop, @eqx_panelButtonBottom);
-  border: 1px solid @eqx_panelButtonBorder;
-  border-radius: 3px;
-  box-shadow: inset 0 1px alpha(@eqx_panelHighlight, 0.70);
-  margin: 2px 2px;
-  padding: 1px 5px;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  box-shadow: none;
+  margin: 1px;
+  padding: 1px 2px;
 }
 PanelToplevel button label,
 #PanelPlug button label {
@@ -1226,30 +1228,26 @@ PanelToplevel button label,
 }
 PanelToplevel button:hover,
 #PanelPlug button:hover {
-  background-color: shade(@eqx_panelButtonBottom, 1.06);
-  background-image: linear-gradient(to bottom,
-    shade(@eqx_panelButtonTop, 1.06),
-    shade(@eqx_panelButtonBottom, 1.06));
-  border-color: @eqx_panelButtonBorder;
-  box-shadow: inset 0 1px @eqx_panelHighlight;
+  background-color: alpha(@eqx_panelFg, 0.08);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
 }
 PanelToplevel button:active,
 PanelToplevel button:checked,
 #PanelPlug button:active,
 #PanelPlug button:checked {
-  background-color: shade(@eqx_panelBottom, 0.92);
-  background-image: linear-gradient(to bottom,
-    shade(@eqx_panelBottom, 0.85),
-    shade(@eqx_panelBottom, 0.96));
-  border-color: @eqx_panelButtonBorder;
-  box-shadow: inset 0 1px alpha(@eqx_panelEdge, 0.70);
+  background-color: alpha(@eqx_panelFg, 0.13);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
 }
 PanelToplevel button:disabled,
 #PanelPlug button:disabled {
   color: alpha(@eqx_panelFg, 0.48);
-  background-color: @eqx_panelBottom;
   background-image: none;
-  border-color: alpha(@eqx_panelButtonBorder, 0.50);
+  background-color: transparent;
+  border-color: transparent;
   box-shadow: none;
 }
 PanelToplevel button:disabled label,
@@ -1257,62 +1255,81 @@ PanelToplevel button:disabled label,
   color: alpha(@eqx_panelFg, 0.48);
 }
 
-/* MATE's window-list applet applies application-priority CSS forcing
- * its button margins and padding to zero. Draw the gap as a 2px border
- * in panel color instead; the inset outline preserves button edges.
- * Do not alter WnckTasklist geometry or its checked/click behavior. */
-PanelToplevel button#tasklist-button,
-#PanelPlug button#tasklist-button {
-  border: 2px solid @eqx_panelBottom;
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1px @eqx_panelButtonBorder,
-              inset 0 2px alpha(@eqx_panelHighlight, 0.45);
-}
-PanelToplevel button#tasklist-button:hover,
-#PanelPlug button#tasklist-button:hover {
-  border-color: @eqx_panelBottom;
-  box-shadow: inset 0 0 0 1px @eqx_panelButtonBorder,
-              inset 0 2px alpha(@eqx_panelHighlight, 0.70);
-}
-PanelToplevel button#tasklist-button:active,
-PanelToplevel button#tasklist-button:checked,
-#PanelPlug button#tasklist-button:active,
-#PanelPlug button#tasklist-button:checked {
-  border-color: @eqx_panelBottom;
-  box-shadow: inset 0 0 0 1px @eqx_panelButtonBorder,
-              inset 0 2px alpha(@eqx_panelEdge, 0.55);
-}
-
-/* Applications, Places and System are direct menu-bar items, not buttons.
- * Their popup menus are separate windows and remain entirely untouched. */
+/* Original GNOME 2/MATE top strip: icon and flat Applications, Places,
+ * System labels. Only immediate menu-bar children are affected. Menus
+ * themselves are popup windows, never descendants of PanelToplevel. */
 PanelToplevel menubar > menuitem,
 PanelToplevel PanelMenuBar > menuitem {
   color: @eqx_panelFg;
-  background-color: @eqx_panelButtonBottom;
-  background-image: linear-gradient(to bottom, @eqx_panelButtonTop, @eqx_panelButtonBottom);
-  border: 1px solid @eqx_panelButtonBorder;
-  border-radius: 3px;
-  box-shadow: inset 0 1px alpha(@eqx_panelHighlight, 0.70);
-  margin: 2px 2px;
-  padding: 1px 7px;
+  background-color: transparent;
+  background-image: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  padding: 2px 5px;
 }
 PanelToplevel menubar > menuitem:hover,
 PanelToplevel menubar > menuitem:selected,
 PanelToplevel PanelMenuBar > menuitem:hover,
 PanelToplevel PanelMenuBar > menuitem:selected {
-  background-color: shade(@eqx_panelButtonBottom, 1.06);
-  background-image: linear-gradient(to bottom,
-    shade(@eqx_panelButtonTop, 1.06),
-    shade(@eqx_panelButtonBottom, 1.06));
-  border-color: @eqx_panelButtonBorder;
-  box-shadow: inset 0 1px @eqx_panelHighlight;
+  background-color: alpha(@eqx_panelFg, 0.10);
+  background-image: none;
+  border: 0;
+  box-shadow: none;
 }
 PanelToplevel menubar > menuitem:active,
 PanelToplevel PanelMenuBar > menuitem:active {
-  background-color: shade(@eqx_panelBottom, 0.92);
+  background-color: alpha(@eqx_panelFg, 0.15);
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Bottom window list: subtly raised rectangles with a narrow edge around
+ * each window task, matching Equinox GTK2 task buttons. MATE's tasklist
+ * adds application-priority rules forcing padding and margins to 0.
+ * A panel-colored 2px outer border produces a reliable visible gutter,
+ * and the inset strokes draw the actual button edge and highlight.
+ * No widget size, click target, checked-state or clock changes. */
+PanelToplevel button#tasklist-button,
+#PanelPlug button#tasklist-button {
+  color: @eqx_panelFg;
+  background-color: @eqx_panelButtonBottom;
   background-image: linear-gradient(to bottom,
-    shade(@eqx_panelBottom, 0.85),
-    shade(@eqx_panelBottom, 0.96));
-  border-color: @eqx_panelButtonBorder;
-  box-shadow: inset 0 1px alpha(@eqx_panelEdge, 0.70);
+    @eqx_panelButtonTop,
+    @eqx_panelButtonBottom);
+  border: 2px solid @eqx_panelBottom;
+  border-radius: 3px 3px 0 0;
+  box-shadow: inset 0 0 0 1px @eqx_panelButtonBorder,
+              inset 0 2px alpha(@eqx_panelHighlight, 0.55);
+}
+PanelToplevel button#tasklist-button:hover,
+#PanelPlug button#tasklist-button:hover {
+  background-color: shade(@eqx_panelButtonBottom, 1.05);
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_panelButtonTop, 1.04),
+    shade(@eqx_panelButtonBottom, 1.05));
+  border-color: @eqx_panelBottom;
+  box-shadow: inset 0 0 0 1px @eqx_panelButtonBorder,
+              inset 0 2px alpha(@eqx_panelHighlight, 0.75);
+}
+PanelToplevel button#tasklist-button:active,
+PanelToplevel button#tasklist-button:checked,
+#PanelPlug button#tasklist-button:active,
+#PanelPlug button#tasklist-button:checked {
+  background-color: shade(@eqx_panelButtonBottom, 0.90);
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_panelButtonBottom, 0.88),
+    shade(@eqx_panelButtonBottom, 0.98));
+  border-color: @eqx_panelBottom;
+  box-shadow: inset 0 0 0 1px @eqx_panelButtonBorder,
+              inset 0 2px alpha(@eqx_panelEdge, 0.68);
+}
+PanelToplevel button#tasklist-button:disabled,
+#PanelPlug button#tasklist-button:disabled {
+  background-color: @eqx_panelBottom;
+  background-image: none;
+  border-color: @eqx_panelBottom;
+  box-shadow: inset 0 0 0 1px alpha(@eqx_panelButtonBorder, 0.5);
 }
