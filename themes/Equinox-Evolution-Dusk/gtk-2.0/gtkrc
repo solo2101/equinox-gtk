@@ -1,34 +1,34 @@
 # Equinox Evolution Dusk, GTK2 controls theme for the original Equinox 1.50 engine.
 # Copyright of the original engine belongs to its original authors.
-gtk-color-scheme = "fg_color:#dddddd\nbg_color:#4e4e4e\nbase_color:#383838\ntext_color:#dddddd\nselected_bg_color:#626262\nselected_fg_color:#ffffff"
+gtk-color-scheme = "fg_color:#ededed\\nbg_color:#7a7a7a\\nbase_color:#dddddd\\ntext_color:#252525\\nselected_bg_color:#80b9d8\\nselected_fg_color:#202020"
 
 style "equinox-evolution-dusk" {
   xthickness = 2
   ythickness = 2
 
-  fg[NORMAL] = "#dddddd"
+  fg[NORMAL] = "#ededed"
   fg[ACTIVE] = "#ffffff"
   fg[PRELIGHT] = "#ffffff"
   fg[SELECTED] = "#ffffff"
-  fg[INSENSITIVE] = "#999999"
+  fg[INSENSITIVE] = "#bbbbbb"
 
-  bg[NORMAL] = "#4e4e4e"
-  bg[ACTIVE] = "#3b3b3b"
-  bg[PRELIGHT] = "#606060"
-  bg[SELECTED] = "#626262"
-  bg[INSENSITIVE] = "#4e4e4e"
+  bg[NORMAL] = "#7a7a7a"
+  bg[ACTIVE] = "#696969"
+  bg[PRELIGHT] = "#909090"
+  bg[SELECTED] = "#80b9d8"
+  bg[INSENSITIVE] = "#7a7a7a"
 
-  base[NORMAL] = "#383838"
-  base[ACTIVE] = "#414141"
-  base[PRELIGHT] = "#515151"
-  base[SELECTED] = "#626262"
-  base[INSENSITIVE] = "#414141"
+  base[NORMAL] = "#dddddd"
+  base[ACTIVE] = "#bcbcbc"
+  base[PRELIGHT] = "#eeeeee"
+  base[SELECTED] = "#80b9d8"
+  base[INSENSITIVE] = "#868686"
 
-  text[NORMAL] = "#dddddd"
-  text[ACTIVE] = "#ffffff"
-  text[PRELIGHT] = "#ffffff"
-  text[SELECTED] = "#ffffff"
-  text[INSENSITIVE] = "#999999"
+  text[NORMAL] = "#252525"
+  text[ACTIVE] = "#252525"
+  text[PRELIGHT] = "#252525"
+  text[SELECTED] = "#202020"
+  text[INSENSITIVE] = "#686868"
 
   engine "equinox" {
     contrast = 1.0

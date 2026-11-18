@@ -49,3 +49,19 @@ style "equinox-evolution-dawn" {
 }
 
 class "*" style "equinox-evolution-dawn"
+
+# Dawn retains Light widget colors. Only the original GTK2 top chrome is dark.
+style "equinox-evolution-dawn-menubar" {
+  fg[NORMAL] = "#ededed"
+  fg[PRELIGHT] = "#ffffff"
+  bg[NORMAL] = "#313131"
+  bg[PRELIGHT] = "#404040"
+  bg[ACTIVE] = "#303030"
+}
+style "equinox-evolution-dawn-toolbar" {
+  bg[NORMAL] = "#b3b3b3"
+  bg[PRELIGHT] = "#c0c0c0"
+}
+widget_class "*<GtkMenuBar>*" style "equinox-evolution-dawn-menubar"
+widget_class "*<GtkMenuBar>*<GtkMenuItem>*" style "equinox-evolution-dawn-menubar"
+widget_class "*<GtkToolbar>*" style "equinox-evolution-dawn-toolbar"

@@ -50,45 +50,45 @@
 
   <draw_ops name="blank"></draw_ops>
   <draw_ops name="frame_focus">
-    <rectangle color="#777777" x="0" y="0" width="width - 1" height="height - 1" filled="false"/>
+    <rectangle color="#c6c6c6" x="0" y="0" width="width - 1" height="height - 1" filled="false"/>
   </draw_ops>
   <draw_ops name="frame_unfocus">
-    <rectangle color="#a3a3a3" x="0" y="0" width="width - 1" height="height - 1" filled="false"/>
+    <rectangle color="#ababab" x="0" y="0" width="width - 1" height="height - 1" filled="false"/>
   </draw_ops>
   <!-- The top of a GTK application is one contiguous Equinox surface:
        the Marco gradient reaches the GTK menubar's opening shade.
        Do not draw a dark bottom stroke at the join. -->
   <draw_ops name="titlebar_focus">
     <gradient type="vertical" x="0" y="0" width="width" height="height">
-      <color value="#f0f0f0"/>
-      <color value="#e3e3e3"/>
-      <color value="#d8d8d8"/>
+      <color value="#3d3d3d"/>
+      <color value="#363636"/>
+      <color value="#313131"/>
     </gradient>
-    <line color="#f8f8f8" x1="2" y1="1" x2="width - 3" y2="1"/>
+    <line color="#505050" x1="2" y1="1" x2="width - 3" y2="1"/>
   </draw_ops>
   <draw_ops name="titlebar_unfocus">
     <gradient type="vertical" x="0" y="0" width="width" height="height">
-      <color value="#e8e8e8"/>
-      <color value="#d8d8d8"/>
+      <color value="#383838"/>
+      <color value="#313131"/>
     </gradient>
   </draw_ops>
   <draw_ops name="edge_left">
-    <rectangle color="#c8c8c8" x="0" y="0" width="width" height="height" filled="true"/>
-    <line color="#8f8f8f" x1="0" y1="0" x2="0" y2="height - 1"/>
+    <rectangle color="#363636" x="0" y="0" width="width" height="height" filled="true"/>
+    <line color="#242424" x1="0" y1="0" x2="0" y2="height - 1"/>
   </draw_ops>
   <draw_ops name="edge_right">
-    <rectangle color="#c8c8c8" x="0" y="0" width="width" height="height" filled="true"/>
-    <line color="#8f8f8f" x1="width - 1" y1="0" x2="width - 1" y2="height - 1"/>
+    <rectangle color="#363636" x="0" y="0" width="width" height="height" filled="true"/>
+    <line color="#242424" x1="width - 1" y1="0" x2="width - 1" y2="height - 1"/>
   </draw_ops>
   <draw_ops name="edge_bottom">
-    <rectangle color="#c8c8c8" x="0" y="0" width="width" height="height" filled="true"/>
-    <line color="#8f8f8f" x1="0" y1="height - 1" x2="width - 1" y2="height - 1"/>
+    <rectangle color="#363636" x="0" y="0" width="width" height="height" filled="true"/>
+    <line color="#242424" x1="0" y1="height - 1" x2="width - 1" y2="height - 1"/>
   </draw_ops>
   <draw_ops name="title_focus">
-    <title color="#222222" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
+    <title color="#ededed" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
   </draw_ops>
   <draw_ops name="title_unfocus">
-    <title color="#777777" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
+    <title color="#c6c6c6" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
   </draw_ops>
   <draw_ops name="icon_close">
     <image filename="close.png" x="5" y="5" width="8" height="8"/>
