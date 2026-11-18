@@ -1,4 +1,4 @@
-name: Validate GTK3 CSS
+name: Validate GTK3 CSS and previews
 
 on:
   push:
@@ -6,11 +6,15 @@ on:
     paths:
       - 'themes/**/gtk-3.0/gtk.css'
       - 'scripts/check-gtk3-css.py'
+      - 'scripts/preview-gtk3-menus.py'
+      - 'scripts/preview-gtk3-dialogs.py'
       - '.github/workflows/gtk3-css.yml'
   pull_request:
     paths:
       - 'themes/**/gtk-3.0/gtk.css'
       - 'scripts/check-gtk3-css.py'
+      - 'scripts/preview-gtk3-menus.py'
+      - 'scripts/preview-gtk3-dialogs.py'
   workflow_dispatch:
 
 permissions:
@@ -23,7 +27,11 @@ jobs:
       image: fedora:43
     steps:
       - uses: actions/checkout@v4
-      - name: Install GTK3 parser dependencies
-        run: dnf install -y gtk3 python3
-      - name: Parse Equinox light and dark GTK3 CSS
+      - name: Install GTK3 parser and preview dependencies
+        run: dnf install -y gtk3 python3 python3-gobject
+      - name: Parse all five Equinox GTK3 stylesheets
         run: python3 scripts/check-gtk3-css.py
+      - name: Check GTK3 preview scripts
+        run: |
+          python3 -m py_compile scripts/preview-gtk3-menus.py scripts/preview-gtk3-dialogs.py
+          python3 -c "import runpy; runpy.run_path('scripts/preview-gtk3-menus.py', run_name='syntax_check'); runpy.run_path('scripts/preview-gtk3-dialogs.py', run_name='syntax_check')"
