@@ -373,15 +373,15 @@ menubar, toolbar, .toolbar, .primary-toolbar {
   margin: 0;
   box-shadow: none;
 }
-/* Midnight silver menubar: keep the separator at the bottom, above
- * the charcoal toolbar, not between the title and menu. */
+/* The silver Midnight menu blends directly into the Marco titlebar.
+ * The charcoal toolbar below provides the visible transition. */
 menubar {
   padding: 2px 2px 2px 2px;
   background-color: #a7a7a7;
   background-image: linear-gradient(to bottom, #b7b7b7 0%, #a1a1a1 100%);
   border-top: 0;
-  border-bottom: 2px solid #696969;
-  box-shadow: inset 0 -1px alpha(#ffffff, 0.20);
+  border-bottom: 0;
+  box-shadow: none;
 }
 toolbar, .toolbar, .primary-toolbar {
   padding: 3px 2px 2px 2px;
@@ -399,7 +399,7 @@ headerbar, .titlebar {
   background-color: #b7b7b7;
   background-image: linear-gradient(to bottom, #d1d1d1, #b4b4b4);
   border-color: #828282;
-  border-bottom: 1px solid #858585;
+  border-bottom: 0;
 }
 headerbar label, .titlebar label { color: #333333; }
 /* Toolbar geometry and state-specific gradient overlays.
@@ -434,7 +434,7 @@ toolbar button:disabled, .toolbar button:disabled, .primary-toolbar button:disab
   box-shadow: none;
 }
 headerbar button { padding: 3px 5px; min-width: 16px; }
-headerbar, .titlebar { min-height: 25px; border-bottom: 1px solid @eqx_border; }
+headerbar, .titlebar { min-height: 25px; border-bottom: 0; }
 /* Menuitem backgrounds must stay transparent so the menubar's own
  * vertical gradient remains visible behind Options, System themes, etc.
  * Previously menuitem had a solid @theme_bg_color background, masking
