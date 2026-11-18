@@ -1158,15 +1158,6 @@ treeview header button {
   color: #292929;
   background-image: linear-gradient(to bottom, #b9b9b9, #aaaaaa);
 }
-/* Original Fedora 14 Evolution panel stays charcoal across dark-panel variants. */
-#PanelToplevel, .mate-panel-menu-bar, mate-panel {
-  background-color: #383838;
-  background-image: linear-gradient(to bottom, #414141, #323232);
-  color: #eeeeee;
-}
-.mate-panel-menu-bar > menuitem,
-.mate-panel-menu-bar > menuitem label { color: #eeeeee; }
-
 /* GTK3 dialog and file chooser parity. Keep these scoped to dialogs and
  * the GtkFileChooserWidget, not Caja or generic application sidebars. */
 window.dialog .dialog-action-area,
