@@ -34,4 +34,6 @@ jobs:
           test -f scripts/check-gtk3-css.py
           test -f scripts/check-marco-theme.py
           test -f themes/Equinox-Light/metacity-1/button_normal.png
-          test -f themes/Equinox-Dark/metacity-1/button_normal.png
+          for variant in Evolution Evolution-Dawn Evolution-Dusk Evolution-Midnight; do
+            test -f "themes/Equinox-$variant/metacity-1/button_normal.png"
+          done
