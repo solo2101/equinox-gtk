@@ -244,6 +244,14 @@ entry {
 button:focus, entry:focus {
   border-color: @theme_selected_bg_color;
 }
+/* Gtk3 does not have :focus-visible. Keep keyboard focus clear on controls
+ * without a normal button/entry border; do not affect checked/selected state. */
+checkbutton:focus, radiobutton:focus, switch:focus, scale:focus {
+  outline-color: alpha(@theme_selected_bg_color, 0.85);
+  outline-style: dashed;
+  outline-width: 1px;
+  outline-offset: 1px;
+}
 button:disabled, entry:disabled, check:disabled, radio:disabled {
   color: @eqx_muted;
   border-color: @eqx_disabledBorder;
@@ -325,6 +333,14 @@ iconview:selected, iconview:selected:focus {
   background-color: @eqx_activeBottom;
   background-image: linear-gradient(to bottom, @eqx_activeTop, @eqx_activeBottom);
   box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
+}
+
+/* Caja's real GtkToggleButton breadcrumb widgets use the
+ * .caja-pathbar class (caja-pathbar.c). Adjust only their compact
+ * geometry; GTK keeps its native :checked and click/navigation behavior. */
+.caja-navigation-window .caja-pathbar button {
+  padding: 2px 5px;
+  border-radius: 3px;
 }
 
 /* Thin separators beneath Caja's Places header and breadcrumb bar.
@@ -474,13 +490,13 @@ menu menuitem, .menu menuitem {
 menu menuitem label, .menu menuitem label {
   color: @theme_fg_color;
 }
-menu menuitem:hover, menu menuitem:selected,
-.menu menuitem:hover, .menu menuitem:selected {
+menu menuitem:hover, menu menuitem:selected, menu menuitem:focus,
+.menu menuitem:hover, .menu menuitem:selected, .menu menuitem:focus {
   color: @theme_selected_fg_color;
   background-color: @theme_selected_bg_color;
 }
-menu menuitem:hover label, menu menuitem:selected label,
-.menu menuitem:hover label, .menu menuitem:selected label {
+menu menuitem:hover label, menu menuitem:selected label, menu menuitem:focus label,
+.menu menuitem:hover label, .menu menuitem:selected label, .menu menuitem:focus label {
   color: @theme_selected_fg_color;
 }
 menu menuitem:disabled, menu menuitem:disabled:hover,
