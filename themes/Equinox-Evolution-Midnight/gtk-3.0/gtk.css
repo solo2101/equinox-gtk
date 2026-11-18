@@ -3,6 +3,16 @@
 @define-color eqx_fg #dddddd;
 
 @define-color eqx_columnHeaderText #303030;@define-color eqx_muted #999999;
+@define-color eqx_panelTop #414141;
+@define-color eqx_panelBottom #323232;
+@define-color eqx_panelFg #eeeeee;
+@define-color eqx_panelHoverTop #595959;
+@define-color eqx_panelHoverBottom #454545;
+@define-color eqx_panelPressedTop #292929;
+@define-color eqx_panelPressedBottom #393939;
+@define-color eqx_panelTaskTop #505050;
+@define-color eqx_panelTaskBottom #3b3b3b;
+@define-color eqx_panelEdge #676767;
 @define-color eqx_base #383838;
 @define-color eqx_disabledBase #424242;
 @define-color eqx_accent #497da5;
@@ -1162,4 +1172,132 @@ filechooser placessidebar row:selected:focus label {
 filechooser placessidebar row:disabled,
 filechooser placessidebar row:disabled label {
   color: @eqx_muted;
+}
+
+
+/* MATE Panel button parity (v2.0 refinement).
+ * MATE's PanelToplevel and X11 PanelPlug both add .mate-panel-menu-bar.
+ * The panel clock uses #clock-applet-button and libwnck's task buttons use
+ * wnck-tasklist button#tasklist-button. Keep these styles out of GTK apps.
+ * Only alter paint and compact padding: never force a panel height. */
+#PanelToplevel, .mate-panel-menu-bar, mate-panel {
+  color: @eqx_panelFg;
+  background-color: @eqx_panelBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelTop, @eqx_panelBottom);
+}
+
+/* PanelMenuBar inherits generic menubar painting. Remove the light
+ * application-toolbar gradient from the dark panel's menu strip. */
+.mate-panel-menu-bar menubar {
+  color: @eqx_panelFg;
+  background-color: transparent;
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+.mate-panel-menu-bar menubar > menuitem {
+  color: @eqx_panelFg;
+  background-color: transparent;
+  background-image: none;
+  min-height: 0;
+  padding: 2px 6px;
+}
+.mate-panel-menu-bar menubar > menuitem label {
+  color: @eqx_panelFg;
+}
+.mate-panel-menu-bar menubar > menuitem:hover,
+.mate-panel-menu-bar menubar > menuitem:selected,
+.mate-panel-menu-bar menubar > menuitem:focus {
+  color: @eqx_panelFg;
+  background-color: @eqx_panelHoverBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelHoverTop, @eqx_panelHoverBottom);
+}
+.mate-panel-menu-bar menubar > menuitem:hover label,
+.mate-panel-menu-bar menubar > menuitem:selected label,
+.mate-panel-menu-bar menubar > menuitem:focus label {
+  color: @eqx_panelFg;
+}
+
+/* Panel launchers, applet buttons, and clock have GTK2-style compact,
+ * flat resting states. Hover/checked are distinct without large frames. */
+#PanelToplevel button, .mate-panel-menu-bar button {
+  color: @eqx_panelFg;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: none;
+  min-width: 0;
+  min-height: 0;
+  padding: 1px 3px;
+  margin: 1px;
+}
+#PanelToplevel button label, .mate-panel-menu-bar button label {
+  color: @eqx_panelFg;
+}
+#PanelToplevel button:hover, .mate-panel-menu-bar button:hover {
+  background-color: @eqx_panelHoverBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelHoverTop, @eqx_panelHoverBottom);
+  border-color: @eqx_panelEdge;
+  box-shadow: inset 0 1px alpha(white, 0.10);
+}
+#PanelToplevel button:active, #PanelToplevel button:checked,
+.mate-panel-menu-bar button:active, .mate-panel-menu-bar button:checked {
+  background-color: @eqx_panelPressedBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelPressedTop, @eqx_panelPressedBottom);
+  border-color: @eqx_panelEdge;
+  box-shadow: inset 0 1px alpha(black, 0.18);
+}
+#PanelToplevel button:focus, .mate-panel-menu-bar button:focus {
+  outline-color: @eqx_panelFg;
+  outline-style: dashed;
+  outline-width: 1px;
+  outline-offset: -2px;
+}
+#PanelToplevel button:disabled, .mate-panel-menu-bar button:disabled {
+  color: alpha(@eqx_panelFg, 0.52);
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+#PanelToplevel button:disabled label, .mate-panel-menu-bar button:disabled label {
+  color: alpha(@eqx_panelFg, 0.52);
+}
+
+/* libwnck's WnckTasklist uses the wnck-tasklist CSS node and gives each
+ * child WnckButton the ID tasklist-button. Restore compact raised task
+ * entries while preserving libwnck's checked state and click handlers. */
+wnck-tasklist button#tasklist-button,
+.wnck-tasklist button#tasklist-button {
+  padding: 1px 5px;
+  margin: 1px;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid @eqx_panelEdge;
+  border-radius: 3px;
+  color: @eqx_panelFg;
+  background-color: @eqx_panelTaskBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelTaskTop, @eqx_panelTaskBottom);
+  box-shadow: inset 0 1px alpha(white, 0.12);
+}
+wnck-tasklist button#tasklist-button label,
+.wnck-tasklist button#tasklist-button label {
+  color: @eqx_panelFg;
+}
+wnck-tasklist button#tasklist-button:hover,
+.wnck-tasklist button#tasklist-button:hover {
+  background-color: @eqx_panelHoverBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelHoverTop, @eqx_panelHoverBottom);
+  border-color: @eqx_panelEdge;
+}
+wnck-tasklist button#tasklist-button:active,
+wnck-tasklist button#tasklist-button:checked,
+.wnck-tasklist button#tasklist-button:active,
+.wnck-tasklist button#tasklist-button:checked {
+  background-color: @eqx_panelPressedBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelPressedTop, @eqx_panelPressedBottom);
+  border-color: @eqx_panelEdge;
+  box-shadow: inset 0 1px alpha(black, 0.20);
 }
