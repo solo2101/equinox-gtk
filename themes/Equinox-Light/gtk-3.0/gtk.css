@@ -1070,3 +1070,38 @@ button.link, button.link label, label link, .link {
 button.link:disabled, button.link:disabled label {
   color: @eqx_muted;
 }
+
+/* GTK3 dialog and file chooser parity. Keep these scoped to dialogs and
+ * the GtkFileChooserWidget, not Caja or generic application sidebars. */
+window.dialog .dialog-action-area,
+window.dialog actionbar {
+  background-color: @theme_bg_color;
+  border-top: 1px solid alpha(@eqx_frameEdge, 0.50);
+}
+/* The GTK3 chooser's native CSS node is "filechooser". Use its own
+ * Places sidebar surface while the file list keeps the global .view colors. */
+filechooser placessidebar {
+  color: @theme_fg_color;
+  background-color: shade(@theme_bg_color, 0.97);
+  border-right: 1px solid alpha(@eqx_frameEdge, 0.65);
+}
+filechooser placessidebar row {
+  background-color: transparent;
+  background-image: none;
+}
+filechooser placessidebar row:hover:not(:selected) {
+  background-color: alpha(@theme_fg_color, 0.07);
+}
+filechooser placessidebar row:selected,
+filechooser placessidebar row:selected:focus {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
+filechooser placessidebar row:selected label,
+filechooser placessidebar row:selected:focus label {
+  color: @theme_selected_fg_color;
+}
+filechooser placessidebar row:disabled,
+filechooser placessidebar row:disabled label {
+  color: @eqx_muted;
+}
