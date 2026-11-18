@@ -1149,112 +1149,115 @@ filechooser placessidebar row:disabled label {
 }
 
 
-/* MATE Panel button parity (v2.0 refinement).
- * MATE's PanelToplevel and X11 PanelPlug both add .mate-panel-menu-bar.
- * The panel clock uses #clock-applet-button and libwnck's task buttons use
- * wnck-tasklist button#tasklist-button. Keep these styles out of GTK apps.
- * Only alter paint and compact padding: never force a panel height. */
-#PanelToplevel, .mate-panel-menu-bar, mate-panel {
-  color: @eqx_panelFg;
-  background-color: @eqx_panelBottom;
-  background-image: linear-gradient(to bottom, @eqx_panelTop, @eqx_panelBottom);
-}
-
-/* PanelMenuBar inherits generic menubar painting. Remove the light
- * application-toolbar gradient from the dark panel's menu strip. */
-.mate-panel-menu-bar menubar {
-  color: @eqx_panelFg;
+/* Compact, flat MATE panel controls.
+ * MATE's own source uses PanelMenuBar, #mate-panel-main-menu-button,
+ * #clock-applet-button, .panel-button, and libwnck's #tasklist-button.
+ * Do not paint PanelToplevel or every descendant button: MATE applets
+ * set their own layout/size and may run in separate GTK processes.
+ */
+.mate-panel-menu-bar menubar,
+.mate-panel-menu-bar PanelMenuBar {
   background-color: transparent;
   background-image: none;
   border: 0;
   box-shadow: none;
   padding: 0;
 }
-.mate-panel-menu-bar menubar > menuitem {
-  color: @eqx_panelFg;
-  background-color: transparent;
-  background-image: none;
-  min-height: 0;
-  padding: 2px 6px;
-}
-.mate-panel-menu-bar menubar > menuitem label {
-  color: @eqx_panelFg;
-}
-.mate-panel-menu-bar menubar > menuitem:hover,
-.mate-panel-menu-bar menubar > menuitem:selected,
-.mate-panel-menu-bar menubar > menuitem:focus {
-  color: @eqx_panelFg;
-  background-color: @eqx_panelHoverBottom;
-  background-image: linear-gradient(to bottom, @eqx_panelHoverTop, @eqx_panelHoverBottom);
-}
-.mate-panel-menu-bar menubar > menuitem:hover label,
-.mate-panel-menu-bar menubar > menuitem:selected label,
-.mate-panel-menu-bar menubar > menuitem:focus label {
-  color: @eqx_panelFg;
-}
-
-/* Panel launchers, applet buttons, and clock have GTK2-style compact,
- * flat resting states. Hover/checked are distinct without large frames. */
-#PanelToplevel button, .mate-panel-menu-bar button {
+/* Give Applications, Places and System some breathing room within the
+ * panel, without filling the entire panel height on hover. */
+.mate-panel-menu-bar menubar > menuitem,
+.mate-panel-menu-bar PanelMenuBar > menuitem {
   color: @eqx_panelFg;
   background-color: transparent;
   background-image: none;
   border: 1px solid transparent;
   border-radius: 3px;
   box-shadow: none;
-  min-width: 0;
   min-height: 0;
-  padding: 1px 3px;
-  margin: 1px;
+  margin: 3px 1px;
+  padding: 2px 8px;
 }
-#PanelToplevel button label, .mate-panel-menu-bar button label {
+.mate-panel-menu-bar menubar > menuitem label,
+.mate-panel-menu-bar PanelMenuBar > menuitem label {
   color: @eqx_panelFg;
 }
-#PanelToplevel button:hover, .mate-panel-menu-bar button:hover {
+.mate-panel-menu-bar menubar > menuitem:hover,
+.mate-panel-menu-bar menubar > menuitem:selected,
+.mate-panel-menu-bar menubar > menuitem:focus,
+.mate-panel-menu-bar PanelMenuBar > menuitem:hover,
+.mate-panel-menu-bar PanelMenuBar > menuitem:selected,
+.mate-panel-menu-bar PanelMenuBar > menuitem:focus {
+  color: @eqx_panelFg;
   background-color: @eqx_panelHoverBottom;
-  background-image: linear-gradient(to bottom, @eqx_panelHoverTop, @eqx_panelHoverBottom);
-  border-color: @eqx_panelEdge;
-  box-shadow: inset 0 1px alpha(white, 0.10);
-}
-#PanelToplevel button:active, #PanelToplevel button:checked,
-.mate-panel-menu-bar button:active, .mate-panel-menu-bar button:checked {
-  background-color: @eqx_panelPressedBottom;
-  background-image: linear-gradient(to bottom, @eqx_panelPressedTop, @eqx_panelPressedBottom);
-  border-color: @eqx_panelEdge;
-  box-shadow: inset 0 1px alpha(black, 0.18);
-}
-#PanelToplevel button:focus, .mate-panel-menu-bar button:focus {
-  outline-color: @eqx_panelFg;
-  outline-style: dashed;
-  outline-width: 1px;
-  outline-offset: -2px;
-}
-#PanelToplevel button:disabled, .mate-panel-menu-bar button:disabled {
-  color: alpha(@eqx_panelFg, 0.52);
-  background-color: transparent;
   background-image: none;
-  border-color: transparent;
+  border-color: @eqx_panelEdge;
   box-shadow: none;
 }
-#PanelToplevel button:disabled label, .mate-panel-menu-bar button:disabled label {
-  color: alpha(@eqx_panelFg, 0.52);
+.mate-panel-menu-bar menubar > menuitem:hover label,
+.mate-panel-menu-bar menubar > menuitem:selected label,
+.mate-panel-menu-bar menubar > menuitem:focus label,
+.mate-panel-menu-bar PanelMenuBar > menuitem:hover label,
+.mate-panel-menu-bar PanelMenuBar > menuitem:selected label,
+.mate-panel-menu-bar PanelMenuBar > menuitem:focus label {
+  color: @eqx_panelFg;
 }
-
-/* libwnck's WnckTasklist uses the wnck-tasklist CSS node and gives each
- * child WnckButton the ID tasklist-button. Restore compact raised task
- * entries while preserving libwnck's checked state and click handlers. */
+/* Explicitly named MATE buttons. Keep clock's native vertical padding
+ * and libwnck's custom window-list sizing instead of replacing them. */
+#mate-panel-main-menu-button,
+#clock-applet-button,
+.panel-button {
+  color: @eqx_panelFg;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: none;
+  min-height: 0;
+  min-width: 0;
+}
+#mate-panel-main-menu-button {
+  padding: 2px 6px;
+  margin: 2px;
+}
+#clock-applet-button {
+  padding: 0 4px;
+  margin: 2px;
+}
+#mate-panel-main-menu-button:hover,
+#clock-applet-button:hover,
+.panel-button:hover {
+  background-color: @eqx_panelHoverBottom;
+  background-image: none;
+  border-color: @eqx_panelEdge;
+  box-shadow: none;
+}
+#mate-panel-main-menu-button:active,
+#mate-panel-main-menu-button:checked,
+#clock-applet-button:active,
+#clock-applet-button:checked,
+.panel-button:active,
+.panel-button:checked {
+  background-color: @eqx_panelPressedBottom;
+  background-image: none;
+  border-color: @eqx_panelEdge;
+  box-shadow: none;
+}
+#mate-panel-main-menu-button label,
+#clock-applet-button label {
+  color: @eqx_panelFg;
+}
+/* Tasklist buttons are actual WnckButtons named tasklist-button.
+ * MATE intentionally sets their padding and margin through a higher
+ * priority app CSS provider; do not fight its sizing here. */
 wnck-tasklist button#tasklist-button,
 .wnck-tasklist button#tasklist-button {
-  padding: 1px 5px;
-  margin: 1px;
-  min-width: 0;
-  min-height: 0;
-  border: 1px solid @eqx_panelEdge;
-  border-radius: 3px;
   color: @eqx_panelFg;
   background-color: @eqx_panelTaskBottom;
-  background-image: linear-gradient(to bottom, @eqx_panelTaskTop, @eqx_panelTaskBottom);
-  box-shadow: inset 0 1px alpha(white, 0.12);
+  background-image: none;
+  border: 1px solid @eqx_panelEdge;
+  border-radius: 3px;
+  box-shadow: none;
+  min-height: 0;
 }
 wnck-tasklist button#tasklist-button label,
 .wnck-tasklist button#tasklist-button label {
@@ -1263,15 +1266,16 @@ wnck-tasklist button#tasklist-button label,
 wnck-tasklist button#tasklist-button:hover,
 .wnck-tasklist button#tasklist-button:hover {
   background-color: @eqx_panelHoverBottom;
-  background-image: linear-gradient(to bottom, @eqx_panelHoverTop, @eqx_panelHoverBottom);
+  background-image: none;
   border-color: @eqx_panelEdge;
+  box-shadow: none;
 }
 wnck-tasklist button#tasklist-button:active,
 wnck-tasklist button#tasklist-button:checked,
 .wnck-tasklist button#tasklist-button:active,
 .wnck-tasklist button#tasklist-button:checked {
   background-color: @eqx_panelPressedBottom;
-  background-image: linear-gradient(to bottom, @eqx_panelPressedTop, @eqx_panelPressedBottom);
+  background-image: none;
   border-color: @eqx_panelEdge;
-  box-shadow: inset 0 1px alpha(black, 0.20);
+  box-shadow: none;
 }
