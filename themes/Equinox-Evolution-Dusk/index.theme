@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Equinox Evolution Dusk
+Comment=Placeholder for original Equinox Evolution Dusk
+
+[X-GNOME-Metatheme]
+GtkTheme=Equinox-Evolution-Dusk
+MetacityTheme=Equinox-Evolution-Dusk
+IconTheme=Delft-Darkest
+CursorTheme=Adwaita

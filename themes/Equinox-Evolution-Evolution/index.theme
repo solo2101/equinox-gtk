@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Equinox Evolution Evolution
+Comment=Placeholder for original Equinox Evolution Evolution
+
+[X-GNOME-Metatheme]
+GtkTheme=Equinox-Evolution-Evolution
+MetacityTheme=Equinox-Evolution-Evolution
+IconTheme=Delft
+CursorTheme=Adwaita

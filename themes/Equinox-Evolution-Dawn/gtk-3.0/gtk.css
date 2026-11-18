@@ -1,0 +1,983 @@
+/* Theme variant: Equinox-Evolution-Dawn. Placeholder based on Equinox Light; palette awaits original Fedora 14 screenshots. */
+@define-color eqx_bg #d7d7d7;
+@define-color eqx_fg #252525;
+@define-color eqx_muted #686868;
+@define-color eqx_base #ffffff;
+@define-color eqx_disabledBase #eeeeee;
+@define-color eqx_accent #3978b4;
+@define-color eqx_accentTop #5e9bcc;
+@define-color eqx_top #e3e3e3;
+@define-color eqx_midTop #d6d6d6;
+@define-color eqx_midBottom #d2d2d2;
+@define-color eqx_bottom #c4c4c4;
+@define-color eqx_hoverTop #f1f1f1;
+@define-color eqx_hoverBottom #d6d6d6;
+@define-color eqx_pressTop #bdbdbd;
+@define-color eqx_pressBottom #d2d2d2;
+@define-color eqx_border #777777;
+@define-color eqx_buttonBorder #6b6b6b;
+@define-color eqx_inner rgba(255,255,255,0.78);
+@define-color eqx_outer rgba(0,0,0,0.13);
+@define-color eqx_entryBorder #999999;
+@define-color eqx_entryShadow rgba(0,0,0,0.13);
+@define-color eqx_disabledSurface #d7d7d7;
+@define-color eqx_disabledBorder #ababab;
+@define-color eqx_tabTop #c3c3c3;
+@define-color eqx_tabBottom #aaaaaa;
+@define-color eqx_tabBorder #888888;
+@define-color eqx_trough #bcbcbc;
+@define-color eqx_scaleTop #eeeeee;
+@define-color eqx_scaleBottom #cecece;
+@define-color eqx_scroll #bdbdbd;
+@define-color eqx_barTop #e3e3e3;
+@define-color eqx_separator rgba(52,52,52,0.28);
+@define-color eqx_separatorDark shade(@theme_bg_color, 0.68);
+@define-color eqx_separatorLight shade(@theme_bg_color, 1.15);
+@define-color eqx_link #215eab;
+@define-color eqx_tooltip #ededed;
+@define-color theme_bg_color #d7d7d7;
+@define-color theme_fg_color #252525;
+@define-color theme_base_color #ffffff;
+@define-color theme_text_color #252525;
+@define-color theme_selected_bg_color #3978b4;
+@define-color theme_selected_fg_color #ffffff;
+@define-color theme_unfocused_fg_color #686868;
+
+
+@define-color eqx_activeTop #c7c7c7;
+@define-color eqx_activeMid #bbbbbb;
+@define-color eqx_activeBottom #a8a8a8;
+@define-color eqx_disabledTop #dfdfdf;
+@define-color eqx_disabledBottom #cccccc;
+@define-color eqx_disabledCheckedTop #d7d7d7;
+@define-color eqx_disabledCheckedBottom #bfbfbf;
+@define-color eqx_frameBorder #a0a0a0;
+@define-color eqx_frameWell #d1d1d1;
+@define-color eqx_frameLift #e0e0e0;
+@define-color eqx_frameEdge #a2a2a2;
+@define-color eqx_frameShade #858585;
+@define-color eqx_frameHighlight #f0f0f0;
+
+@define-color eqx_menuTop #d8d8d8;
+@define-color eqx_menuBottom #cbcbcb;
+@define-color eqx_toolbarTop #cbcbcb;
+@define-color eqx_toolbarBottom #b5b5b5;
+@define-color eqx_menuGroove #acacac;
+@define-color eqx_toolbarLine #979797;
+@define-color eqx_toolbarRidge #e3e3e3;
+@define-color eqx_tabSheen #cfcfcf;
+@define-color eqx_tabMid #b5b5b5;
+@define-color eqx_progTroughTop #f0f0f0;
+@define-color eqx_progTroughBottom #c9c9c9;
+@define-color eqx_progAccentDeep #2664a1;
+@define-color eqx_progBorder #4376a1;
+
+/* Equinox GTK3.24: consolidated GTK2-reference parity stylesheet.
+   Reference: original src/equinox_draw.c, src/equinox_style.c.
+   No custom GTK3 engine or generated PNGs. */
+
+* { -gtk-icon-shadow: none; }
+
+/* Shared Equinox effects: raised, recessed, handles and progress fills.
+ * Keep light/dark colors in the palette. Widget geometry and state-specific
+ * overrides stay with their widgets. Define shared effects before overrides.
+ *
+ * RAISED: regular controls and their external drop edge.
+ * RAISED-INNER: small handles, header buttons and toolbar hover surfaces.
+ * BORDERS: recessed tracks and small controls with identical rim colors.
+ */
+button, combobox button, spinbutton button, .linked button, .titlebutton {
+  /* Matte Equinox bevel: keep a faint rim without a glossy highlight. */
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.25),
+              0 1px alpha(@eqx_outer, 0.45);
+}
+treeview header button, scale slider, switch slider,
+toolbar button:hover, .toolbar button:hover, .primary-toolbar button:hover {
+  box-shadow: inset 0 1px @eqx_inner;
+}
+scrollbar slider, check, radio, switch, switch slider, scale slider {
+  border: 1px solid @eqx_border;
+}
+/* Shared handle paint; sizes remain under individual widgets. */
+scale slider, switch slider {
+  background-color: @eqx_scaleBottom;
+  background-image: linear-gradient(to bottom, @eqx_scaleTop, @eqx_scaleBottom);
+  border-radius: 100%;
+}
+/* Shared progress fill foundation. GTK3 progress widgets and tree cell
+ * renderers require different gradient stripe widths and geometry. */
+progressbar progress,
+treeview.view .progressbar, treeview .progressbar,
+treeview.view.progressbar, .progressbar {
+  background-color: @theme_selected_bg_color;
+  border: 1px solid @eqx_progBorder;
+  /* GTK2 draws a light rim on its blue fill. */
+  border-top-color: shade(@eqx_progBorder, 1.13);
+}
+/* Recessed controls share a 1px rim, with widget-specific border colors.
+ * Trough depth and frame shadow variants stay in their respective rules. */
+entry, scale trough, progressbar trough, levelbar trough,
+switch, check, radio, treeview.view .trough, treeview .trough,
+treeview.view.trough, .trough {
+  border-style: solid;
+  border-width: 1px;
+}
+/* Subtle inset shade for small wells. Inactive controls keep their recessed
+ * identity; disabled indicators suppress this bevel below. */
+scale trough, levelbar trough, switch, check, radio {
+  box-shadow: inset 0 1px alpha(@eqx_entryShadow, 0.45);
+}
+/* One pressed/checked inset treatment for buttons, including toolbars. */
+button:active, button:checked,
+toolbar button:active, toolbar button:checked,
+.toolbar button:active, .toolbar button:checked,
+.primary-toolbar button:active, .primary-toolbar button:checked {
+  box-shadow: inset 0 1px alpha(@eqx_outer, 0.65),
+              inset 0 2px alpha(@eqx_outer, 0.12);
+}
+
+
+window, dialog, .background {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+}
+label, cellview { color: @theme_fg_color; }
+label:disabled, cellview:disabled, .dim-label,
+button:disabled label, checkbutton:disabled label,
+radiobutton:disabled label, menuitem:disabled label { color: @eqx_muted; }
+selection, entry selection, textview text selection {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
+
+/* GTK2 reference: buttonstyle=0, explicit active/insensitive states.
+ * The old GTK3 pressed gradient had its light and dark ends reversed.
+ */
+button, combobox button, spinbutton button, .linked button, .titlebutton {
+  color: @theme_fg_color;
+  background-color: @eqx_bottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_midTop 0%, @eqx_midBottom 55%, @eqx_bottom 100%);
+  border: 1px solid alpha(@eqx_buttonBorder, 0.88);
+  border-radius: 5px;
+  padding: 5px 8px;
+  min-width: 13px;
+  min-height: 18px;
+}
+button:hover {
+  background-image: linear-gradient(to bottom,
+    @eqx_hoverTop, @eqx_hoverBottom);
+}
+/* Shared pressed fill. Toolbar buttons inherit this value while retaining
+ * their simpler two-stop gradient and border overrides. */
+button:active, button:checked, combobox button:active,
+spinbutton button:active {
+  background-color: @eqx_activeBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_activeTop 0%, @eqx_activeMid 50%, @eqx_activeBottom 100%);
+}
+button:disabled, combobox button:disabled, spinbutton button:disabled {
+  background-color: @eqx_disabledBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_disabledTop, @eqx_disabledBottom);
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.45);
+}
+button:checked:disabled, button:active:disabled {
+  background-image: linear-gradient(to bottom,
+    @eqx_disabledCheckedTop, @eqx_disabledCheckedBottom);
+  box-shadow: none;
+}
+
+/* Draw a genuine triangular arrow from CSS rather than relying on an icon
+ * theme's availability of pan-down-symbolic. */
+combobox arrow {
+  -gtk-icon-source: none;
+  min-width: 0;
+  min-height: 0;
+  border-style: solid;
+  border-width: 4px 3px 0 3px;
+  border-top-color: @theme_fg_color;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  margin: 0 4px;
+}
+combobox:disabled arrow, combobox button:disabled arrow {
+  border-top-color: @eqx_muted;
+}
+combobox button { padding: 3px 6px; }
+combobox entry { border-radius: 4px 0 0 4px; }
+spinbutton { padding: 0; }
+spinbutton entry { min-width: 28px; margin: 0; }
+spinbutton button {
+  min-width: 14px;
+  min-height: 18px;
+  padding: 2px 5px;
+}
+.linked button:not(:first-child),
+.linked entry:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.linked button:not(:last-child),
+.linked entry:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* GTK2 equinox_draw_entry uses a subtle inset rim; no parent-bg PNGs. */
+entry, textview text {
+  color: @theme_text_color;
+  background-color: @theme_base_color;
+}
+entry {
+  caret-color: @theme_fg_color;
+  border-color: @eqx_entryBorder;
+  border-radius: 5px;
+  box-shadow: inset 0 1px @eqx_entryShadow, 0 1px alpha(@eqx_inner, 0.35);
+  min-height: 19px;
+  padding: 3px 5px;
+}
+/* Shared interaction states. Keep tab selection and widget geometry local.
+ * Focus uses one accent rim; disabled controls share text and border colors.
+ * Widget-specific gradients, fills, and bevel suppression remain below. */
+button:focus, entry:focus {
+  border-color: @theme_selected_bg_color;
+}
+button:disabled, entry:disabled, check:disabled, radio:disabled {
+  color: @eqx_muted;
+  border-color: @eqx_disabledBorder;
+}
+textview:disabled text { color: @eqx_muted; border-color: @eqx_disabledBorder; }
+entry:disabled, textview:disabled text {
+  background-color: @eqx_disabledBase;
+  box-shadow: none;
+}
+treeview.view, iconview {
+  color: @theme_text_color;
+  background-color: @theme_base_color;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+treeview.view:selected, treeview.view:selected:focus,
+iconview:selected, iconview:selected:focus {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
+/* Caja file canvas uses a custom view inside its notebook.
+ * Scope the light/dark base colors here, not to generic .view, so
+ * popup menus and their labels keep their original styling. */
+.caja-navigation-window .caja-notebook .view,
+.caja-navigation-window .caja-notebook .view text {
+  color: @theme_text_color;
+  background-color: @theme_base_color;
+}
+.caja-navigation-window .caja-notebook .view:selected,
+.caja-navigation-window .caja-notebook .view:selected:focus,
+.caja-navigation-window .caja-notebook .view text:selected {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
+
+/* Caja sidebar: the header uses the main theme gray all the way
+ * through its padding. The Places list retains its separate pane color. */
+.caja-navigation-window .caja-side-pane {
+  background-color: @theme_bg_color;
+  background-image: none;
+}
+.caja-navigation-window .caja-side-pane > notebook scrolledwindow,
+.caja-navigation-window .caja-side-pane > notebook viewport.frame,
+.caja-navigation-window .caja-side-pane treeview.view:not(:selected) {
+  background-color: shade(@theme_base_color, 0.94);
+}
+.caja-navigation-window .caja-side-pane treeview.view:selected,
+.caja-navigation-window .caja-side-pane treeview.view:selected:focus {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
+/* Flat background behind the selector and close button. */
+.caja-navigation-window .caja-side-pane > box.horizontal {
+  background-color: @theme_bg_color;
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Caja Places selector: restore the compact GTK2 raised button.
+ * Keep the adjacent close control and dropdown behavior untouched. */
+.caja-navigation-window .caja-side-pane > box.horizontal > button:first-child {
+  color: @theme_fg_color;
+  background-color: @eqx_bottom;
+  background-image: linear-gradient(to bottom, @eqx_top, @eqx_midTop 52%, @eqx_bottom);
+  border: 1px solid alpha(@eqx_buttonBorder, 0.90);
+  border-radius: 3px;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.20),
+              0 1px alpha(@eqx_outer, 0.30);
+  padding: 2px 6px;
+  min-height: 0;
+}
+.caja-navigation-window .caja-side-pane > box.horizontal > button:first-child:hover {
+  background-image: linear-gradient(to bottom, @eqx_hoverTop, @eqx_hoverBottom);
+}
+.caja-navigation-window .caja-side-pane > box.horizontal > button:first-child:active,
+.caja-navigation-window .caja-side-pane > box.horizontal > button:first-child:checked {
+  background-color: @eqx_activeBottom;
+  background-image: linear-gradient(to bottom, @eqx_activeTop, @eqx_activeBottom);
+  box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
+}
+
+/* Thin separators beneath Caja's Places header and breadcrumb bar.
+ * Apply them to the pane contents, not the controls themselves, so
+ * the line spans the full width without changing button geometry. */
+.caja-navigation-window .caja-side-pane > notebook scrolledwindow.frame {
+  border-top: 1px solid shade(@eqx_frameEdge, 0.80);
+}
+.caja-navigation-window .caja-notebook > stack {
+  border-top: 1px solid shade(@eqx_frameEdge, 0.80);
+}
+
+/* Caja bottom statusbar: a clear two-tone separator matches the GTK2
+ * file-window footer while retaining the native GTK3 statusbar layout. */
+.caja-navigation-window statusbar {
+  background-color: @theme_bg_color;
+  border-top: 1px solid shade(@eqx_frameEdge, 0.80);
+  box-shadow: inset 0 1px alpha(@eqx_frameHighlight, 0.65);
+}
+
+treeview header button {
+  border-radius: 0;
+  padding: 2px 5px;
+  min-height: 17px;
+}
+
+/* Flush GTK3 top chrome matching the GTK2 engine:
+ * equinox_draw_menubar() paints across the entire allocation and draws a
+ * single 0.8*background bottom groove. equinox_draw_toolbar() begins at
+ * menubar's ending shade, then draws a 1px top highlight and bottom shadow.
+ * All paint is owned by the bar itself. Never add an outer framed box.
+ *
+ * In the Fedora screenshot at 1x scale the GTK2 groove is y=50 and
+ * its toolbar highlight is y=51. GTK3 had them at y=51 and y=52.
+ * Shift one pixel of padding from menubar bottom to toolbar top:
+ * unchanged total height and button placement, aligned edge groove. */
+menubar, toolbar, .toolbar, .primary-toolbar {
+  color: @theme_fg_color;
+  border-style: solid;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
+}
+menubar {
+  /* Add the missing bottom pixel before the GTK2-style groove. */
+  padding: 2px 2px 2px 2px;
+  background-color: @eqx_menuTop;
+  background-image: linear-gradient(to bottom,
+    @eqx_menuTop 0%, @eqx_menuBottom 100%);
+  border-bottom: 1px solid @eqx_menuGroove;
+}
+toolbar, .toolbar, .primary-toolbar {
+  padding: 3px 2px 2px 2px;
+  background-color: @eqx_toolbarBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_toolbarTop 0%, @eqx_toolbarBottom 100%);
+  border-bottom: 1px solid @eqx_toolbarLine;
+  box-shadow: inset 0 1px @eqx_toolbarRidge;
+}
+/* Client-side headerbars are separate GTK3 window decorations. Do not
+ * impose the GTK2 toolbar groove on titlebars. */
+headerbar, .titlebar {
+  color: @theme_fg_color;
+  background-color: @eqx_menuTop;
+  background-image: linear-gradient(to bottom,
+    @eqx_menuTop, @eqx_toolbarBottom);
+  border-color: @eqx_border;
+}
+/* Toolbar geometry and state-specific gradient overlays.
+ * The original GTK2 Equinox toolbar paints its background as one strip.
+ * Idle toolbar icon buttons are transparent. Borders show only for interaction.
+ * Headerbar controls remain normal push buttons because GTK3 adds CSD. */
+toolbar button, .toolbar button, .primary-toolbar button {
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  border-radius: 4px;
+  box-shadow: none;
+  padding: 3px 5px;
+  min-width: 16px;
+  min-height: 18px;
+}
+toolbar button:hover, .toolbar button:hover, .primary-toolbar button:hover {
+  background-color: @eqx_bottom;
+  background-image: linear-gradient(to bottom, @eqx_top, @eqx_bottom);
+  border-color: @eqx_buttonBorder;
+}
+toolbar button:active, toolbar button:checked,
+.toolbar button:active, .toolbar button:checked,
+.primary-toolbar button:active, .primary-toolbar button:checked {
+  background-image: linear-gradient(to bottom, @eqx_activeTop, @eqx_activeBottom);
+  border-color: @eqx_buttonBorder;
+}
+toolbar button:disabled, .toolbar button:disabled, .primary-toolbar button:disabled {
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+headerbar button { padding: 3px 5px; min-width: 16px; }
+headerbar, .titlebar { min-height: 25px; border-bottom: 1px solid @eqx_border; }
+/* Menuitem backgrounds must stay transparent so the menubar's own
+ * vertical gradient remains visible behind Options, System themes, etc.
+ * Previously menuitem had a solid @theme_bg_color background, masking
+ * the gradient except in the blank space after Help. */
+menu, .menu, popover, popover.background {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+}
+menuitem {
+  color: @theme_fg_color;
+  background-color: transparent;
+  background-image: none;
+}
+menubar > menuitem,
+menubar > menuitem > label,
+menubar > menuitem > box {
+  background-color: transparent;
+  background-image: none;
+}
+menuitem, modelbutton { padding: 3px 7px; }
+menuitem:hover, menuitem:selected, modelbutton:hover,
+menubar > menuitem:hover, menubar > menuitem:selected {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
+
+/* Original Equinox notebook proportions: inactive tabs sit slightly below
+ * the active one. Keep selection tied to GTK's :checked state, and keep
+ * the selected tab joined to the notebook stack on all four edges.
+ */
+notebook {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+}
+/* Put the frame on the page stack, not on the whole notebook.
+ * The notebook root contains the header, which otherwise gets a border
+ * above the tabs. This retains tab order, size and click handling. */
+notebook.frame {
+  border: 0;
+  border-radius: 0;
+}
+/* Square page corners prevent a gap where the selected tab meets the frame. */
+notebook.frame > stack {
+  border: 1px solid @eqx_frameBorder;
+  border-radius: 0;
+}
+notebook > header {
+  background-color: @theme_bg_color;
+  background-image: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+notebook > header > tabs {
+  margin: 0;
+  padding: 0;
+}
+notebook > header > tabs > tab {
+  color: @theme_fg_color;
+  background-color: @eqx_tabBottom;
+  background-image: linear-gradient(to bottom, @eqx_tabTop, @eqx_tabBottom);
+  border: 1px solid alpha(@eqx_tabBorder, 0.82);
+  border-radius: 4px 4px 0 0;
+  box-shadow: none;
+  margin: 2px 1px 0 0;
+  padding: 3px 7px;
+  min-height: 17px;
+}
+/* Inactive top tabs end cleanly above the page frame, like GTK2.
+ * Keep border width to avoid moving tabs or changing hit targets. */
+notebook > header.top > tabs > tab:not(:checked) {
+  border-bottom-color: transparent;
+}
+notebook > header > tabs > tab:hover {
+  background-color: @eqx_tabTop;
+  background-image: linear-gradient(to bottom, @eqx_tabSheen, @eqx_tabTop);
+}
+/* Checked must win against the hover selector above. */
+notebook > header > tabs > tab:checked,
+notebook > header > tabs > tab:checked:hover {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+  background-image: none;
+  border-color: alpha(@eqx_tabBorder, 0.82);
+  box-shadow: none;
+}
+/* Join the selected tab to the page stack. A 1px overlap hides the
+ * stack border beneath the active tab without altering inactive tab layout.
+ * Selection still uses :checked and GTK's native tab switching. */
+notebook > header.top > tabs > tab:checked {
+  margin-top: 0;
+  margin-bottom: -1px;
+  border-bottom-color: @theme_bg_color;
+}
+notebook > header.bottom > tabs > tab:checked {
+  margin-bottom: 0;
+  margin-top: -1px;
+  border-top-color: @theme_bg_color;
+}
+notebook > header.left > tabs > tab:checked {
+  margin-left: 0;
+  margin-right: -1px;
+  border-right-color: @theme_bg_color;
+}
+notebook > header.right > tabs > tab:checked {
+  margin-right: 0;
+  margin-left: -1px;
+  border-left-color: @theme_bg_color;
+}
+notebook > header.bottom > tabs > tab {
+  border-radius: 0 0 1px 1px;
+  margin: 0 1px 2px 0;
+}
+notebook > header.left > tabs > tab {
+  border-radius: 1px 0 0 1px;
+  margin: 0 1px 1px 2px;
+}
+notebook > header.right > tabs > tab {
+  border-radius: 0 1px 1px 0;
+  margin: 0 2px 1px 1px;
+}
+notebook > header > tabs > tab label {
+  color: @theme_fg_color;
+  background-color: transparent;
+}
+notebook > header > tabs > tab:disabled {
+  color: @eqx_muted;
+  background-image: none;
+  background-color: @eqx_disabledSurface;
+  border-color: @eqx_disabledBorder;
+  box-shadow: none;
+}
+notebook > header > tabs > tab:disabled label {
+  color: @eqx_muted;
+}
+notebook > header > tabs > tab button,
+notebook > header > tabs > tab button:hover,
+notebook > header > tabs > tab button:active {
+  background-color: transparent;
+  background-image: none;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: none;
+  min-height: 12px;
+  min-width: 12px;
+  padding: 0;
+  margin: 0 0 0 3px;
+}
+notebook > header > tabs > tab button:hover {
+  background-color: alpha(@theme_fg_color, 0.12);
+}
+
+/* Ranges: shared recessed track paint followed by individual slider
+ * dimensions and GTK2-oriented progress animations. */
+scale { padding: 3px; }
+scale trough, progressbar trough, levelbar trough {
+  background-color: @eqx_trough;
+  border-color: @eqx_border;
+  border-radius: 4px;
+}
+/* Equinox draw_scale_trough: recessed four-stop channel.
+ * Its dark-to-light cross-section rotates with track orientation. */
+scale trough {
+  min-width: 4px;
+  min-height: 4px;
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_trough, 0.56) 0%,
+    shade(@eqx_trough, 0.78) 8%,
+    shade(@eqx_trough, 1.03) 80%,
+    @eqx_trough 100%);
+  box-shadow: 0 1px alpha(@eqx_inner, 0.5);
+}
+scale.vertical trough {
+  background-image: linear-gradient(to right,
+    shade(@eqx_trough, 0.56) 0%,
+    shade(@eqx_trough, 0.78) 8%,
+    shade(@eqx_trough, 1.03) 80%,
+    @eqx_trough 100%);
+}
+scale slider {
+  min-height: 11px;
+  min-width: 11px;
+}
+scale.horizontal slider { margin: -4px 0; }
+scale.vertical slider { margin: 0 -4px; }
+scale highlight, levelbar block.filled {
+  background-color: @theme_selected_bg_color;
+  background-image: linear-gradient(to bottom, @eqx_accentTop, @theme_selected_bg_color);
+  border-radius: 3px;
+}
+/* The GTK2 Equinox animation increments the diagonal stripe offset.
+ * GTK3 animates its striped background position by one complete tile. */
+@keyframes eqx-progress-flow {
+  from { background-position: 0px 0px, 0px 0px; }
+  to { background-position: 25px 0px, 0px 0px; }
+}
+/* Original equinox_draw_progressbar_trough() has a beveled full-height channel.
+ * Original equinox_draw_progressbar_fill() draws diagonal bands over blue. */
+progressbar trough {
+  min-height: 14px;
+  min-width: 14px;
+  padding: 1px;
+  background-color: @eqx_progTroughBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_progTroughTop 0%, @eqx_progTroughTop 30%, @eqx_progTroughBottom 100%);
+  border-color: @eqx_frameBorder;
+  border-radius: 5px;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.75),
+              inset 0 2px alpha(@eqx_outer, 0.28);
+}
+progressbar progress {
+  min-height: 12px;
+  min-width: 12px;
+  background-image:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,0.16) 0px,
+      rgba(255,255,255,0.16) 9px,
+      rgba(0,25,70,0.16) 9px,
+      rgba(0,25,70,0.16) 18px),
+    linear-gradient(to bottom,
+      @eqx_accentTop 0%,
+      @theme_selected_bg_color 45%,
+      @eqx_progAccentDeep 100%);
+  background-size: 25px 25px, 100% 100%;
+  background-position: 0px 0px, 0px 0px;
+  animation-name: eqx-progress-flow;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  border-radius: 4px;
+  box-shadow: inset 0 1px rgba(255,255,255,0.22),
+              0 1px alpha(@eqx_outer, 0.20);
+}
+progressbar.vertical trough, progressbar.vertical progress { min-width: 14px; }
+progressbar.vertical progress {
+  background-image:
+    repeating-linear-gradient(45deg,
+      rgba(255,255,255,0.16) 0px,
+      rgba(255,255,255,0.16) 9px,
+      rgba(0,25,70,0.16) 9px,
+      rgba(0,25,70,0.16) 18px),
+    linear-gradient(to right,
+      @eqx_accentTop 0%,
+      @theme_selected_bg_color 45%,
+      @eqx_progAccentDeep 100%);
+}
+
+/* GtkCellRendererProgress does not create progressbar > progress nodes.
+ * GTK3 draws it using a .trough/.progressbar CSS style class instead.
+ * Include both treeview descendant and same-node class paths. Keep the
+ * cell dimensions under GtkTreeView's control, unlike full progress bars. */
+treeview.view .trough, treeview .trough,
+treeview.view.trough, .trough {
+  background-color: @eqx_progTroughBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_progTroughTop, @eqx_progTroughBottom);
+  border-color: @eqx_frameBorder;
+  border-radius: 3px;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.60);
+}
+treeview.view .progressbar, treeview .progressbar,
+treeview.view.progressbar, .progressbar {
+  background-image:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,0.16) 0px,
+      rgba(255,255,255,0.16) 7px,
+      rgba(0,25,70,0.16) 7px,
+      rgba(0,25,70,0.16) 14px),
+    linear-gradient(to bottom,
+      @eqx_accentTop 0%,
+      @theme_selected_bg_color 45%,
+      @eqx_progAccentDeep 100%);
+  border-radius: 3px;
+  box-shadow: inset 0 1px rgba(255,255,255,0.20);
+}
+
+scrollbar {
+  -GtkScrollbar-has-backward-stepper: false;
+  -GtkScrollbar-has-forward-stepper: false;
+  -GtkScrollbar-has-secondary-backward-stepper: false;
+  -GtkScrollbar-has-secondary-forward-stepper: false;
+  background-color: transparent;
+  border: none;
+}
+/* Equinox GTK2: scrollbarstyle=1, scrollbartrough=0.
+ * GTK2 draws a recessed cross-axis trough and a highlighted 4-stop thumb.
+ * Keep GTK3 overlay indicators operational; style their trough/thumb too. */
+scrollbar.vertical { min-width: 13px; }
+scrollbar.horizontal { min-height: 13px; }
+scrollbar trough {
+  background-color: @theme_bg_color;
+  background-image: linear-gradient(to right,
+    shade(@theme_bg_color, 0.92) 0%,
+    shade(@theme_bg_color, 0.98) 22%,
+    @theme_bg_color 55%,
+    shade(@theme_bg_color, 0.98) 82%,
+    shade(@theme_bg_color, 0.92) 100%);
+  border: none;
+  box-shadow: inset 1px 0 alpha(@eqx_outer, 0.25);
+}
+scrollbar.horizontal trough {
+  background-image: linear-gradient(to bottom,
+    shade(@theme_bg_color, 0.92) 0%,
+    shade(@theme_bg_color, 0.98) 22%,
+    @theme_bg_color 55%,
+    shade(@theme_bg_color, 0.98) 82%,
+    shade(@theme_bg_color, 0.92) 100%);
+  box-shadow: inset 0 1px alpha(@eqx_outer, 0.25);
+}
+scrollbar slider {
+  background-color: @eqx_scroll;
+  background-image: linear-gradient(to right,
+    shade(@eqx_scroll, 1.16) 0%,
+    shade(@eqx_scroll, 0.98) 50%,
+    shade(@eqx_scroll, 0.86) 50%,
+    @eqx_scroll 100%);
+  box-shadow: inset 1px 0 alpha(@eqx_inner, 0.75),
+              0 1px alpha(@eqx_outer, 0.35);
+  border-radius: 4px;
+  min-width: 10px;
+  min-height: 10px;
+  margin: 1px;
+}
+scrollbar.horizontal slider {
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_scroll, 1.16) 0%,
+    shade(@eqx_scroll, 0.98) 50%,
+    shade(@eqx_scroll, 0.86) 50%,
+    @eqx_scroll 100%);
+}
+scrollbar slider:hover {
+  background-color: @eqx_scaleTop;
+  background-image: linear-gradient(to right,
+    shade(@eqx_scaleTop, 1.10), @eqx_scaleTop);
+}
+scrollbar.horizontal slider:hover {
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_scaleTop, 1.10), @eqx_scaleTop);
+}
+scrollbar button {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  background-image: none;
+}
+
+/* GTK2-inspired indicator wells. Check and radio share the same 1px
+ * recessed rim and surface treatment; only their corner geometry differs.
+ * Preserve GTK's built-in check mark, mixed dash and radio bullet icons.
+ * Neither widget layout nor the selected-state machinery is modified. */
+check, radio {
+  color: @theme_fg_color;
+  background-color: @theme_base_color;
+  background-image: linear-gradient(to bottom,
+    alpha(@eqx_entryShadow, 0.10), alpha(@eqx_inner, 0.08));
+  border-color: @eqx_entryBorder;
+  box-shadow: inset 0 1px alpha(@eqx_entryShadow, 0.75),
+              0 1px alpha(@eqx_inner, 0.45);
+  min-height: 12px;
+  min-width: 12px;
+}
+check { border-radius: 3px; }
+radio { border-radius: 100%; }
+/* Selected indicators share one accented inset paint layer. */
+check:checked, check:indeterminate, radio:checked {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+  background-image: linear-gradient(to bottom,
+    @eqx_accentTop, @theme_selected_bg_color);
+  border-color: @eqx_progBorder;
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.32),
+              0 1px alpha(@eqx_outer, 0.25);
+}
+/* Muted indicators still retain a 1px well; disabled selected and mixed
+ * states take the same insensitive paint, not the active blue fill. */
+check:disabled, radio:disabled,
+check:checked:disabled, check:indeterminate:disabled,
+radio:checked:disabled {
+  color: @eqx_muted;
+  background-color: @eqx_disabledBase;
+  background-image: none;
+  border-color: @eqx_disabledBorder;
+  box-shadow: inset 0 1px alpha(@eqx_entryShadow, 0.18);
+}
+/* GTK2 Equinox frame parity.
+ * GTK3 GtkFrame only exposes border.flat for shadow type NONE.
+ * Its IN/OUT/ETCHED shadow values otherwise share one CSS node.
+ * The default stays neutral; callers adding the optional
+ * .eqx-shadow-* classes get the original four GTK2 fills. */
+/* Frame geometry is common to all shadow types, including etched variants.
+ * GTK3 does not expose GtkFrame::shadow-type as a distinct CSS state.
+ * Optional compatibility classes are still required for IN/OUT selection. */
+frame > border {
+  border-style: solid;
+  border-width: 1px;
+  border-color: alpha(@eqx_frameEdge, 0.84);
+  border-radius: 3px;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: inset 0 1px alpha(@eqx_frameHighlight, 0.26),
+              0 1px alpha(@eqx_frameHighlight, 0.14);
+}
+frame > border.flat {
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+frame.eqx-shadow-in > border,
+frame.eqx-shadow-etched-in > border {
+  background-color: @eqx_frameWell;
+  border-color: alpha(@eqx_frameEdge, 0.86);
+  box-shadow: inset 0 1px alpha(@eqx_frameShade, 0.23),
+              inset 1px 0 alpha(@eqx_frameShade, 0.10),
+              0 1px alpha(@eqx_frameHighlight, 0.24);
+}
+frame.eqx-shadow-out > border,
+frame.eqx-shadow-etched-out > border {
+  background-color: @eqx_frameLift;
+  border-color: @eqx_frameEdge;
+  box-shadow: inset 0 1px alpha(@eqx_frameHighlight, 0.60),
+              inset 1px 0 alpha(@eqx_frameHighlight, 0.32),
+              0 1px alpha(@eqx_frameShade, 0.14);
+}
+frame.eqx-shadow-etched-in > border {
+  box-shadow: inset 0 1px alpha(@eqx_frameShade, 0.14),
+              0 1px alpha(@eqx_frameHighlight, 0.40);
+}
+frame.eqx-shadow-etched-out > border {
+  box-shadow: inset 0 1px alpha(@eqx_frameHighlight, 0.46),
+              0 1px alpha(@eqx_frameShade, 0.20);
+}
+/* GTK2 equinox_draw_separator(), separatorstyle=1.
+ * Two adjacent 1px strokes: dark then light. Each fades in from 0 to
+ * 0.6 alpha at 25%, remains at 0.6 until 75%, then fades out again.
+ * The colors are shades of the theme background, matching the original
+ * GTK2 painter instead of a hard-coded dark gray. */
+separator {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+separator.horizontal {
+  min-height: 2px;
+  min-width: 1px;
+  background-image:
+    linear-gradient(to right,
+      alpha(@eqx_separatorDark, 0) 0%,
+      alpha(@eqx_separatorDark, 0.6) 25%,
+      alpha(@eqx_separatorDark, 0.6) 75%,
+      alpha(@eqx_separatorDark, 0) 100%),
+    linear-gradient(to right,
+      alpha(@eqx_separatorLight, 0) 0%,
+      alpha(@eqx_separatorLight, 0.6) 25%,
+      alpha(@eqx_separatorLight, 0.6) 75%,
+      alpha(@eqx_separatorLight, 0) 100%);
+  background-size: 100% 1px, 100% 1px;
+  background-position: left top, left bottom;
+  background-repeat: no-repeat;
+}
+separator.vertical {
+  min-width: 2px;
+  min-height: 1px;
+  background-image:
+    linear-gradient(to bottom,
+      alpha(@eqx_separatorDark, 0) 0%,
+      alpha(@eqx_separatorDark, 0.6) 10%,
+      alpha(@eqx_separatorDark, 0.6) 90%,
+      alpha(@eqx_separatorDark, 0) 100%),
+    linear-gradient(to bottom,
+      alpha(@eqx_separatorLight, 0) 0%,
+      alpha(@eqx_separatorLight, 0.6) 10%,
+      alpha(@eqx_separatorLight, 0.6) 90%,
+      alpha(@eqx_separatorLight, 0) 100%);
+  background-size: 1px 100%, 1px 100%;
+  background-position: left top, right top;
+  background-repeat: no-repeat;
+}
+/* Paned handles are drag targets, not GtkSeparator decorations.
+ * Keep the faded rule off handles and preserve their hit area. */
+paned > separator,
+paned > separator.horizontal,
+paned > separator.vertical {
+  background-color: transparent;
+  background-image: none;
+  background-size: auto;
+  -gtk-icon-source: none;
+  border: 0;
+  min-width: 1px;
+  min-height: 1px;
+}
+/* Caja's vertical sidebar divider uses a horizontal GtkPaned handle.
+ * Restore the original narrow dark/light groove without affecting
+ * other applications or the drag behavior. */
+.caja-navigation-window paned.horizontal > separator {
+  min-width: 3px;
+  background-color: transparent;
+  background-image: linear-gradient(to right,
+    alpha(@eqx_frameShade, 0.72) 0px,
+    alpha(@eqx_frameShade, 0.72) 1px,
+    alpha(@eqx_frameHighlight, 0.84) 1px,
+    alpha(@eqx_frameHighlight, 0.84) 2px,
+    transparent 2px);
+  background-size: 3px 100%;
+  background-repeat: no-repeat;
+}
+
+switch {
+  color: @theme_fg_color;
+  background-color: @eqx_trough;
+  border-radius: 12px;
+}
+switch:checked { background-color: @theme_selected_bg_color; }
+/* Switch thumb uses the shared handle surface. */
+/* Disabled range and switch widgets keep their shape, not active shine. */
+scale:disabled trough, scale:disabled slider,
+switch:disabled, switch:disabled slider, scrollbar:disabled slider {
+  background-image: none;
+  background-color: @eqx_disabledSurface;
+  border-color: @eqx_disabledBorder;
+  box-shadow: none;
+}
+switch:disabled, switch:disabled slider {
+  color: @eqx_muted;
+}
+tooltip, tooltip.background {
+  color: @theme_fg_color;
+  background-color: @eqx_tooltip;
+  border: 1px solid @eqx_border;
+  border-radius: 4px;
+}
+tooltip label { color: @theme_fg_color; }
+/* GTK2 GtkLinkButton is a text link, not a beveled push button.
+ * GTK3 AWF assigns the .link class; reset the generic button surface. */
+button.link, button.link:hover, button.link:focus,
+button.link:active, button.link:checked, button.link:disabled {
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0 2px;
+  min-width: 0;
+  min-height: 0;
+}
+button.link, button.link label, label link, .link {
+  color: @eqx_link;
+}
+button.link:disabled, button.link:disabled label {
+  color: @eqx_muted;
+}
