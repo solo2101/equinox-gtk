@@ -25,7 +25,7 @@ class Preview(Gtk.Window):
         box.pack_start(title, False, False, 0)
 
         panel = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=3)
-        panel.get_style_context().add_class("mate-panel-menu-bar")
+        panel.get_style_context().add_class("eqx-panel-preview")
         box.pack_start(panel, False, False, 0)
 
         menubar = Gtk.MenuBar()
@@ -53,7 +53,7 @@ class Preview(Gtk.Window):
         box.pack_start(Gtk.Label(label="Window-list buttons (libwnck tasklist appearance)"), False, False, 0)
 
         task_panel = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=3)
-        task_panel.get_style_context().add_class("mate-panel-menu-bar")
+        task_panel.get_style_context().add_class("eqx-panel-preview")
         box.pack_start(task_panel, False, False, 0)
         tasklist = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         tasklist.get_style_context().add_class("wnck-tasklist")
