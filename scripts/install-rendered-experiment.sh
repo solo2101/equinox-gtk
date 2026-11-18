@@ -14,10 +14,10 @@ trap 'rm -rf "$build_dir"' EXIT
 
 # The original animation header includes config.h. Supply an isolated,
 # animation-disabled config for this standalone renderer, not the GTK2 engine.
-printf '/* Standalone asset renderer: no GTK2 animation module. */\\n' > "$build_dir/config.h"
+printf '/* Standalone asset renderer: no GTK2 animation module. */\n' > "$build_dir/config.h"
 
-gcc -std=gnu99 -O2 -Wno-deprecated-declarations \\
-  -I"$build_dir" \\
+gcc -std=gnu99 -O2 -Wno-deprecated-declarations \
+  -I"$build_dir" \
   -I"$root/src" \
   $(pkg-config --cflags gtk+-2.0 cairo) \
   "$root/tools/equinox-render-assets.c" \
@@ -37,10 +37,10 @@ for variant in Light Midnight; do
   dest="$HOME/.themes/$name/gtk-3.0"
   mkdir -p "$dest/assets"
   cp "$root/themes/$theme/gtk-3.0/gtk.css" "$dest/gtk.css"
-  printf '\\n' >> "$dest/gtk.css"
+  printf '\n' >> "$dest/gtk.css"
   cat "$root/experiments/gtk3-rendered/overrides.css" >> "$dest/gtk.css"
   "$build_dir/equinox-render-assets" "$palette" "$dest/assets"
-  printf 'Installed experiment: %s\\n' "$name"
+  printf 'Installed experiment: %s\n' "$name"
 done
 
 
