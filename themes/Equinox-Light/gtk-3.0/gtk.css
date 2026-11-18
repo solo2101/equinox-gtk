@@ -44,6 +44,13 @@
 @define-color theme_selected_fg_color #ffffff;
 @define-color theme_unfocused_fg_color #686868;
 
+/* Equinox-specific MATE panel colors. Not shared with application menus. */
+@define-color eqx_panelTop #fdfdfd;
+@define-color eqx_panelBottom #d8d8d8;
+@define-color eqx_panelFg #252525;
+@define-color eqx_panelHighlight #ffffff;
+@define-color eqx_panelEdge #b1b1b1;
+
 
 @define-color eqx_activeTop #c7c7c7;
 @define-color eqx_activeMid #bbbbbb;
@@ -1166,4 +1173,30 @@ filechooser placessidebar row:selected:focus label {
 filechooser placessidebar row:disabled,
 filechooser placessidebar row:disabled label {
   color: @eqx_muted;
+}
+
+/* MATE panel background ONLY. In GTK3, PanelToplevel is the panel CSS
+ * node (MATE panel-toplevel.c), for top/bottom/left/right bars.
+ * Avoid .mate-panel-menu-bar as a standalone selector: MATE also assigns
+ * it to popup windows, and the old broad rules broke app menus.
+ * Respect MATE's separate custom-background settings. These rules affect
+ * colors, not panel sizing, buttons, clock, window list or popup menus. */
+PanelToplevel.mate-panel-menu-bar:not(.mate-custom-panel-background) {
+  color: @eqx_panelFg;
+  background-color: @eqx_panelBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelTop, @eqx_panelBottom);
+  box-shadow: inset 0 1px @eqx_panelHighlight,
+              inset 0 -1px @eqx_panelEdge;
+}
+/* Preserve a bevel across the narrow axis of left/right vertical panels. */
+PanelToplevel.mate-panel-menu-bar.vertical:not(.mate-custom-panel-background) {
+  background-image: linear-gradient(to right, @eqx_panelTop, @eqx_panelBottom);
+  box-shadow: inset 1px 0 @eqx_panelHighlight,
+              inset -1px 0 @eqx_panelEdge;
+}
+/* Only the three direct top-level menu labels inherit the panel text
+ * color. Do not touch their backgrounds, padding or dropdown popups. */
+PanelToplevel.mate-panel-menu-bar menubar > menuitem,
+PanelToplevel.mate-panel-menu-bar menubar > menuitem > label {
+  color: @eqx_panelFg;
 }
