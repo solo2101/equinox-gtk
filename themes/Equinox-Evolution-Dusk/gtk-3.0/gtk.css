@@ -1,7 +1,8 @@
 /* Theme variant: Equinox Dusk; GTK3 layout inherited from tested Equinox Light. */
 @define-color eqx_bg #7a7a7a;
 @define-color eqx_fg #ededed;
-@define-color eqx_muted #bdbdbd;
+
+@define-color eqx_columnHeaderText #292929;@define-color eqx_muted #bdbdbd;
 @define-color eqx_base #dddddd;
 @define-color eqx_disabledBase #868686;
 @define-color eqx_accent #80b9d8;
@@ -366,6 +367,9 @@ treeview header button {
   padding: 2px 5px;
   min-height: 17px;
 }
+/* Global label styling overrides inherited button text colors in GTK3.
+ * Keep column headings readable against their per-theme light bevels. */
+treeview header button label { color: @eqx_columnHeaderText; }
 
 /* Flush GTK3 top chrome matching the GTK2 engine:
  * equinox_draw_menubar() paints across the entire allocation and draws a
