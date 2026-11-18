@@ -35,7 +35,7 @@ jobs:
           echo "Diagnostic Equinox tab selection with high-contrast user CSS..."
           xvfb-run -a env GTK_THEME=Equinox-Light EQUINOX_DIAGNOSTIC=high-contrast \
             /usr/bin/python3 tests/test-gtk3-notebook-clicks.py
-          for theme in Adwaita Equinox-Light Equinox-Dark; do
+          for theme in Adwaita Equinox-Evolution Equinox-Evolution-Dawn Equinox-Evolution-Dusk Equinox-Light Equinox-Evolution-Midnight; do
             echo "Testing $theme tab click handling..."
             xvfb-run -a env GTK_THEME="$theme" \
               /usr/bin/python3 tests/test-gtk3-notebook-clicks.py
