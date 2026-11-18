@@ -126,7 +126,7 @@ def validate(path):
 
 def main():
     root = pathlib.Path(__file__).resolve().parent.parent
-    variants = ("Equinox-Light", "Equinox-Dark", "Equinox-Evolution-Midnight")
+    variants = ("Equinox-Evolution", "Equinox-Evolution-Dawn", "Equinox-Evolution-Dusk", "Equinox-Light", "Equinox-Evolution-Midnight")
     failed = False
     for variant in variants:
         path = root / "themes" / variant / "metacity-1" / "metacity-theme-1.xml"

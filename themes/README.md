@@ -1,11 +1,14 @@
-# Equinox light and dark controls themes
+# Equinox Evolution themes
 
-The original Equinox 1.50 engine is GTK2-only. The two GTK3 stylesheets use native GTK3 CSS and do not load `libequinox.so`.
+The original Equinox 1.50 engine is GTK2-only. The five GTK3 stylesheets use native GTK3 CSS and do not load `libequinox.so`.
 
 | Variant | GTK2 | GTK3 |
 | --- | --- | --- |
 | Equinox-Light | Original rendering engine, `gtkrc` | Consolidated `gtk.css` |
-| Equinox-Dark | Original rendering engine, `gtkrc` | Consolidated `gtk.css` |
+| Equinox-Evolution | Original rendering engine, `gtkrc` | Light-based placeholder CSS |
+| Equinox-Evolution-Dawn | Original rendering engine, `gtkrc` | Light-based placeholder CSS |
+| Equinox-Evolution-Dusk | Original rendering engine, `gtkrc` | Midnight-based placeholder CSS |
+| Equinox-Evolution-Midnight | Original rendering engine, `gtkrc` | Consolidated `gtk.css` |
 
 ## Install
 
@@ -22,8 +25,8 @@ The installer copies files under `~/.themes/`, without altering MATE settings or
 GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2
 GTK_THEME=Equinox-Light awf-gtk3
 
-GTK2_RC_FILES="$HOME/.themes/Equinox-Dark/gtk-2.0/gtkrc" awf-gtk2
-GTK_THEME=Equinox-Dark awf-gtk3
+GTK2_RC_FILES="$HOME/.themes/Equinox-Evolution-Dusk/gtk-2.0/gtkrc" awf-gtk2
+GTK_THEME=Equinox-Evolution-Dusk awf-gtk3
 ```
 
 Keep the application window size and display scaling consistent between tests.
@@ -260,7 +263,7 @@ shadows using the provided test app:
 git pull
 bash scripts/install-user-themes.sh
 GTK_THEME=Equinox-Light python3 scripts/preview-gtk3-frames.py
-GTK_THEME=Equinox-Dark python3 scripts/preview-gtk3-frames.py
+GTK_THEME=Equinox-Evolution-Dusk python3 scripts/preview-gtk3-frames.py
 ```
 
 GTK2 engine files and the Marco window frame are unchanged.
@@ -289,7 +292,7 @@ GTK_THEME=Equinox-Light \
   awf-gtk3
 ```
 
-For the dark version, set `GTK_THEME=Equinox-Dark` instead. Without
+For the dark version, set `GTK_THEME=Equinox-Evolution-Dusk` instead. Without
 `GTK3_MODULES`, GTK3 continues to draw all four frames with its single
 default border style. The module is experimental and deliberately not
 enabled globally. Its GTK3 integration test is in

@@ -4,7 +4,7 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-for theme in Equinox-Light Equinox-Dark Equinox-Evolution-Midnight; do
+for theme in Equinox-Evolution Equinox-Evolution-Dawn Equinox-Evolution-Dusk Equinox-Light Equinox-Evolution-Midnight; do
   for toolkit in gtk-2.0 gtk-3.0 metacity-1; do
     case "$toolkit" in
       gtk-2.0) file=gtkrc ;;
@@ -46,19 +46,8 @@ for theme in Equinox-Light Equinox-Dark Equinox-Evolution-Midnight; do
   printf 'Installed: %s/index.theme\n' "$theme"
 done
 
-printf '\nGTK2 tests:\n'
-printf 'GTK2_RC_FILES="$HOME/.themes/Equinox-Light/gtk-2.0/gtkrc" awf-gtk2\n'
-printf 'GTK2_RC_FILES="$HOME/.themes/Equinox-Dark/gtk-2.0/gtkrc" awf-gtk2\n'
-printf '\nGTK3 tests:\n'
-printf 'GTK_THEME=Equinox-Light awf-gtk3\n'
-printf 'GTK_THEME=Equinox-Dark awf-gtk3\n'
-printf '\nMarco previews (do not change current window theme):\n'
-printf 'marco-theme-viewer Equinox-Light\n'
-printf 'marco-theme-viewer Equinox-Dark\n'
-printf '\nSet Marco window border only (optional):\n'
-printf "gsettings set org.mate.Marco.general theme 'Equinox-Light'\n"
-printf "gsettings set org.mate.Marco.general theme 'Equinox-Dark'\n"
 
-printf '\nMidnight theme preview:\n'
-printf 'GTK_THEME=Equinox-Evolution-Midnight awf-gtk3\n'
-printf 'marco-theme-viewer Equinox-Evolution-Midnight\n'
+printf '\nGTK3 previews:\n'
+for theme in Equinox-Evolution Equinox-Evolution-Dawn Equinox-Evolution-Dusk Equinox-Light Equinox-Evolution-Midnight; do
+  printf 'GTK_THEME=%s awf-gtk3\n' "$theme"
+done

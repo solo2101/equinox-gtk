@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Apply the tested Equinox theme to this user's Fedora MATE session.
-# Usage: bash scripts/deploy-mate.sh light|dark|midnight|restore
+# Usage: bash scripts/deploy-mate.sh evolution|dawn|dusk|light|midnight|restore
 # The optional GTK3 frame compatibility module is not globally enabled.
 set -euo pipefail
 
@@ -10,13 +10,15 @@ previous="$state/previous-mate-appearance"
 mode="${1:-}"
 
 usage() {
-  printf 'Usage: bash scripts/deploy-mate.sh light|dark|midnight|restore\n' >&2
+  printf 'Usage: bash scripts/deploy-mate.sh evolution|dawn|dusk|light|midnight|restore\n' >&2
   exit 2
 }
 
 case "$mode" in
-  light) theme="Equinox-Light"; other="Equinox-Dark" ;;
-  dark)  theme="Equinox-Dark"; other="Equinox-Light" ;;
+  evolution) theme="Equinox-Evolution"; other="Equinox-Light" ;;
+  dawn) theme="Equinox-Evolution-Dawn"; other="Equinox-Light" ;;
+  dusk) theme="Equinox-Evolution-Dusk"; other="Equinox-Light" ;;
+  light) theme="Equinox-Light"; other="Equinox-Evolution" ;;
   midnight) theme="Equinox-Evolution-Midnight"; other="Equinox-Light" ;;
   restore) ;;
   *) usage ;;
@@ -85,7 +87,7 @@ fi
 backup="$state/pre-deployment-themes"
 if [[ ! -d "$backup" ]]; then
   mkdir -p "$backup"
-  for name in Equinox-Light Equinox-Dark Equinox-Evolution-Midnight; do
+  for name in Equinox-Evolution Equinox-Evolution-Dawn Equinox-Evolution-Dusk Equinox-Light Equinox-Evolution-Midnight; do
     if [[ -d "$HOME/.themes/$name" ]]; then
       cp -a "$HOME/.themes/$name" "$backup/"
     fi

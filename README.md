@@ -1,6 +1,6 @@
 # Equinox GTK
 
-Equinox GTK is a work-in-progress revival of the classic Equinox 1.50 theme for Fedora MATE. It includes **Equinox Light**, **Equinox Dark**, and **Equinox Evolution Midnight**, with GTK2, GTK3, and Marco window borders.
+Equinox GTK is a work-in-progress revival of the classic Equinox 1.50 theme for Fedora MATE. It includes **Equinox Evolution**, **Dawn**, **Dusk**, **Light**, and **Midnight**, with GTK2, GTK3, and Marco window borders.
 
 Developed and tested primarily on **Fedora 43 MATE**.
 
@@ -29,7 +29,7 @@ Install and activate the Light theme:
 bash scripts/deploy-mate.sh light
 ```
 
-For Dark or Midnight, use `bash scripts/deploy-mate.sh dark` or `bash scripts/deploy-mate.sh midnight`. The script validates the themes, installs all three versions in `~/.themes`, and applies the chosen GTK and Marco appearance. Restart open applications to reload the styling.
+For another variant, run `bash scripts/deploy-mate.sh evolution`, `dawn`, `dusk`, or `midnight`. The script validates the themes, installs all five versions in `~/.themes`, and applies the chosen GTK and Marco appearance. Restart open applications to reload the styling.
 
 Alternatively, install without changing your current theme:
 
@@ -37,14 +37,16 @@ Alternatively, install without changing your current theme:
 bash scripts/install-user-themes.sh
 ```
 
-Then select **Equinox Light**, **Equinox Dark**, or **Equinox Evolution Midnight** in MATE **Appearance Preferences**.
+Then select **Equinox Evolution**, **Equinox Evolution Dawn**, **Equinox Evolution Dusk**, **Equinox Light**, or **Equinox Evolution Midnight** in MATE **Appearance Preferences**.
 
 ## Recommended icons
 
 Equinox looks best with the [**Delft icon family**](https://github.com/madmaxms/iconpack-delft):
 
 - **Equinox Light:** Delft
-- **Equinox Dark:** Delft-Darkest
+- **Equinox Evolution:** Delft
+- **Equinox Evolution Dawn:** Delft
+- **Equinox Evolution Dusk:** Delft-Darkest
 - **Equinox Evolution Midnight:** Delft-Darkest
 
 The icons are optional and installed separately. The MATE Appearance Preferences theme entries include these icon selections; the command-line deployment script leaves your existing icons unchanged.
@@ -54,7 +56,7 @@ The icons are optional and installed separately. The MATE Appearance Preferences
 | Component | Status |
 | --- | --- |
 | GTK2 | Original Equinox engine supported |
-| GTK3 | Light, Dark, and Midnight themes usable; visual refinements ongoing |
+| GTK3 | Light and Midnight usable; Evolution, Dawn and Dusk await screenshot-based color matching |
 | Marco | Matching window decorations included |
 | GTK4 | Not implemented |
 
