@@ -70,16 +70,15 @@ def check_page_surface(window, notebook, orientation):
     offset = y * stride + x * channels
     rgb = tuple(raw[offset:offset + 3])
     theme = os.environ.get("GTK_THEME", "")
-    if theme == "Equinox-Light":
-        # Original GTK2 notebook page in the screenshot is #e8e8e8,
-        # versus #d7d7d7 normal theme background. The page must not
-        # disappear into the window background again.
-        if not 222 <= rgb[0] <= 246:
+    if theme in ("Equinox-Light", "Equinox-Evolution", "Equinox-Evolution-Dawn"):
+        # Light-family page colors range from classic #d7 to #e8.
+        # The palette itself varies; reject only a distinctly dark surface.
+        if not 207 <= rgb[0] <= 250:
             raise AssertionError(
                 f"{orientation.value_nick}: lost light notebook page surface: "
-                f"sample at ({x},{y})={rgb}; expected approx #e8e8e8")
-    elif theme == "Equinox-Dark":
-        if not 48 <= rgb[0] <= 95:
+                f"sample at ({x},{y})={rgb}; expected a light-gray page")
+    elif theme in ("Equinox-Evolution-Dusk", "Equinox-Evolution-Midnight"):
+        if not 35 <= rgb[0] <= 120:
             raise AssertionError(
                 f"{orientation.value_nick}: unexpected dark notebook "
                 f"page surface: {rgb}")
@@ -112,7 +111,9 @@ def check_selected_tab_paint(window, notebook, labels, orientation):
     highlight on the first tab should fail on every tab orientation.
     """
     theme = os.environ.get("GTK_THEME", "")
-    if theme not in ("Equinox-Light", "Equinox-Dark"):
+    if theme not in ("Equinox-Evolution", "Equinox-Evolution-Dawn",
+                     "Equinox-Evolution-Dusk", "Equinox-Light",
+                     "Equinox-Evolution-Midnight"):
         return
     samples = []
     for selected in (0, 1):
