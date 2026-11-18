@@ -36,6 +36,9 @@ for theme in Equinox-Evolution Equinox-Evolution-Dawn Equinox-Evolution-Dusk Equ
       done
     else
       install -m 0644 "$source" "$destination/$file"
+      if [[ "$toolkit" == "gtk-3.0" ]]; then
+        install -m 0644 "$root/themes/$theme/gtk-3.0/equinox-grip.svg" "$destination/equinox-grip.svg"
+      fi
     fi
     printf 'Installed: %s/%s\n' "$theme" "$toolkit"
   done

@@ -1025,32 +1025,51 @@ separator.vertical {
   background-position: left top, right top;
   background-repeat: no-repeat;
 }
-/* Paned handles are drag targets, not GtkSeparator decorations.
- * Keep the faded rule off handles and preserve their hit area. */
+/* Original Equinox GTK2 draws a single inset circle at the center of
+ * GtkPaned and handlebox grips. Paint only the real GTK3 drag separator;
+ * do not style generic separators, menus, or panel buttons. */
 paned > separator,
 paned > separator.horizontal,
 paned > separator.vertical {
   background-color: transparent;
-  background-image: none;
-  background-size: auto;
+  background-image: url("equinox-grip.svg");
+  background-position: center center;
+  background-size: 9px 9px;
+  background-repeat: no-repeat;
   -gtk-icon-source: none;
   border: 0;
   min-width: 1px;
   min-height: 1px;
 }
-/* Caja's vertical sidebar divider uses a horizontal GtkPaned handle.
- * Restore the original narrow dark/light groove without affecting
- * other applications or the drag behavior. */
+/* Keep the paned's native drag target. Widen only the splitter axis enough
+ * for the 9px grip to show, without forcing the entire pane's height. */
+paned.horizontal > separator { min-width: 9px; }
+paned.vertical > separator { min-height: 9px; }
+/* Caja's sidebar divider retains its original light/dark groove behind
+ * the same Equinox grip. The center dot shows where to drag. */
 .caja-navigation-window paned.horizontal > separator {
-  min-width: 3px;
+  min-width: 9px;
   background-color: transparent;
-  background-image: linear-gradient(to right,
-    alpha(@eqx_frameShade, 0.72) 0px,
-    alpha(@eqx_frameShade, 0.72) 1px,
-    alpha(@eqx_frameHighlight, 0.84) 1px,
-    alpha(@eqx_frameHighlight, 0.84) 2px,
-    transparent 2px);
-  background-size: 3px 100%;
+  background-image:
+    url("equinox-grip.svg"),
+    linear-gradient(to right,
+      alpha(@eqx_frameShade, 0.72) 0px,
+      alpha(@eqx_frameShade, 0.72) 1px,
+      alpha(@eqx_frameHighlight, 0.84) 1px,
+      alpha(@eqx_frameHighlight, 0.84) 2px,
+      transparent 2px);
+  background-position: center center, center top;
+  background-size: 9px 9px, 3px 100%;
+  background-repeat: no-repeat;
+}
+
+/* MATE renders its 10px applet handle with gtk_render_handle() using this
+ * exact widget path. Limit the artwork to the existing applet drag zone.
+ * No changes to PanelMenuBar, its popups, or button hit areas. */
+MatePanelAppletFrameDBus > MatePanelAppletFrameDBus {
+  background-image: url("equinox-grip.svg");
+  background-size: 9px 9px;
+  background-position: center center;
   background-repeat: no-repeat;
 }
 
