@@ -1,4 +1,4 @@
-/* Theme variant: Equinox-Evolution. Placeholder, awaiting original screenshot. */
+/* Theme variant: Equinox Evolution; GTK3 layout inherited from tested Equinox Light. */
 @define-color eqx_bg #d7d7d7;
 @define-color eqx_fg #252525;
 @define-color eqx_muted #686868;
@@ -981,3 +981,13 @@ button.link, button.link label, label link, .link {
 button.link:disabled, button.link:disabled label {
   color: @eqx_muted;
 }
+
+/* Theme-specific palette and top-bar coloring; no control geometry changes. */
+/* Original Fedora 14 Evolution panel stays charcoal across dark-panel variants. */
+#PanelToplevel, .mate-panel-menu-bar, mate-panel {
+  background-color: #383838;
+  background-image: linear-gradient(to bottom, #414141, #323232);
+  color: #eeeeee;
+}
+.mate-panel-menu-bar > menuitem,
+.mate-panel-menu-bar > menuitem label { color: #eeeeee; }

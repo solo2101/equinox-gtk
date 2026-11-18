@@ -1,4 +1,4 @@
-/* Theme variant: Equinox-Evolution-Dawn. Placeholder based on Equinox Light; palette awaits original Fedora 14 screenshots. */
+/* Theme variant: Equinox Dawn; GTK3 layout inherited from tested Equinox Light. */
 @define-color eqx_bg #d7d7d7;
 @define-color eqx_fg #252525;
 @define-color eqx_muted #686868;
@@ -58,13 +58,13 @@
 @define-color eqx_frameShade #858585;
 @define-color eqx_frameHighlight #f0f0f0;
 
-@define-color eqx_menuTop #d8d8d8;
-@define-color eqx_menuBottom #cbcbcb;
-@define-color eqx_toolbarTop #cbcbcb;
-@define-color eqx_toolbarBottom #b5b5b5;
-@define-color eqx_menuGroove #acacac;
+@define-color eqx_menuTop #363636;
+@define-color eqx_menuBottom #303030;
+@define-color eqx_toolbarTop #b9b9b9;
+@define-color eqx_toolbarBottom #a9a9a9;
+@define-color eqx_menuGroove #303030;
 @define-color eqx_toolbarLine #979797;
-@define-color eqx_toolbarRidge #e3e3e3;
+@define-color eqx_toolbarRidge #c3c3c3;
 @define-color eqx_tabSheen #cfcfcf;
 @define-color eqx_tabMid #b5b5b5;
 @define-color eqx_progTroughTop #f0f0f0;
@@ -981,3 +981,27 @@ button.link, button.link label, label link, .link {
 button.link:disabled, button.link:disabled label {
   color: @eqx_muted;
 }
+
+/* Theme-specific palette and top-bar coloring; no control geometry changes. */
+/* Dawn uses Light controls below a dark title and menu strip. */
+menubar, menubar > menuitem, menubar > menuitem label,
+menubar > menuitem > label { color: #eeeeee; }
+headerbar, .titlebar {
+  color: #eeeeee;
+  background-color: #353535;
+  background-image: linear-gradient(to bottom, #3d3d3d, #313131);
+  border-color: #242424;
+}
+headerbar label, .titlebar label { color: #eeeeee; }
+treeview header button {
+  color: #303030;
+  background-image: linear-gradient(to bottom, #ededed, #dcdcdc);
+}
+/* Original Fedora 14 Evolution panel stays charcoal across dark-panel variants. */
+#PanelToplevel, .mate-panel-menu-bar, mate-panel {
+  background-color: #383838;
+  background-image: linear-gradient(to bottom, #414141, #323232);
+  color: #eeeeee;
+}
+.mate-panel-menu-bar > menuitem,
+.mate-panel-menu-bar > menuitem label { color: #eeeeee; }

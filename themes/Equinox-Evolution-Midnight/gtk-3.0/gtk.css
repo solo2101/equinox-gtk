@@ -1,4 +1,4 @@
-/* Theme variant: Equinox-Evolution-Midnight (GTK2 Midnight screenshot reference) */
+/* Theme variant: Equinox Midnight; GTK3 layout inherited from tested Equinox Light. */
 @define-color eqx_bg #4e4e4e;
 @define-color eqx_fg #dddddd;
 @define-color eqx_muted #999999;
@@ -289,7 +289,7 @@ iconview:selected, iconview:selected:focus {
 .caja-navigation-window .caja-side-pane > notebook scrolledwindow,
 .caja-navigation-window .caja-side-pane > notebook viewport.frame,
 .caja-navigation-window .caja-side-pane treeview.view:not(:selected) {
-  background-color: #353535;
+  background-color: shade(@theme_base_color, 0.94);
 }
 .caja-navigation-window .caja-side-pane treeview.view:selected,
 .caja-navigation-window .caja-side-pane treeview.view:selected:focus {
@@ -371,15 +371,13 @@ menubar, toolbar, .toolbar, .primary-toolbar {
   margin: 0;
   box-shadow: none;
 }
-/* The silver Midnight menu blends directly into the Marco titlebar.
- * The charcoal toolbar below provides the visible transition. */
 menubar {
+  /* Add the missing bottom pixel before the GTK2-style groove. */
   padding: 2px 2px 2px 2px;
-  background-color: #a2a2a2;
-  background-image: linear-gradient(to bottom, #a8a8a8 0%, #999999 100%);
-  border-top: 0;
-  border-bottom: 0;
-  box-shadow: none;
+  background-color: @eqx_menuTop;
+  background-image: linear-gradient(to bottom,
+    @eqx_menuTop 0%, @eqx_menuBottom 100%);
+  border-bottom: 1px solid @eqx_menuGroove;
 }
 toolbar, .toolbar, .primary-toolbar {
   padding: 3px 2px 2px 2px;
@@ -391,15 +389,13 @@ toolbar, .toolbar, .primary-toolbar {
 }
 /* Client-side headerbars are separate GTK3 window decorations. Do not
  * impose the GTK2 toolbar groove on titlebars. */
-/* Midnight title bars are silver like the original Marco frame. */
 headerbar, .titlebar {
-  color: #333333;
-  background-color: #b7b7b7;
-  background-image: linear-gradient(to bottom, #d1d1d1, #b4b4b4);
-  border-color: #828282;
-  border-bottom: 0;
+  color: @theme_fg_color;
+  background-color: @eqx_menuTop;
+  background-image: linear-gradient(to bottom,
+    @eqx_menuTop, @eqx_toolbarBottom);
+  border-color: @eqx_border;
 }
-headerbar label, .titlebar label { color: #333333; }
 /* Toolbar geometry and state-specific gradient overlays.
  * The original GTK2 Equinox toolbar paints its background as one strip.
  * Idle toolbar icon buttons are transparent. Borders show only for interaction.
@@ -432,7 +428,7 @@ toolbar button:disabled, .toolbar button:disabled, .primary-toolbar button:disab
   box-shadow: none;
 }
 headerbar button { padding: 3px 5px; min-width: 16px; }
-headerbar, .titlebar { min-height: 25px; border-bottom: 0; }
+headerbar, .titlebar { min-height: 25px; border-bottom: 1px solid @eqx_border; }
 /* Menuitem backgrounds must stay transparent so the menubar's own
  * vertical gradient remains visible behind Options, System themes, etc.
  * Previously menuitem had a solid @theme_bg_color background, masking
@@ -452,17 +448,6 @@ menubar > menuitem > box {
   background-color: transparent;
   background-image: none;
 }
-/* Original Midnight application menubar uses dark labels on silver,
- * while popup menus retain light labels on charcoal. */
-menubar > menuitem, menubar > menuitem > label,
-menubar > menuitem label {
-  color: #393939;
-}
-menubar > menuitem:hover, menubar > menuitem:hover label,
-menubar > menuitem:selected, menubar > menuitem:selected label {
-  color: @theme_selected_fg_color;
-}
-
 menuitem, modelbutton { padding: 3px 7px; }
 menuitem:hover, menuitem:selected, modelbutton:hover,
 menubar > menuitem:hover, menubar > menuitem:selected {
@@ -470,7 +455,7 @@ menubar > menuitem:hover, menubar > menuitem:selected {
   background-color: @theme_selected_bg_color;
 }
 
-/* Equinox Evolution Midnight notebook proportions: inactive tabs sit slightly below
+/* Original Equinox notebook proportions: inactive tabs sit slightly below
  * the active one. Keep selection tied to GTK's :checked state, and keep
  * the selected tab joined to the notebook stack on all four edges.
  */
@@ -997,24 +982,28 @@ button.link:disabled, button.link:disabled label {
   color: @eqx_muted;
 }
 
-/* Midnight keeps the original Equinox blue progress fills while the
- * rest of the selection palette stays neutral charcoal. */
-progressbar progress, treeview.view .progressbar,
-treeview .progressbar, treeview.view.progressbar {
-  background-color: #317aad;
-  background-image: repeating-linear-gradient(125deg,
-    alpha(#a1c8e2, 0.23) 0px, alpha(#a1c8e2, 0.23) 8px,
-    transparent 8px, transparent 17px),
-    linear-gradient(to bottom, #6099c2, #286b9c);
+/* Theme-specific palette and top-bar coloring; no control geometry changes. */
+/* Midnight is charcoal below a continuous silver title/menu area. */
+menubar, menubar > menuitem, menubar > menuitem label,
+menubar > menuitem > label { color: #333333; }
+headerbar, .titlebar {
+  color: #333333;
+  background-color: #b5b5b5;
+  background-image: linear-gradient(to bottom, #c7c7c7, #adadad);
+  border-color: #888888;
+  border-bottom: 0;
 }
-
-/* MATE desktop panel uses the dark charcoal strip from Midnight.
- * This does not affect Caja's light application menubar. */
+headerbar label, .titlebar label { color: #333333; }
+headerbar, .titlebar { min-height: 25px; border-bottom: 0; }
+treeview header button {
+  color: #303030;
+  background-image: linear-gradient(to bottom, #c2c2c2, #adadad);
+}
+/* Original Fedora 14 Evolution panel stays charcoal across dark-panel variants. */
 #PanelToplevel, .mate-panel-menu-bar, mate-panel {
-  background-color: #333333;
-  background-image: linear-gradient(to bottom, #3a3a3a, #2c2c2c);
-  color: #dddddd;
+  background-color: #383838;
+  background-image: linear-gradient(to bottom, #414141, #323232);
+  color: #eeeeee;
 }
-.mate-panel-menu-bar > menuitem, .mate-panel-menu-bar > menuitem label {
-  color: #dddddd;
-}
+.mate-panel-menu-bar > menuitem,
+.mate-panel-menu-bar > menuitem label { color: #eeeeee; }
