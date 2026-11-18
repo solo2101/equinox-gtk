@@ -1,29 +1,29 @@
 /* Theme variant: Equinox Dawn; GTK3 layout inherited from tested Equinox Light. */
-@define-color eqx_bg #d7d7d7;
+@define-color eqx_bg #dddddd;
 @define-color eqx_fg #252525;
 @define-color eqx_muted #686868;
 @define-color eqx_base #ffffff;
 @define-color eqx_disabledBase #eeeeee;
 @define-color eqx_accent #3978b4;
 @define-color eqx_accentTop #5e9bcc;
-@define-color eqx_top #e3e3e3;
-@define-color eqx_midTop #d6d6d6;
-@define-color eqx_midBottom #d2d2d2;
-@define-color eqx_bottom #c4c4c4;
-@define-color eqx_hoverTop #f1f1f1;
-@define-color eqx_hoverBottom #d6d6d6;
+@define-color eqx_top #fdfdfd;
+@define-color eqx_midTop #fdfdfd;
+@define-color eqx_midBottom #f0f0f0;
+@define-color eqx_bottom #dedede;
+@define-color eqx_hoverTop #ffffff;
+@define-color eqx_hoverBottom #e7e7e7;
 @define-color eqx_pressTop #bdbdbd;
 @define-color eqx_pressBottom #d2d2d2;
 @define-color eqx_border #777777;
-@define-color eqx_buttonBorder #6b6b6b;
+@define-color eqx_buttonBorder #929292;
 @define-color eqx_inner rgba(255,255,255,0.78);
 @define-color eqx_outer rgba(0,0,0,0.13);
 @define-color eqx_entryBorder #999999;
 @define-color eqx_entryShadow rgba(0,0,0,0.13);
 @define-color eqx_disabledSurface #d7d7d7;
 @define-color eqx_disabledBorder #ababab;
-@define-color eqx_tabTop #c3c3c3;
-@define-color eqx_tabBottom #aaaaaa;
+@define-color eqx_tabTop #d2d2d2;
+@define-color eqx_tabBottom #cacaca;
 @define-color eqx_tabBorder #888888;
 @define-color eqx_trough #bcbcbc;
 @define-color eqx_scaleTop #eeeeee;
@@ -35,7 +35,7 @@
 @define-color eqx_separatorLight shade(@theme_bg_color, 1.15);
 @define-color eqx_link #215eab;
 @define-color eqx_tooltip #ededed;
-@define-color theme_bg_color #d7d7d7;
+@define-color theme_bg_color #dddddd;
 @define-color theme_fg_color #252525;
 @define-color theme_base_color #ffffff;
 @define-color theme_text_color #252525;
@@ -58,7 +58,7 @@
 @define-color eqx_frameShade #858585;
 @define-color eqx_frameHighlight #f0f0f0;
 
-@define-color eqx_menuTop #363636;
+@define-color eqx_menuTop #323232;
 @define-color eqx_menuBottom #303030;
 @define-color eqx_toolbarTop #b9b9b9;
 @define-color eqx_toolbarBottom #a9a9a9;

@@ -7,9 +7,9 @@
 @define-color eqx_accent #497da5;
 @define-color eqx_accentTop #679cc2;
 @define-color eqx_top #626262;
-@define-color eqx_midTop #595959;
-@define-color eqx_midBottom #525252;
-@define-color eqx_bottom #454545;
+@define-color eqx_midTop #666666;
+@define-color eqx_midBottom #5e5e5e;
+@define-color eqx_bottom #555555;
 @define-color eqx_hoverTop #6a6a6a;
 @define-color eqx_hoverBottom #555555;
 @define-color eqx_pressTop #3b3b3b;
@@ -22,8 +22,8 @@
 @define-color eqx_entryShadow rgba(0,0,0,0.25);
 @define-color eqx_disabledSurface #444444;
 @define-color eqx_disabledBorder #333333;
-@define-color eqx_tabTop #555555;
-@define-color eqx_tabBottom #414141;
+@define-color eqx_tabTop #4c4c4c;
+@define-color eqx_tabBottom #444444;
 @define-color eqx_tabBorder #303030;
 @define-color eqx_trough #323232;
 @define-color eqx_scaleTop #646464;
@@ -47,8 +47,8 @@
 @define-color eqx_activeTop #484848;
 @define-color eqx_activeMid #414141;
 @define-color eqx_activeBottom #343434;
-@define-color eqx_disabledTop #4e4e4e;
-@define-color eqx_disabledBottom #444444;
+@define-color eqx_disabledTop #565656;
+@define-color eqx_disabledBottom #4e4e4e;
 @define-color eqx_disabledCheckedTop #4a4a4a;
 @define-color eqx_disabledCheckedBottom #3b3b3b;
 @define-color eqx_frameBorder #292929;
@@ -58,7 +58,7 @@
 @define-color eqx_frameShade #1f1f1f;
 @define-color eqx_frameHighlight #707070;
 
-@define-color eqx_menuTop #b3b3b3;
+@define-color eqx_menuTop #adadad;
 @define-color eqx_menuBottom #a6a6a6;
 @define-color eqx_toolbarTop #4c4c4c;
 @define-color eqx_toolbarBottom #464646;
