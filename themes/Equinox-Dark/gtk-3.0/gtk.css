@@ -87,10 +87,9 @@
  * BORDERS: recessed tracks and small controls with identical rim colors.
  */
 button, combobox button, spinbutton button, .linked button, .titlebutton {
-  /* GTK2 equinox_draw_button: raised fill, inner highlight, drop edge. */
-  box-shadow: inset 0 1px @eqx_inner,
-              inset 1px 0 alpha(@eqx_inner, 0.36),
-              0 1px @eqx_outer;
+  /* Matte Equinox bevel: keep a faint rim without a glossy highlight. */
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.25),
+              0 1px alpha(@eqx_outer, 0.45);
 }
 treeview header button, scale slider, switch slider,
 toolbar button:hover, .toolbar button:hover, .primary-toolbar button:hover {
@@ -158,8 +157,7 @@ button, combobox button, spinbutton button, .linked button, .titlebutton {
   color: @theme_fg_color;
   background-color: @eqx_bottom;
   background-image: linear-gradient(to bottom,
-    @eqx_top 0%, @eqx_midTop 49%,
-    @eqx_midBottom 50%, @eqx_bottom 100%);
+    @eqx_midTop 0%, @eqx_midBottom 55%, @eqx_bottom 100%);
   border: 1px solid alpha(@eqx_buttonBorder, 0.88);
   border-radius: 5px;
   padding: 5px 8px;
@@ -314,8 +312,8 @@ iconview:selected, iconview:selected:focus {
   background-image: linear-gradient(to bottom, @eqx_top, @eqx_midTop 52%, @eqx_bottom);
   border: 1px solid alpha(@eqx_buttonBorder, 0.90);
   border-radius: 3px;
-  box-shadow: inset 0 1px alpha(@eqx_inner, 0.70),
-              0 1px alpha(@eqx_outer, 0.35);
+  box-shadow: inset 0 1px alpha(@eqx_inner, 0.20),
+              0 1px alpha(@eqx_outer, 0.30);
   padding: 2px 6px;
   min-height: 0;
 }
