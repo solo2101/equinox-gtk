@@ -58,8 +58,8 @@
 @define-color eqx_frameShade #1f1f1f;
 @define-color eqx_frameHighlight #707070;
 
-@define-color eqx_menuTop #adadad;
-@define-color eqx_menuBottom #a6a6a6;
+@define-color eqx_menuTop #a7a7a7;
+@define-color eqx_menuBottom #a5a5a5;
 @define-color eqx_toolbarTop #4c4c4c;
 @define-color eqx_toolbarBottom #464646;
 @define-color eqx_menuGroove #888888;
@@ -989,7 +989,7 @@ menubar > menuitem > label { color: #333333; }
 headerbar, .titlebar {
   color: #333333;
   background-color: #b5b5b5;
-  background-image: linear-gradient(to bottom, #c7c7c7, #adadad);
+  background-image: linear-gradient(to bottom, #c7c7c7, #a7a7a7);
   border-color: #888888;
   border-bottom: 0;
 }
