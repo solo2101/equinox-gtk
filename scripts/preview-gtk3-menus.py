@@ -2,6 +2,7 @@
 """Preview Equinox GTK3 popup menus, including check/radio and disabled items."""
 import gi
 
+gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gdk, Gtk
 
