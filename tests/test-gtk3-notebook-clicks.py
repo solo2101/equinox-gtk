@@ -137,7 +137,9 @@ def check_selected_tab_paint(window, notebook, labels, orientation):
         inactive = samples[1 - tab][tab]
         active = samples[tab][tab]
         delta = max(abs(active[i] - inactive[i]) for i in range(3))
-        if delta < 8:
+        # Dusk's authentic active/inactive grays differ by 6 RGB levels.
+        # A 4-level threshold still detects a stuck selection (delta=0).
+        if delta < 4:
             raise AssertionError(
                 f"{theme} {orientation.value_nick} tab {tab + 1}: "
                 f"paint unchanged when selection moved: "

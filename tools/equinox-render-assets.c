@@ -29,10 +29,10 @@ static const Palette LIGHT = {
     "#ffffff", "#e6e6e6", "#ffffff", "#eeeeee",
     "#252525", "#686868"
 };
-static const Palette DARK = {
-    "#333638", "#26292b", "#474b4e", "#327ba9", "#333638",
-    "#25282a", "#303436", "#35393b", "#303234",
-    "#e9e9e9", "#a8adaf"
+static const Palette MIDNIGHT = {
+    "#4e4e4e", "#3b3b3b", "#6a6a6a", "#497da5", "#4e4e4e",
+    "#383838", "#424242", "#404040", "#424242",
+    "#dddddd", "#999999"
 };
 
 static EquinoxRGB parse_rgb(const char *hex)
@@ -164,11 +164,11 @@ static gboolean save_asset(const gchar *dir, const gchar *name,
 
 int main(int argc, char **argv)
 {
-    if (argc != 3 || (strcmp(argv[1], "light") && strcmp(argv[1], "dark"))) {
-        g_printerr("Usage: %s light|dark OUTPUT_DIRECTORY\n", argv[0]);
+    if (argc != 3 || (strcmp(argv[1], "light") && strcmp(argv[1], "midnight"))) {
+        g_printerr("Usage: %s light|midnight OUTPUT_DIRECTORY\n", argv[0]);
         return 2;
     }
-    const Palette *palette = !strcmp(argv[1], "light") ? &LIGHT : &DARK;
+    const Palette *palette = !strcmp(argv[1], "light") ? &LIGHT : &MIDNIGHT;
     if (g_mkdir_with_parents(argv[2], 0755) != 0) {
         g_printerr("Cannot create directory %s\n", argv[2]);
         return 1;

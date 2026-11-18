@@ -34,7 +34,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for variant in Light Dark; do
+          for variant in Light Midnight; do
             dir="$HOME/.themes/Equinox-Rendered-$variant/gtk-3.0/assets"
             test -s "$dir/button-normal.png"
             test -s "$dir/entry-focused.png"
