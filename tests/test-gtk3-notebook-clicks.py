@@ -77,11 +77,16 @@ def check_page_surface(window, notebook, orientation):
             raise AssertionError(
                 f"{orientation.value_nick}: lost light notebook page surface: "
                 f"sample at ({x},{y})={rgb}; expected a light-gray page")
-    elif theme in ("Equinox-Evolution-Dusk", "Equinox-Evolution-Midnight"):
-        if not 35 <= rgb[0] <= 120:
+    elif theme == "Equinox-Evolution-Dusk":
+        # Dusk's medium-gray GTK3 page surface is #7a7a7a (122).
+        if not 105 <= rgb[0] <= 145:
             raise AssertionError(
-                f"{orientation.value_nick}: unexpected dark notebook "
-                f"page surface: {rgb}")
+                f"{orientation.value_nick}: lost Dusk notebook surface: {rgb}")
+    elif theme == "Equinox-Evolution-Midnight":
+        # Midnight uses #4e4e4e (78), distinctly darker than Dusk.
+        if not 45 <= rgb[0] <= 105:
+            raise AssertionError(
+                f"{orientation.value_nick}: lost Midnight notebook surface: {rgb}")
     print(f"Visible {orientation.value_nick} page surface: {rgb}")
 
 
