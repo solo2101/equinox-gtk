@@ -31,4 +31,4 @@ GTK_THEME=Equinox-Evolution-Midnight python3 scripts/preview-gtk3-caja-focus.py
 
 To compare GTK2 and GTK3, run `bash scripts/compare-gtk2-gtk3.sh midnight`.
 
-GTK3 uses native CSS. Some GTK2 drawing behavior and widget geometry cannot be reproduced exactly. The experimental original-Cairo renderer and GTK3 frame-shadow compatibility module are optional. Neither is required for normal installation. Historical porting notes are in `docs/GTK3-PORTING-HISTORY.md`.
+GTK3 uses native CSS. Some GTK2 drawing behavior and widget geometry cannot be reproduced exactly. The experimental original-Cairo renderer and GTK3 frame-shadow compatibility module are optional. Neither is required for normal installation. Historical porting notes are in [GTK3 porting history](../docs/GTK3-PORTING-HISTORY.md).
