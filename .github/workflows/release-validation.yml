@@ -1,0 +1,48 @@
+name: Validate Equinox Release
+
+on:
+  push:
+    branches: [main, production]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  theme-release:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:43
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GTK3 for CSS validation
+        run: dnf install -y python3 gtk3
+      - name: Validate all five theme files and metadata
+        run: python3 scripts/check-release.py
+      - name: Validate GTK3 CSS and Marco XML
+        run: |
+          python3 scripts/check-gtk3-css.py
+          python3 scripts/check-marco-theme.py
+      - name: Check shell and Python source syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          for script in scripts/*.sh; do bash -n "$script"; done
+          python3 -m py_compile scripts/*.py tests/test-gtk3-notebook-clicks.py
+
+  gtk2-engine:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:43
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install original GTK2 engine build dependencies
+        run: dnf install -y gcc make gtk2-devel pkgconf-pkg-config libtool autoconf automake
+      - name: Configure and compile Equinox GTK2 engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./configure --prefix=/usr --libdir=/usr/lib64 --enable-animation
+          make -j2
+          test -s .libs/libequinox.so
