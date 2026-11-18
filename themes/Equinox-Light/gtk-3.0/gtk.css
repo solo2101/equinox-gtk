@@ -848,14 +848,22 @@ scrollbar.horizontal slider {
     shade(@eqx_scroll, 0.86) 50%,
     @eqx_scroll 100%);
 }
+/* The original Equinox thumb keeps its four-stop bevel on hover.
+ * Do not change the trough, stepper settings, or overlay behavior. */
 scrollbar slider:hover {
   background-color: @eqx_scaleTop;
   background-image: linear-gradient(to right,
-    shade(@eqx_scaleTop, 1.10), @eqx_scaleTop);
+    shade(@eqx_scaleTop, 1.12) 0%,
+    shade(@eqx_scaleTop, 0.98) 50%,
+    shade(@eqx_scaleTop, 0.85) 50%,
+    @eqx_scaleTop 100%);
 }
 scrollbar.horizontal slider:hover {
   background-image: linear-gradient(to bottom,
-    shade(@eqx_scaleTop, 1.10), @eqx_scaleTop);
+    shade(@eqx_scaleTop, 1.12) 0%,
+    shade(@eqx_scaleTop, 0.98) 50%,
+    shade(@eqx_scaleTop, 0.85) 50%,
+    @eqx_scaleTop 100%);
 }
 scrollbar button {
   min-width: 0;
@@ -1044,11 +1052,15 @@ switch:disabled, switch:disabled slider, scrollbar:disabled slider {
 switch:disabled, switch:disabled slider {
   color: @eqx_muted;
 }
+/* Fedora 14 Equinox paints a diagonal background-to-darker gradient
+ * and a square text-color outline around GtkTooltips. */
 tooltip, tooltip.background {
   color: @theme_fg_color;
-  background-color: @eqx_tooltip;
-  border: 1px solid @eqx_border;
-  border-radius: 4px;
+  background-color: @theme_bg_color;
+  background-image: linear-gradient(to bottom right,
+    @theme_bg_color 0%, shade(@theme_bg_color, 0.90) 100%);
+  border: 1px solid @theme_fg_color;
+  border-radius: 0;
 }
 tooltip label { color: @theme_fg_color; }
 /* GTK2 GtkLinkButton is a text link, not a beveled push button.
