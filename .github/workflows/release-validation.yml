@@ -46,3 +46,24 @@ jobs:
           ./configure --prefix=/usr --libdir=/usr/lib64 --enable-animation
           make -j2
           test -s .libs/libequinox.so
+
+  publish-v2-tag:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/production'
+    needs: [theme-release, gtk2-engine]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tag the validated production release
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --tags origin refs/tags/v2.0 >/dev/null 2>&1; then
+            echo 'The v2.0 tag already exists. Refusing to move an existing release.' >&2
+            exit 1
+          fi
+          git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              tag -a v2.0 -m 'Equinox GTK v2.0: five original Evolution variants for Fedora MATE'
+          git push origin refs/tags/v2.0
