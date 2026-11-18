@@ -373,13 +373,15 @@ menubar, toolbar, .toolbar, .primary-toolbar {
   margin: 0;
   box-shadow: none;
 }
+/* Keep the GTK2 Midnight title, menu and toolbar as three visible
+ * strips. The menubar has its own darker silver face and a clear edge. */
 menubar {
-  /* Add the missing bottom pixel before the GTK2-style groove. */
   padding: 2px 2px 2px 2px;
-  background-color: @eqx_menuTop;
-  background-image: linear-gradient(to bottom,
-    @eqx_menuTop 0%, @eqx_menuBottom 100%);
-  border-bottom: 1px solid @eqx_menuGroove;
+  background-color: #a7a7a7;
+  background-image: linear-gradient(to bottom, #b7b7b7 0%, #a1a1a1 100%);
+  border-top: 1px solid #858585;
+  border-bottom: 1px solid #696969;
+  box-shadow: inset 0 1px alpha(#ffffff, 0.36);
 }
 toolbar, .toolbar, .primary-toolbar {
   padding: 3px 2px 2px 2px;
@@ -394,9 +396,10 @@ toolbar, .toolbar, .primary-toolbar {
 /* Midnight title bars are silver like the original Marco frame. */
 headerbar, .titlebar {
   color: #333333;
-  background-color: #b3b3b3;
-  background-image: linear-gradient(to bottom, #c5c5c5, #a6a6a6);
+  background-color: #b7b7b7;
+  background-image: linear-gradient(to bottom, #d1d1d1, #b4b4b4);
   border-color: #828282;
+  border-bottom: 1px solid #858585;
 }
 headerbar label, .titlebar label { color: #333333; }
 /* Toolbar geometry and state-specific gradient overlays.
