@@ -50,6 +50,9 @@
 @define-color eqx_panelFg #f1f1f1;
 @define-color eqx_panelHighlight #606060;
 @define-color eqx_panelEdge #1f1f1f;
+@define-color eqx_panelButtonTop #575757;
+@define-color eqx_panelButtonBottom #424242;
+@define-color eqx_panelButtonBorder #252525;
 
 
 @define-color eqx_activeTop #c7c7c7;
@@ -1225,21 +1228,21 @@ PanelToplevel.mate-panel-menu-bar menubar > menuitem > label {
   color: @eqx_panelFg;
 }
 
-/* Equinox MATE panel BUTTONS only. Real roots are PanelToplevel for
- * in-process launchers and #PanelPlug for out-of-process applets.
- * Never use .mate-panel-menu-bar as an ancestor: MATE also assigns it
- * to other windows, including popups. These rules must not escape
- * their real panel roots. */
+/* Equinox MATE panel BUTTONS only. Do not target .mate-panel-menu-bar
+ * globally: MATE uses that class on popup windows too. PanelToplevel is
+ * the real panel root and #PanelPlug is the X11 applet window. */
+/* Give resting controls an actual raised surface and a narrow gap so the
+ * panel's color is visible around each button. Do not set panel height. */
 PanelToplevel button,
 #PanelPlug button {
   color: @eqx_panelFg;
-  background-color: transparent;
-  background-image: none;
-  border: 1px solid transparent;
+  background-color: @eqx_panelButtonBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelButtonTop, @eqx_panelButtonBottom);
+  border: 1px solid @eqx_panelButtonBorder;
   border-radius: 3px;
-  box-shadow: none;
-  margin: 2px 1px;
-  padding: 1px 3px;
+  box-shadow: inset 0 1px alpha(@eqx_panelHighlight, 0.70);
+  margin: 2px 2px;
+  padding: 1px 5px;
 }
 PanelToplevel button label,
 #PanelPlug button label {
@@ -1247,26 +1250,30 @@ PanelToplevel button label,
 }
 PanelToplevel button:hover,
 #PanelPlug button:hover {
-  background-color: alpha(@eqx_panelFg, 0.11);
-  background-image: none;
-  border-color: alpha(@eqx_panelFg, 0.18);
-  box-shadow: none;
+  background-color: shade(@eqx_panelButtonBottom, 1.06);
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_panelButtonTop, 1.06),
+    shade(@eqx_panelButtonBottom, 1.06));
+  border-color: @eqx_panelButtonBorder;
+  box-shadow: inset 0 1px @eqx_panelHighlight;
 }
 PanelToplevel button:active,
 PanelToplevel button:checked,
 #PanelPlug button:active,
 #PanelPlug button:checked {
-  background-color: shade(@eqx_panelBottom, 0.90);
-  background-image: none;
-  border-color: alpha(@eqx_panelFg, 0.25);
-  box-shadow: inset 0 1px alpha(@eqx_panelEdge, 0.45);
+  background-color: shade(@eqx_panelBottom, 0.92);
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_panelBottom, 0.85),
+    shade(@eqx_panelBottom, 0.96));
+  border-color: @eqx_panelButtonBorder;
+  box-shadow: inset 0 1px alpha(@eqx_panelEdge, 0.70);
 }
 PanelToplevel button:disabled,
 #PanelPlug button:disabled {
   color: alpha(@eqx_panelFg, 0.48);
-  background-color: transparent;
+  background-color: @eqx_panelBottom;
   background-image: none;
-  border-color: transparent;
+  border-color: alpha(@eqx_panelButtonBorder, 0.50);
   box-shadow: none;
 }
 PanelToplevel button:disabled label,
@@ -1274,26 +1281,62 @@ PanelToplevel button:disabled label,
   color: alpha(@eqx_panelFg, 0.48);
 }
 
-/* The Applications / Places / System strip contains GtkMenuItems, not
- * buttons. Only its immediate children get compact panel button paint.
- * Never select menu > menuitem or a global menuitem selector. */
+/* MATE's window-list applet applies application-priority CSS forcing
+ * its button margins and padding to zero. Draw the gap as a 2px border
+ * in panel color instead; the inset outline preserves button edges.
+ * Do not alter WnckTasklist geometry or its checked/click behavior. */
+PanelToplevel button#tasklist-button,
+#PanelPlug button#tasklist-button {
+  border: 2px solid @eqx_panelBottom;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px @eqx_panelButtonBorder,
+              inset 0 2px alpha(@eqx_panelHighlight, 0.45);
+}
+PanelToplevel button#tasklist-button:hover,
+#PanelPlug button#tasklist-button:hover {
+  border-color: @eqx_panelBottom;
+  box-shadow: inset 0 0 0 1px @eqx_panelButtonBorder,
+              inset 0 2px alpha(@eqx_panelHighlight, 0.70);
+}
+PanelToplevel button#tasklist-button:active,
+PanelToplevel button#tasklist-button:checked,
+#PanelPlug button#tasklist-button:active,
+#PanelPlug button#tasklist-button:checked {
+  border-color: @eqx_panelBottom;
+  box-shadow: inset 0 0 0 1px @eqx_panelButtonBorder,
+              inset 0 2px alpha(@eqx_panelEdge, 0.55);
+}
+
+/* Applications, Places and System are direct menu-bar items, not buttons.
+ * Their popup menus are separate windows and remain entirely untouched. */
 PanelToplevel menubar > menuitem,
 PanelToplevel PanelMenuBar > menuitem {
   color: @eqx_panelFg;
-  background-color: transparent;
-  background-image: none;
-  border: 1px solid transparent;
+  background-color: @eqx_panelButtonBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelButtonTop, @eqx_panelButtonBottom);
+  border: 1px solid @eqx_panelButtonBorder;
   border-radius: 3px;
-  box-shadow: none;
-  margin: 2px 1px;
-  padding: 1px 6px;
+  box-shadow: inset 0 1px alpha(@eqx_panelHighlight, 0.70);
+  margin: 2px 2px;
+  padding: 1px 7px;
 }
 PanelToplevel menubar > menuitem:hover,
 PanelToplevel menubar > menuitem:selected,
 PanelToplevel PanelMenuBar > menuitem:hover,
 PanelToplevel PanelMenuBar > menuitem:selected {
-  background-color: alpha(@eqx_panelFg, 0.11);
-  background-image: none;
-  border-color: alpha(@eqx_panelFg, 0.18);
-  box-shadow: none;
+  background-color: shade(@eqx_panelButtonBottom, 1.06);
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_panelButtonTop, 1.06),
+    shade(@eqx_panelButtonBottom, 1.06));
+  border-color: @eqx_panelButtonBorder;
+  box-shadow: inset 0 1px @eqx_panelHighlight;
+}
+PanelToplevel menubar > menuitem:active,
+PanelToplevel PanelMenuBar > menuitem:active {
+  background-color: shade(@eqx_panelBottom, 0.92);
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_panelBottom, 0.85),
+    shade(@eqx_panelBottom, 0.96));
+  border-color: @eqx_panelButtonBorder;
+  box-shadow: inset 0 1px alpha(@eqx_panelEdge, 0.70);
 }
