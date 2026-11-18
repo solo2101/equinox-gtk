@@ -56,7 +56,7 @@ def validate_theme(theme, display_name):
             continue
         with image.open("rb") as stream:
             header = stream.read(24)
-        if len(header) != 24 or header[:8] != b"\x5c\x78\x38\x39PNG\x5c\x72\x5c\x6e\x5c\x78\x31\x61\x5c\x6e":
+        if len(header) != 24 or header[:8] != b"\x89PNG\r\n\x1a\n":
             errors.append(f"{theme}: invalid PNG {name}")
         else:
             width, height = struct.unpack(">II", header[16:24])
