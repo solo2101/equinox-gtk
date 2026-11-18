@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9">
+  <!-- Equinox recessed handle, Equinox-Evolution window, surface #dddddd. -->
   <defs>
-    <linearGradient id="recess" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#000" stop-opacity=".76"/>
-      <stop offset=".6" stop-color="#000" stop-opacity=".34"/>
-      <stop offset="1" stop-color="#fff" stop-opacity=".66"/>
-    </linearGradient>
-    <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#000" stop-opacity=".24"/>
-      <stop offset="1" stop-color="#fff" stop-opacity=".43"/>
+    <linearGradient id="well" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b1b1b1" stop-opacity=".58"/>
+      <stop offset=".50" stop-color="#c9c9c9" stop-opacity=".30"/>
+      <stop offset="1" stop-color="#fcfcfc" stop-opacity=".48"/>
     </linearGradient>
   </defs>
-  <circle cx="4.5" cy="4.5" r="2.7" fill="url(#recess)"/>
-  <circle cx="4.5" cy="4.5" r="2.25" fill="none" stroke="url(#edge)" stroke-width=".75"/>
+  <circle cx="4.5" cy="4.5" r="2.25" fill="url(#well)"/>
+  <path d="M2.25 4.5 A2.25 2.25 0 0 1 6.75 4.5"
+        fill="none" stroke="#a6a6a6" stroke-opacity=".46" stroke-width=".7"/>
+  <path d="M2.25 4.5 A2.25 2.25 0 0 0 6.75 4.5"
+        fill="none" stroke="#fcfcfc" stroke-opacity=".68" stroke-width=".7"/>
 </svg>

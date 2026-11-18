@@ -1067,7 +1067,8 @@ paned.vertical > separator { min-height: 9px; }
  * exact widget path. Limit the artwork to the existing applet drag zone.
  * No changes to PanelMenuBar, its popups, or button hit areas. */
 MatePanelAppletFrameDBus > MatePanelAppletFrameDBus {
-  background-image: url("equinox-grip.svg");
+  /* Panel background colors differ from window surfaces, especially Dawn. */
+  background-image: url("equinox-panel-grip.svg");
   background-size: 9px 9px;
   background-position: center center;
   background-repeat: no-repeat;
