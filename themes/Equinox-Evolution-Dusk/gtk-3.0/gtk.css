@@ -455,6 +455,85 @@ menubar > menuitem:hover, menubar > menuitem:selected {
   background-color: @theme_selected_bg_color;
 }
 
+/* GTK2 Equinox popup menu parity. Scoped to popup menus, so the
+ * application menubar and MATE panel retain their existing styling.
+ * Preserve GTK's native keyboard navigation and submenu interactions. */
+menu, .menu {
+  border: 1px solid @eqx_frameEdge;
+  border-radius: 2px;
+  padding: 2px 0;
+  box-shadow: 0 2px 4px alpha(@eqx_outer, 0.45);
+}
+menu menuitem, .menu menuitem {
+  color: @theme_fg_color;
+  background-color: transparent;
+  background-image: none;
+  padding: 3px 10px;
+  min-height: 15px;
+}
+menu menuitem label, .menu menuitem label {
+  color: @theme_fg_color;
+}
+menu menuitem:hover, menu menuitem:selected,
+.menu menuitem:hover, .menu menuitem:selected {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+}
+menu menuitem:hover label, menu menuitem:selected label,
+.menu menuitem:hover label, .menu menuitem:selected label {
+  color: @theme_selected_fg_color;
+}
+menu menuitem:disabled, menu menuitem:disabled:hover,
+.menu menuitem:disabled, .menu menuitem:disabled:hover {
+  color: @eqx_muted;
+  background-color: transparent;
+  background-image: none;
+}
+menu menuitem:disabled label, .menu menuitem:disabled label {
+  color: @eqx_muted;
+}
+/* GtkMenuSeparator uses a separator node, not the normal toolbar
+ * separator. Keep the original compact recessed one-pixel stroke. */
+menu separator, .menu separator {
+  min-height: 1px;
+  margin: 3px 6px;
+  padding: 0;
+  border: 0;
+  background-color: alpha(@eqx_frameShade, 0.58);
+  background-image: none;
+  box-shadow: 0 1px alpha(@eqx_frameHighlight, 0.28);
+}
+menu menuitem arrow, .menu menuitem arrow {
+  color: @theme_fg_color;
+}
+menu menuitem:hover arrow, .menu menuitem:hover arrow,
+menu menuitem:selected arrow, .menu menuitem:selected arrow {
+  color: @theme_selected_fg_color;
+}
+menu menuitem:disabled arrow, .menu menuitem:disabled arrow {
+  color: @eqx_muted;
+}
+/* GTK2 menu check/radio marks are plain indicators instead of the
+ * boxed controls used in forms. Leave the GTK3 icon itself native. */
+menu menuitem check, menu menuitem radio,
+.menu menuitem check, .menu menuitem radio {
+  background-color: transparent;
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+  color: @theme_fg_color;
+}
+menu menuitem:hover check, menu menuitem:hover radio,
+.menu menuitem:hover check, .menu menuitem:hover radio,
+menu menuitem:selected check, menu menuitem:selected radio,
+.menu menuitem:selected check, .menu menuitem:selected radio {
+  color: @theme_selected_fg_color;
+}
+menu menuitem:disabled check, menu menuitem:disabled radio,
+.menu menuitem:disabled check, .menu menuitem:disabled radio {
+  color: @eqx_muted;
+}
+
 /* Original Equinox notebook proportions: inactive tabs sit slightly below
  * the active one. Keep selection tied to GTK's :checked state, and keep
  * the selected tab joined to the notebook stack on all four edges.
