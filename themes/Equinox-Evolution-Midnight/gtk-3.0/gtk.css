@@ -373,15 +373,15 @@ menubar, toolbar, .toolbar, .primary-toolbar {
   margin: 0;
   box-shadow: none;
 }
-/* Keep the GTK2 Midnight title, menu and toolbar as three visible
- * strips. The menubar has its own darker silver face and a clear edge. */
+/* Midnight silver menubar: keep the separator at the bottom, above
+ * the charcoal toolbar, not between the title and menu. */
 menubar {
   padding: 2px 2px 2px 2px;
   background-color: #a7a7a7;
   background-image: linear-gradient(to bottom, #b7b7b7 0%, #a1a1a1 100%);
-  border-top: 1px solid #858585;
-  border-bottom: 1px solid #696969;
-  box-shadow: inset 0 1px alpha(#ffffff, 0.36);
+  border-top: 0;
+  border-bottom: 2px solid #696969;
+  box-shadow: inset 0 -1px alpha(#ffffff, 0.20);
 }
 toolbar, .toolbar, .primary-toolbar {
   padding: 3px 2px 2px 2px;
