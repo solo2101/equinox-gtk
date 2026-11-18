@@ -33,8 +33,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for variant in Light Dark; do
-            theme="Equinox-$variant"
+          for theme in Equinox-Evolution Equinox-Evolution-Dawn Equinox-Evolution-Dusk Equinox-Light Equinox-Evolution-Midnight; do
             log="$(mktemp)"
             set +e
             timeout 10s xvfb-run -a marco-theme-viewer "$theme" >"$log" 2>&1
