@@ -31,9 +31,9 @@ popover = Gtk.Popover.new(btn)
 contents = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
 contents.set_border_width(6)
 for title in ("New window", "Preferences"):
-    contents.pack_start(Gtk.ModelButton.new(), False, False, 0)
-    model = contents.get_children()[-1]
-    model.set_property("text", title)
+    row = Gtk.Label(label=title)
+    row.set_xalign(0)
+    contents.pack_start(row, False, False, 5)
 popover.add(contents)
 btn.connect("clicked", lambda *_: (popover.show_all(), popover.popup()))
 
