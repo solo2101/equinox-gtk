@@ -56,6 +56,15 @@ def main():
                 failures += 1
                 print(f"FAIL {theme}: {gtk2_key} {original} vs {gtk3_key} {current}")
         if theme == "Equinox-Evolution-Midnight":
+            # A descendant label selector also matches MATE Applications popup
+            # categories, painting their text dark on the charcoal popup.
+            # Limit silver application-menubar text to direct children.
+            if re.search(r"menubar\\s*>\\s*menuitem\\s+label\\b", css):
+                failures += 1
+                print("FAIL Midnight: broad menubar label selector hides popup categories")
+            if not re.search(r"menubar\\s*>\\s*menuitem\\s*>\\s*label", css):
+                failures += 1
+                print("FAIL Midnight: direct-child menubar label rule missing")
             for key, expected in MIDNIGHT_VM_REFERENCE.items():
                 current = find_gtk3(css, key)
                 if current != expected:
