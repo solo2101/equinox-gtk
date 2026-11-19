@@ -1190,9 +1190,10 @@ button.link:disabled, button.link:disabled label {
 }
 
 /* Theme-specific palette and top-bar coloring; no control geometry changes. */
-/* Midnight is charcoal below a continuous silver title/menu area. */
-menubar, menubar > menuitem, menubar > menuitem label,
-menubar > menuitem > label { color: #333333; }
+/* Midnight's silver application menubar uses dark text, but only on
+ * immediate menubar labels. The descendant selector "menubar > menuitem label"
+ * also recolors MATE Applications popup category labels charcoal-on-charcoal. */
+menubar, menubar > menuitem, menubar > menuitem > label { color: #333333; }
 headerbar, .titlebar {
   color: #333333;
   background-color: #b5b5b5;
