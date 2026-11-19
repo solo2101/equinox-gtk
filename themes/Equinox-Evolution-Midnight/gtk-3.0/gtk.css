@@ -80,6 +80,12 @@
 @define-color eqx_popupBorder #333333;
 @define-color eqx_popupHoverBg #626262;
 @define-color eqx_popupHoverFg #ffffff;
+/* Screenshot reference: Fedora 14 MATE/GNOME 2 Midnight menu (2026-11-19).
+ * Keep original GTK2 palette entries above for source-level parity checks.
+ * GtkMenu popups use the actual reference pixels, scoped below. */
+@define-color eqx_popupReferenceBg #323232;
+@define-color eqx_popupReferenceSelectedTop #497dae;
+@define-color eqx_popupReferenceSelectedBottom #426c9d;
 @define-color eqx_toolbarLine #313131;
 @define-color eqx_toolbarRidge #565656;
 @define-color eqx_tabSheen #5c5c5c;
@@ -503,11 +509,11 @@ menubar > menuitem:hover, menubar > menuitem:selected {
  * separate from application menubars and MATE PanelToplevel. Theme palettes
  * are independent of the window background and panel button colors. */
 /* Caja File/Edit/View, MATE Applications/Places/System, and right-click
- * context menus are GtkMenu widgets with "menu" CSS nodes.
- * Use the original GTK2 fg[NORMAL]/bg[NORMAL] for these surfaces only. */
+ * context menus use GtkMenu widgets. Match the Fedora 14 VM menu reference
+ * while leaving application menubars and panel buttons unchanged. */
 menu, .menu {
   color: @eqx_popupFg;
-  background-color: @eqx_popupBg;
+  background-color: @eqx_popupReferenceBg;
   background-image: none;
 }
 /* GtkPopover is a different widget. Restore the original window palette. */
@@ -520,7 +526,7 @@ popover, popover.background {
  * Preserve GTK's native keyboard navigation and submenu interactions. */
 menu, .menu {
   color: @eqx_popupFg;
-  background-color: @eqx_popupBg;
+  background-color: @eqx_popupReferenceBg;
   background-image: none;
   border: 1px solid @eqx_popupBorder;
   border-radius: 2px;
@@ -540,10 +546,10 @@ menu menuitem label, .menu menuitem label {
 menu menuitem:hover, menu menuitem:selected, menu menuitem:focus,
 .menu menuitem:hover, .menu menuitem:selected, .menu menuitem:focus {
   color: @eqx_popupHoverFg;
-  background-color: @eqx_popupHoverBg;
+  background-color: @eqx_popupReferenceSelectedBottom;
   background-image: linear-gradient(to bottom,
-    shade(@eqx_popupHoverBg, 1.05),
-    shade(@eqx_popupHoverBg, 0.92));
+    @eqx_popupReferenceSelectedTop,
+    @eqx_popupReferenceSelectedBottom);
 }
 menu menuitem:hover label, menu menuitem:selected label, menu menuitem:focus label,
 .menu menuitem:hover label, .menu menuitem:selected label, .menu menuitem:focus label {
