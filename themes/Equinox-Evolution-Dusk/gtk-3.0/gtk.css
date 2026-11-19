@@ -74,6 +74,12 @@
 @define-color eqx_toolbarTop #5a5a5a;
 @define-color eqx_toolbarBottom #515151;
 @define-color eqx_menuGroove #4c4c4c;
+@define-color eqx_popupBg #5b5b5b;
+@define-color eqx_popupFg #f2f2f2;
+@define-color eqx_popupDisabled #bcbcbc;
+@define-color eqx_popupBorder #404040;
+@define-color eqx_popupHoverBg #80b9d8;
+@define-color eqx_popupHoverFg #202020;
 @define-color eqx_toolbarLine #454545;
 @define-color eqx_toolbarRidge #747474;
 @define-color eqx_tabSheen #868686;
@@ -463,10 +469,6 @@ headerbar, .titlebar { min-height: 25px; border-bottom: 1px solid @eqx_border; }
  * vertical gradient remains visible behind Options, System themes, etc.
  * Previously menuitem had a solid @theme_bg_color background, masking
  * the gradient except in the blank space after Help. */
-menu, .menu, popover, popover.background {
-  color: @theme_fg_color;
-  background-color: @theme_bg_color;
-}
 menuitem {
   color: @theme_fg_color;
   background-color: transparent;
@@ -485,42 +487,53 @@ menubar > menuitem:hover, menubar > menuitem:selected {
   background-color: @theme_selected_bg_color;
 }
 
+/* GTK3 popup surfaces only. These nodes belong to GtkMenu/GtkPopover,
+ * separate from application menubars and MATE PanelToplevel. Theme palettes
+ * are independent of the window background and panel button colors. */
+menu, .menu, popover, popover.background {
+  color: @eqx_popupFg;
+  background-color: @eqx_popupBg;
+  background-image: none;
+}
 /* GTK2 Equinox popup menu parity. Scoped to popup menus, so the
  * application menubar and MATE panel retain their existing styling.
  * Preserve GTK's native keyboard navigation and submenu interactions. */
 menu, .menu {
-  border: 1px solid @eqx_frameEdge;
+  color: @eqx_popupFg;
+  background-color: @eqx_popupBg;
+  background-image: none;
+  border: 1px solid @eqx_popupBorder;
   border-radius: 2px;
   padding: 2px 0;
   box-shadow: 0 2px 4px alpha(@eqx_outer, 0.45);
 }
 menu menuitem, .menu menuitem {
-  color: @theme_fg_color;
+  color: @eqx_popupFg;
   background-color: transparent;
   background-image: none;
   padding: 3px 10px;
   min-height: 15px;
 }
 menu menuitem label, .menu menuitem label {
-  color: @theme_fg_color;
+  color: @eqx_popupFg;
 }
 menu menuitem:hover, menu menuitem:selected, menu menuitem:focus,
 .menu menuitem:hover, .menu menuitem:selected, .menu menuitem:focus {
-  color: @theme_selected_fg_color;
-  background-color: @theme_selected_bg_color;
+  color: @eqx_popupHoverFg;
+  background-color: @eqx_popupHoverBg;
 }
 menu menuitem:hover label, menu menuitem:selected label, menu menuitem:focus label,
 .menu menuitem:hover label, .menu menuitem:selected label, .menu menuitem:focus label {
-  color: @theme_selected_fg_color;
+  color: @eqx_popupHoverFg;
 }
 menu menuitem:disabled, menu menuitem:disabled:hover,
 .menu menuitem:disabled, .menu menuitem:disabled:hover {
-  color: @eqx_muted;
+  color: @eqx_popupDisabled;
   background-color: transparent;
   background-image: none;
 }
 menu menuitem:disabled label, .menu menuitem:disabled label {
-  color: @eqx_muted;
+  color: @eqx_popupDisabled;
 }
 /* GtkMenuSeparator uses a separator node, not the normal toolbar
  * separator. Keep the original compact recessed one-pixel stroke. */
@@ -529,19 +542,19 @@ menu separator, .menu separator {
   margin: 3px 6px;
   padding: 0;
   border: 0;
-  background-color: alpha(@eqx_frameShade, 0.58);
+  background-color: alpha(@eqx_popupFg, 0.34);
   background-image: none;
-  box-shadow: 0 1px alpha(@eqx_frameHighlight, 0.28);
+  box-shadow: 0 1px alpha(@eqx_popupFg, 0.10);
 }
 menu menuitem arrow, .menu menuitem arrow {
-  color: @theme_fg_color;
+  color: @eqx_popupFg;
 }
 menu menuitem:hover arrow, .menu menuitem:hover arrow,
 menu menuitem:selected arrow, .menu menuitem:selected arrow {
-  color: @theme_selected_fg_color;
+  color: @eqx_popupHoverFg;
 }
 menu menuitem:disabled arrow, .menu menuitem:disabled arrow {
-  color: @eqx_muted;
+  color: @eqx_popupDisabled;
 }
 /* GTK2 menu check/radio marks are plain indicators instead of the
  * boxed controls used in forms. Leave the GTK3 icon itself native. */
@@ -551,7 +564,7 @@ menu menuitem check, menu menuitem radio,
   background-image: none;
   border: 0;
   box-shadow: none;
-  color: @theme_fg_color;
+  color: @eqx_popupFg;
 }
 menu menuitem check:checked, menu menuitem check:indeterminate,
 menu menuitem radio:checked,
@@ -561,17 +574,57 @@ menu menuitem radio:checked,
   background-image: none;
   border: 0;
   box-shadow: none;
-  color: @theme_fg_color;
+  color: @eqx_popupFg;
 }
 menu menuitem:hover check, menu menuitem:hover radio,
 .menu menuitem:hover check, .menu menuitem:hover radio,
 menu menuitem:selected check, menu menuitem:selected radio,
 .menu menuitem:selected check, .menu menuitem:selected radio {
-  color: @theme_selected_fg_color;
+  color: @eqx_popupHoverFg;
 }
 menu menuitem:disabled check, menu menuitem:disabled radio,
 .menu menuitem:disabled check, .menu menuitem:disabled radio {
-  color: @eqx_muted;
+  color: @eqx_popupDisabled;
+}
+
+
+/* GTK3 GtkPopover and application menu models are not GtkMenu widgets.
+ * Give their contents the same variant palette without affecting the
+ * menubar labels, regular application buttons or screenshot selection. */
+popover > contents {
+  color: @eqx_popupFg;
+  background-color: @eqx_popupBg;
+  background-image: none;
+  border: 1px solid @eqx_popupBorder;
+  border-radius: 2px;
+}
+popover modelbutton, popover .modelbutton {
+  color: @eqx_popupFg;
+  background-color: transparent;
+  background-image: none;
+}
+popover modelbutton label, popover .modelbutton label {
+  color: @eqx_popupFg;
+}
+popover modelbutton:hover, popover .modelbutton:hover,
+popover modelbutton:checked, popover .modelbutton:checked {
+  color: @eqx_popupHoverFg;
+  background-color: @eqx_popupHoverBg;
+  background-image: none;
+}
+popover modelbutton:hover label, popover .modelbutton:hover label,
+popover modelbutton:checked label, popover .modelbutton:checked label {
+  color: @eqx_popupHoverFg;
+}
+popover modelbutton:disabled, popover .modelbutton:disabled,
+popover modelbutton:disabled label, popover .modelbutton:disabled label {
+  color: @eqx_popupDisabled;
+}
+popover separator {
+  min-height: 1px;
+  background-color: alpha(@eqx_popupFg, 0.38);
+  background-image: none;
+  border: 0;
 }
 
 /* Original Equinox notebook proportions: inactive tabs sit slightly below
