@@ -6,6 +6,8 @@ on:
     paths:
       - 'themes/**/gtk-3.0/gtk.css'
       - 'scripts/check-gtk3-css.py'
+      - 'scripts/check-gtk3-menu-parity.py'
+      - 'scripts/preview-gtk3-popups.py'
       - 'scripts/preview-gtk3-menus.py'
       - 'scripts/preview-gtk3-dialogs.py'
       - 'scripts/preview-gtk3-tooltips-scrollbars.py'
@@ -15,6 +17,8 @@ on:
     paths:
       - 'themes/**/gtk-3.0/gtk.css'
       - 'scripts/check-gtk3-css.py'
+      - 'scripts/check-gtk3-menu-parity.py'
+      - 'scripts/preview-gtk3-popups.py'
       - 'scripts/preview-gtk3-menus.py'
       - 'scripts/preview-gtk3-dialogs.py'
       - 'scripts/preview-gtk3-tooltips-scrollbars.py'
@@ -35,7 +39,9 @@ jobs:
         run: dnf install -y gtk3 python3 python3-gobject
       - name: Parse all five Equinox GTK3 stylesheets
         run: python3 scripts/check-gtk3-css.py
+      - name: Verify dropdown colors against original GTK2 palettes
+        run: python3 scripts/check-gtk3-menu-parity.py
       - name: Check GTK3 preview scripts
         run: |
-          python3 -m py_compile scripts/preview-gtk3-menus.py scripts/preview-gtk3-dialogs.py scripts/preview-gtk3-tooltips-scrollbars.py scripts/preview-gtk3-caja-focus.py
+          python3 -m py_compile scripts/preview-gtk3-menus.py scripts/preview-gtk3-dialogs.py scripts/preview-gtk3-tooltips-scrollbars.py scripts/preview-gtk3-caja-focus.py scripts/preview-gtk3-popups.py
           python3 -c "import runpy; runpy.run_path('scripts/preview-gtk3-menus.py', run_name='syntax_check'); runpy.run_path('scripts/preview-gtk3-dialogs.py', run_name='syntax_check'); runpy.run_path('scripts/preview-gtk3-tooltips-scrollbars.py', run_name='syntax_check'); runpy.run_path('scripts/preview-gtk3-caja-focus.py', run_name='syntax_check')"
