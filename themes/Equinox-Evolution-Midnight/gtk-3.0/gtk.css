@@ -166,6 +166,18 @@ selection, entry selection, textview text selection {
   color: @theme_selected_fg_color;
   background-color: @theme_selected_bg_color;
 }
+/* Shutter's Gtk3::ImageView paints its selection by temporarily adding
+ * GtkStyleContext class "rubberband" to its "imageview" context and calls
+ * gtk_render_background()/gtk_render_frame(). The text-selection rule
+ * above does not style that region. Keep this specific to image views,
+ * rather than changing every GTK widget's rubberband/highlight style. */
+.imageview.rubberband {
+  background-color: alpha(@eqx_accent, 0.24);
+  background-image: none;
+  border: 1px solid @eqx_accent;
+  border-radius: 0;
+  box-shadow: inset 0 0 0 1px alpha(@eqx_accentTop, 0.48);
+}
 
 /* GTK2 reference: buttonstyle=0, explicit active/insensitive states.
  * The old GTK3 pressed gradient had its light and dark ends reversed.
