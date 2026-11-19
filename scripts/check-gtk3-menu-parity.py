@@ -20,6 +20,14 @@ VALUES = {
 }
 
 
+# Original GTK2 gtkrc values above stay checked for every variant.
+# Midnight's popup reference is a separate visual match to the Fedora 14 VM.
+MIDNIGHT_VM_REFERENCE = {
+    "eqx_popupReferenceBg": "#323232",
+    "eqx_popupReferenceSelectedTop": "#497dae",
+    "eqx_popupReferenceSelectedBottom": "#426c9d",
+}
+
 def find_gtk2(gtkrc, name):
     pattern = r"^\s*" + re.escape(name) + r'\s*=\s*"(?P<hex>#[0-9a-fA-F]{6})"'
     match = re.search(pattern, gtkrc, re.MULTILINE)
@@ -47,6 +55,20 @@ def main():
             if original != current:
                 failures += 1
                 print(f"FAIL {theme}: {gtk2_key} {original} vs {gtk3_key} {current}")
+        if theme == "Equinox-Evolution-Midnight":
+            for key, expected in MIDNIGHT_VM_REFERENCE.items():
+                current = find_gtk3(css, key)
+                if current != expected:
+                    failures += 1
+                    print(f"FAIL {theme}: Fedora 14 reference {key} {expected} vs {current}")
+            for selector_value in (
+                "background-color: @eqx_popupReferenceBg;",
+                "background-color: @eqx_popupReferenceSelectedBottom;",
+                "@eqx_popupReferenceSelectedTop,",
+            ):
+                if selector_value not in css:
+                    failures += 1
+                    print(f"FAIL {theme}: reference popup rule missing {selector_value}")
         if "menu menuitem label" not in css or "menu menuitem:hover label" not in css:
             failures += 1
             print(f"FAIL {theme}: GtkMenu label/selected selectors missing")
