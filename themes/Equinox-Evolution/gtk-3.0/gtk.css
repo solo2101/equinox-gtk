@@ -1198,6 +1198,18 @@ PanelToplevel.mate-panel-menu-bar.vertical:not(.mate-custom-panel-background) {
   box-shadow: inset 1px 0 @eqx_panelHighlight,
               inset -1px 0 @eqx_panelEdge;
 }
+/* MATE's PanelMenuBar inherits Equinox's generic GTK3 menubar gradient.
+ * On dark themes this paints a light rectangle behind Applications,
+ * Places and System. Reset ONLY menubars inside the actual panel window,
+ * letting the PanelToplevel gradient show through continuously. */
+PanelToplevel menubar,
+PanelToplevel PanelMenuBar {
+  background-color: transparent;
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+}
+
 /* Only the three direct top-level menu labels inherit the panel text
  * color. Do not touch their backgrounds, padding or dropdown popups. */
 PanelToplevel.mate-panel-menu-bar menubar > menuitem,
