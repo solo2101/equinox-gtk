@@ -1191,8 +1191,8 @@ button.link:disabled, button.link:disabled label {
 
 /* Theme-specific palette and top-bar coloring; no control geometry changes. */
 /* Midnight's silver application menubar uses dark text, but only on
- * immediate menubar labels. The descendant selector "menubar > menuitem label"
- * also recolors MATE Applications popup category labels charcoal-on-charcoal. */
+ * immediate menubar labels. An overbroad descendant selector would
+ * also recolor MATE Applications popup category labels charcoal-on-charcoal. */
 menubar, menubar > menuitem, menubar > menuitem > label { color: #333333; }
 headerbar, .titlebar {
   color: #333333;
