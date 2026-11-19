@@ -45,14 +45,14 @@
 @define-color theme_unfocused_fg_color #9d9d9d;
 
 /* Equinox-specific MATE panel colors. Not shared with application menus. */
-@define-color eqx_panelTop #686868;
-@define-color eqx_panelBottom #414141;
+@define-color eqx_panelTop #414141;
+@define-color eqx_panelBottom #303030;
 @define-color eqx_panelFg #eeeeee;
-@define-color eqx_panelHighlight #7f7f7f;
+@define-color eqx_panelHighlight #515151;
 @define-color eqx_panelEdge #292929;
-@define-color eqx_panelButtonTop #777777;
-@define-color eqx_panelButtonBottom #555555;
-@define-color eqx_panelButtonBorder #303030;
+@define-color eqx_panelButtonTop #5d5d5d;
+@define-color eqx_panelButtonBottom #4e4e4e;
+@define-color eqx_panelButtonBorder #333333;
 
 
 @define-color eqx_activeTop #484848;
