@@ -74,10 +74,10 @@
 @define-color eqx_toolbarTop #b9b9b9;
 @define-color eqx_toolbarBottom #a9a9a9;
 @define-color eqx_menuGroove #303030;
-@define-color eqx_popupBg #303030;
-@define-color eqx_popupFg #eeeeee;
-@define-color eqx_popupDisabled #aaaaaa;
-@define-color eqx_popupBorder #202020;
+@define-color eqx_popupBg #d7d7d7;
+@define-color eqx_popupFg #252525;
+@define-color eqx_popupDisabled #686868;
+@define-color eqx_popupBorder #a2a2a2;
 @define-color eqx_popupHoverBg #3978b4;
 @define-color eqx_popupHoverFg #ffffff;
 @define-color eqx_toolbarLine #979797;
@@ -502,10 +502,18 @@ menubar > menuitem:hover, menubar > menuitem:selected {
 /* GTK3 popup surfaces only. These nodes belong to GtkMenu/GtkPopover,
  * separate from application menubars and MATE PanelToplevel. Theme palettes
  * are independent of the window background and panel button colors. */
-menu, .menu, popover, popover.background {
+/* Caja File/Edit/View, MATE Applications/Places/System, and right-click
+ * context menus are GtkMenu widgets with "menu" CSS nodes.
+ * Use the original GTK2 fg[NORMAL]/bg[NORMAL] for these surfaces only. */
+menu, .menu {
   color: @eqx_popupFg;
   background-color: @eqx_popupBg;
   background-image: none;
+}
+/* GtkPopover is a different widget. Restore the original window palette. */
+popover, popover.background {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
 }
 /* GTK2 Equinox popup menu parity. Scoped to popup menus, so the
  * application menubar and MATE panel retain their existing styling.
@@ -533,6 +541,9 @@ menu menuitem:hover, menu menuitem:selected, menu menuitem:focus,
 .menu menuitem:hover, .menu menuitem:selected, .menu menuitem:focus {
   color: @eqx_popupHoverFg;
   background-color: @eqx_popupHoverBg;
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_popupHoverBg, 1.05),
+    shade(@eqx_popupHoverBg, 0.92));
 }
 menu menuitem:hover label, menu menuitem:selected label, menu menuitem:focus label,
 .menu menuitem:hover label, .menu menuitem:selected label, .menu menuitem:focus label {
@@ -568,6 +579,9 @@ menu menuitem:selected arrow, .menu menuitem:selected arrow {
 menu menuitem:disabled arrow, .menu menuitem:disabled arrow {
   color: @eqx_popupDisabled;
 }
+menu > arrow, .menu > arrow {
+  color: @eqx_popupFg;
+}
 /* GTK2 menu check/radio marks are plain indicators instead of the
  * boxed controls used in forms. Leave the GTK3 icon itself native. */
 menu menuitem check, menu menuitem radio,
@@ -599,45 +613,6 @@ menu menuitem:disabled check, menu menuitem:disabled radio,
   color: @eqx_popupDisabled;
 }
 
-
-/* GTK3 GtkPopover and application menu models are not GtkMenu widgets.
- * Give their contents the same variant palette without affecting the
- * menubar labels, regular application buttons or screenshot selection. */
-popover > contents {
-  color: @eqx_popupFg;
-  background-color: @eqx_popupBg;
-  background-image: none;
-  border: 1px solid @eqx_popupBorder;
-  border-radius: 2px;
-}
-popover modelbutton, popover .modelbutton {
-  color: @eqx_popupFg;
-  background-color: transparent;
-  background-image: none;
-}
-popover modelbutton label, popover .modelbutton label {
-  color: @eqx_popupFg;
-}
-popover modelbutton:hover, popover .modelbutton:hover,
-popover modelbutton:checked, popover .modelbutton:checked {
-  color: @eqx_popupHoverFg;
-  background-color: @eqx_popupHoverBg;
-  background-image: none;
-}
-popover modelbutton:hover label, popover .modelbutton:hover label,
-popover modelbutton:checked label, popover .modelbutton:checked label {
-  color: @eqx_popupHoverFg;
-}
-popover modelbutton:disabled, popover .modelbutton:disabled,
-popover modelbutton:disabled label, popover .modelbutton:disabled label {
-  color: @eqx_popupDisabled;
-}
-popover separator {
-  min-height: 1px;
-  background-color: alpha(@eqx_popupFg, 0.38);
-  background-image: none;
-  border: 0;
-}
 
 /* Original Equinox notebook proportions: inactive tabs sit slightly below
  * the active one. Keep selection tied to GTK's :checked state, and keep
