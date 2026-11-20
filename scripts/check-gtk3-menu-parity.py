@@ -26,6 +26,7 @@ MIDNIGHT_VM_REFERENCE = {
     "eqx_popupReferenceBg": "#323232",
     "eqx_popupReferenceSelectedTop": "#497dae",
     "eqx_popupReferenceSelectedBottom": "#426c9d",
+    "eqx_popupReferenceSeparator": "#424242",
 }
 
 def find_gtk2(gtkrc, name):
@@ -59,10 +60,10 @@ def main():
             # A descendant label selector also matches MATE Applications popup
             # categories, painting their text dark on the charcoal popup.
             # Limit silver application-menubar text to direct children.
-            if re.search(r"menubar\\s*>\\s*menuitem\\s+label\\b", css):
+            if re.search(r"menubar\s*>\s*menuitem\s+label\b", css):
                 failures += 1
                 print("FAIL Midnight: broad menubar label selector hides popup categories")
-            if not re.search(r"menubar\\s*>\\s*menuitem\\s*>\\s*label", css):
+            if not re.search(r"menubar\s*>\s*menuitem\s*>\s*label", css):
                 failures += 1
                 print("FAIL Midnight: direct-child menubar label rule missing")
             for key, expected in MIDNIGHT_VM_REFERENCE.items():
@@ -74,10 +75,21 @@ def main():
                 "background-color: @eqx_popupReferenceBg;",
                 "background-color: @eqx_popupReferenceSelectedBottom;",
                 "@eqx_popupReferenceSelectedTop,",
+                "@eqx_popupReferenceSeparator 25%,",
+                "@eqx_popupReferenceSeparator 75%,",
             ):
                 if selector_value not in css:
                     failures += 1
                     print(f"FAIL {theme}: reference popup rule missing {selector_value}")
+            # GtkMenu separators should not draw the too-bright white GTK3 rim.
+            separator = re.search(r"menu separator,\s*\.menu separator\s*\{([^}]+)\}", css)
+            if separator is None or (
+                "background-color: transparent;" not in separator.group(1)
+                or "box-shadow: none;" not in separator.group(1)
+                or "linear-gradient(to right" not in separator.group(1)
+            ):
+                failures += 1
+                print("FAIL Midnight: faded charcoal GtkMenu separator rule missing")
         if "menu menuitem label" not in css or "menu menuitem:hover label" not in css:
             failures += 1
             print(f"FAIL {theme}: GtkMenu label/selected selectors missing")
