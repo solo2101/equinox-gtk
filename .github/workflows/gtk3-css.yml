@@ -12,6 +12,7 @@ on:
       - 'scripts/check-midnight-notebook-source.py'
       - 'scripts/check-midnight-indicators.py'
       - 'scripts/check-midnight-caja-headers.py'
+      - 'scripts/check-midnight-caja-separators.py'
       - 'scripts/check-midnight-tasklist.py'
       - 'scripts/preview-gtk3-popups.py'
       - 'scripts/preview-gtk3-menus.py'
@@ -29,6 +30,7 @@ on:
       - 'scripts/check-midnight-notebook-source.py'
       - 'scripts/check-midnight-indicators.py'
       - 'scripts/check-midnight-caja-headers.py'
+      - 'scripts/check-midnight-caja-separators.py'
       - 'scripts/check-midnight-tasklist.py'
       - 'scripts/preview-gtk3-popups.py'
       - 'scripts/preview-gtk3-menus.py'
@@ -65,6 +67,8 @@ jobs:
         run: python3 scripts/check-midnight-indicators.py
       - name: Check Midnight Caja header shades from original renderer
         run: python3 scripts/check-midnight-caja-headers.py
+      - name: Check Midnight Caja separators against original GTK2 source
+        run: python3 scripts/check-midnight-caja-separators.py
       - name: Check GTK3 preview scripts
         run: |
           python3 -m py_compile scripts/preview-gtk3-menus.py scripts/preview-gtk3-dialogs.py scripts/preview-gtk3-tooltips-scrollbars.py scripts/preview-gtk3-caja-focus.py scripts/preview-gtk3-popups.py
