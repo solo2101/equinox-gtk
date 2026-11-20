@@ -7,6 +7,7 @@ on:
       - 'themes/**/gtk-3.0/gtk.css'
       - 'scripts/check-gtk3-css.py'
       - 'scripts/check-gtk3-menu-parity.py'
+      - 'scripts/check-gtk3-tasklist-parity.py'
       - 'scripts/check-midnight-tasklist.py'
       - 'scripts/preview-gtk3-popups.py'
       - 'scripts/preview-gtk3-menus.py'
@@ -19,6 +20,7 @@ on:
       - 'themes/**/gtk-3.0/gtk.css'
       - 'scripts/check-gtk3-css.py'
       - 'scripts/check-gtk3-menu-parity.py'
+      - 'scripts/check-gtk3-tasklist-parity.py'
       - 'scripts/check-midnight-tasklist.py'
       - 'scripts/preview-gtk3-popups.py'
       - 'scripts/preview-gtk3-menus.py'
@@ -45,6 +47,8 @@ jobs:
         run: python3 scripts/check-gtk3-menu-parity.py
       - name: Check Midnight tasklist layout stays compact on every panel edge
         run: python3 scripts/check-midnight-tasklist.py
+      - name: Check Midnight window-list button parity
+        run: python3 scripts/check-gtk3-tasklist-parity.py
       - name: Check GTK3 preview scripts
         run: |
           python3 -m py_compile scripts/preview-gtk3-menus.py scripts/preview-gtk3-dialogs.py scripts/preview-gtk3-tooltips-scrollbars.py scripts/preview-gtk3-caja-focus.py scripts/preview-gtk3-popups.py
