@@ -6,6 +6,15 @@ on:
     paths:
       - 'themes/**/gtk-3.0/gtk.css'
       - 'scripts/check-gtk3-css.py'
+      - 'scripts/check-gtk3-menu-parity.py'
+      - 'scripts/check-gtk3-tasklist-parity.py'
+      - 'scripts/check-midnight-progress-source.py'
+      - 'scripts/check-midnight-notebook-source.py'
+      - 'scripts/check-midnight-indicators.py'
+      - 'scripts/check-midnight-caja-headers.py'
+      - 'scripts/check-midnight-caja-separators.py'
+      - 'scripts/check-midnight-tasklist.py'
+      - 'scripts/preview-gtk3-popups.py'
       - 'scripts/preview-gtk3-menus.py'
       - 'scripts/preview-gtk3-dialogs.py'
       - 'scripts/preview-gtk3-tooltips-scrollbars.py'
@@ -15,6 +24,15 @@ on:
     paths:
       - 'themes/**/gtk-3.0/gtk.css'
       - 'scripts/check-gtk3-css.py'
+      - 'scripts/check-gtk3-menu-parity.py'
+      - 'scripts/check-gtk3-tasklist-parity.py'
+      - 'scripts/check-midnight-progress-source.py'
+      - 'scripts/check-midnight-notebook-source.py'
+      - 'scripts/check-midnight-indicators.py'
+      - 'scripts/check-midnight-caja-headers.py'
+      - 'scripts/check-midnight-caja-separators.py'
+      - 'scripts/check-midnight-tasklist.py'
+      - 'scripts/preview-gtk3-popups.py'
       - 'scripts/preview-gtk3-menus.py'
       - 'scripts/preview-gtk3-dialogs.py'
       - 'scripts/preview-gtk3-tooltips-scrollbars.py'
@@ -27,15 +45,35 @@ permissions:
 jobs:
   css-parse:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        fedora: [43, 44]
     container:
-      image: fedora:43
+      image: fedora:${{ matrix.fedora }}
     steps:
       - uses: actions/checkout@v4
       - name: Install GTK3 parser and preview dependencies
         run: dnf install -y gtk3 python3 python3-gobject
       - name: Parse all five Equinox GTK3 stylesheets
         run: python3 scripts/check-gtk3-css.py
+      - name: Verify dropdown colors against original GTK2 palettes
+        run: python3 scripts/check-gtk3-menu-parity.py
+      - name: Check Midnight tasklist layout stays compact on every panel edge
+        run: python3 scripts/check-midnight-tasklist.py
+      - name: Check Midnight window-list button parity
+        run: python3 scripts/check-gtk3-tasklist-parity.py
+      - name: Check progress geometry against original Equinox C code
+        run: python3 scripts/check-midnight-progress-source.py
+      - name: Check Midnight tab gradients against original GTK2 painter
+        run: python3 scripts/check-midnight-notebook-source.py
+      - name: Check Midnight check/radio indicators against original engine
+        run: python3 scripts/check-midnight-indicators.py
+      - name: Check Midnight Caja header shades from original renderer
+        run: python3 scripts/check-midnight-caja-headers.py
+      - name: Check Midnight Caja separators against original GTK2 source
+        run: python3 scripts/check-midnight-caja-separators.py
       - name: Check GTK3 preview scripts
         run: |
-          python3 -m py_compile scripts/preview-gtk3-menus.py scripts/preview-gtk3-dialogs.py scripts/preview-gtk3-tooltips-scrollbars.py scripts/preview-gtk3-caja-focus.py
+          python3 -m py_compile scripts/preview-gtk3-menus.py scripts/preview-gtk3-dialogs.py scripts/preview-gtk3-tooltips-scrollbars.py scripts/preview-gtk3-caja-focus.py scripts/preview-gtk3-popups.py
           python3 -c "import runpy; runpy.run_path('scripts/preview-gtk3-menus.py', run_name='syntax_check'); runpy.run_path('scripts/preview-gtk3-dialogs.py', run_name='syntax_check'); runpy.run_path('scripts/preview-gtk3-tooltips-scrollbars.py', run_name='syntax_check'); runpy.run_path('scripts/preview-gtk3-caja-focus.py', run_name='syntax_check')"

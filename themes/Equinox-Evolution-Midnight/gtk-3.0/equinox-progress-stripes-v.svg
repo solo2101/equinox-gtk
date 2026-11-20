@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" viewBox="0 0 10 20">
+  <!-- 90 degree rotation of the original Equinox Cairo progress stripe,
+       for vertical GTK3 GtkProgressBar fill and bottom-to-top movement. -->
+  <path d="M0 10 V0 L10 10 V20 Z" fill="#1c4067" fill-opacity="0.18"/>
+</svg>

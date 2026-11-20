@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="10" viewBox="0 0 20 10">
+  <!-- Original Equinox 1.50 Cairo polygon: width=2*height.
+       equinox_draw_progressbar_fill(): (h,0) (2h,0) (h,h) (0,h).
+       Repeating a complete parallelogram produces continuous diagonal bands. -->
+  <path d="M10 0 H20 L10 10 H0 Z" fill="#1c4067" fill-opacity="0.18"/>
+</svg>

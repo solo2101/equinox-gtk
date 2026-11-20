@@ -36,6 +36,17 @@ for theme in Equinox-Evolution Equinox-Evolution-Dawn Equinox-Evolution-Dusk Equ
       done
     else
       install -m 0644 "$source" "$destination/$file"
+      if [[ "$toolkit" == "gtk-3.0" ]]; then
+        install -m 0644 "$root/themes/$theme/gtk-3.0/equinox-grip.svg" "$destination/equinox-grip.svg"
+        install -m 0644 "$root/themes/$theme/gtk-3.0/equinox-panel-grip.svg" "$destination/equinox-panel-grip.svg"
+        # Midnight progress bands follow the original Equinox Cairo polygon.
+        # Keep these SVG tiles beside gtk.css so CSS-relative URLs resolve.
+        if [[ "$theme" == "Equinox-Evolution-Midnight" ]]; then
+          for tile in equinox-progress-stripes-h.svg equinox-progress-stripes-v.svg; do
+            install -m 0644 "$root/themes/$theme/gtk-3.0/$tile" "$destination/$tile"
+          done
+        fi
+      fi
     fi
     printf 'Installed: %s/%s\n' "$theme" "$toolkit"
   done

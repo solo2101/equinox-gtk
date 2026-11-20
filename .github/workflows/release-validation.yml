@@ -24,6 +24,7 @@ jobs:
         run: |
           python3 scripts/check-gtk3-css.py
           python3 scripts/check-marco-theme.py
+          python3 scripts/check-midnight-chrome.py
       - name: Check shell and Python source syntax
         shell: bash
         run: |

@@ -58,13 +58,17 @@
   <!-- The top of a GTK application is one contiguous Equinox surface:
        the Marco gradient reaches the GTK menubar's opening shade.
        Do not draw a dark bottom stroke at the join. -->
+  <!-- Fedora 14 window titlebar reference: softly raised silver, sampled
+       from the original GTK2 AWF 24px-high decoration in the VM. This is
+       the native Marco frame only; GTK3 CSD headerbars are styled in gtk.css. -->
   <draw_ops name="titlebar_focus">
     <gradient type="vertical" x="0" y="0" width="width" height="height">
-      <color value="#c7c7c7"/>
-      <color value="#b4b4b4"/>
-      <color value="#a6a6a6"/>
+      <color value="#cecece"/>
+      <color value="#b9b9b9"/>
+      <!-- Bottom pixel must equal GTK3 menubar @eqx_menuTop (#a7a7a7). -->
+      <color value="#a7a7a7"/>
     </gradient>
-    <line color="#d5d5d5" x1="2" y1="1" x2="width - 3" y2="1"/>
+    <line color="#cfcfcf" x1="2" y1="1" x2="width - 3" y2="1"/>
   </draw_ops>
   <draw_ops name="titlebar_unfocus">
     <gradient type="vertical" x="0" y="0" width="width" height="height">
@@ -85,10 +89,10 @@
     <line color="#858585" x1="0" y1="height - 1" x2="width - 1" y2="height - 1"/>
   </draw_ops>
   <draw_ops name="title_focus">
-    <title color="#222222" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
+    <title color="#222222" x="40" y="(height - title_height) / 2"/>
   </draw_ops>
   <draw_ops name="title_unfocus">
-    <title color="#777777" x="(width - title_width) / 2" y="(height - title_height) / 2"/>
+    <title color="#777777" x="40" y="(height - title_height) / 2"/>
   </draw_ops>
   <draw_ops name="icon_close">
     <image filename="close.png" x="5" y="5" width="8" height="8"/>

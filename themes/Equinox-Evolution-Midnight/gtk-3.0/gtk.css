@@ -2,7 +2,8 @@
 @define-color eqx_bg #4e4e4e;
 @define-color eqx_fg #dddddd;
 
-@define-color eqx_columnHeaderText #303030;@define-color eqx_muted #999999;
+@define-color eqx_columnHeaderText #dddddd;
+@define-color eqx_muted #999999;
 @define-color eqx_base #383838;
 @define-color eqx_disabledBase #424242;
 @define-color eqx_accent #497da5;
@@ -26,6 +27,9 @@
 @define-color eqx_tabTop #4c4c4c;
 @define-color eqx_tabBottom #444444;
 @define-color eqx_tabBorder #303030;
+/* GTK2 Equinox Midnight: bg[ACTIVE] is the unselected tab surface.
+ * The original engine shades it by .925 at the top and .90 at midpoint. */
+@define-color eqx_tabGtk2Inactive #3b3b3b;
 @define-color eqx_trough #323232;
 @define-color eqx_scaleTop #646464;
 @define-color eqx_scaleBottom #444444;
@@ -43,6 +47,22 @@
 @define-color theme_selected_bg_color #626262;
 @define-color theme_selected_fg_color #ffffff;
 @define-color theme_unfocused_fg_color #9d9d9d;
+
+/* Equinox-specific MATE panel colors. Not shared with application menus. */
+@define-color eqx_panelTop #414141;
+@define-color eqx_panelBottom #303030;
+@define-color eqx_panelFg #eeeeee;
+@define-color eqx_panelHighlight #515151;
+@define-color eqx_panelEdge #292929;
+@define-color eqx_panelButtonTop #5d5d5d;
+@define-color eqx_panelButtonBottom #4e4e4e;
+@define-color eqx_panelButtonBorder #333333;
+/* Fedora 14 24px tasklist reference: 1px bright top rim and a pressed
+ * gradient which darkens toward the bottom edge. */
+@define-color eqx_panelTaskRim #696969;
+@define-color eqx_panelTaskPressedRim #3f3f3f;
+@define-color eqx_panelTaskPressedTop #4b4b4b;
+@define-color eqx_panelTaskPressedBottom #414141;
 
 
 @define-color eqx_activeTop #484848;
@@ -64,14 +84,33 @@
 @define-color eqx_toolbarTop #4c4c4c;
 @define-color eqx_toolbarBottom #464646;
 @define-color eqx_menuGroove #888888;
+@define-color eqx_popupBg #4e4e4e;
+@define-color eqx_popupFg #dddddd;
+@define-color eqx_popupDisabled #999999;
+@define-color eqx_popupBorder #333333;
+@define-color eqx_popupHoverBg #626262;
+@define-color eqx_popupHoverFg #ffffff;
+/* Screenshot reference: Fedora 14 MATE/GNOME 2 Midnight menu (2026-11-19).
+ * Keep original GTK2 palette entries above for source-level parity checks.
+ * GtkMenu popups use the actual reference pixels, scoped below. */
+@define-color eqx_popupReferenceBg #323232;
+@define-color eqx_popupReferenceSelectedTop #497dae;
+@define-color eqx_popupReferenceSelectedBottom #426c9d;
+/* Original Fedora 14 Caja File menu: one softly faded charcoal divider. */
+@define-color eqx_popupReferenceSeparator #424242;
 @define-color eqx_toolbarLine #313131;
 @define-color eqx_toolbarRidge #565656;
 @define-color eqx_tabSheen #5c5c5c;
 @define-color eqx_tabMid #4a4a4a;
-@define-color eqx_progTroughTop #515151;
-@define-color eqx_progTroughBottom #333333;
-@define-color eqx_progAccentDeep #235f8c;
-@define-color eqx_progBorder #3d708f;
+/* Fedora 14 Equinox Evolution Midnight progress palette: the GTK2 engine's
+ * soft steel-blue spot color and medium-gray trough, distinct from selections. */
+@define-color eqx_progTroughTop #737373;
+@define-color eqx_progTroughBottom #5b5b5b;
+@define-color eqx_progFillTop #86a8c8;
+@define-color eqx_progFillMid #7197bd;
+@define-color eqx_progAccentDeep #537fa9;
+@define-color eqx_progStripe rgba(28,64,103,0.18);
+@define-color eqx_progBorder #446786;
 
 /* Equinox GTK3.24: consolidated GTK2-reference parity stylesheet.
    Reference: original src/equinox_draw.c, src/equinox_style.c.
@@ -149,6 +188,18 @@ radiobutton:disabled label, menuitem:disabled label { color: @eqx_muted; }
 selection, entry selection, textview text selection {
   color: @theme_selected_fg_color;
   background-color: @theme_selected_bg_color;
+}
+/* Shutter's Gtk3::ImageView paints its selection by temporarily adding
+ * GtkStyleContext class "rubberband" to its "imageview" context and calls
+ * gtk_render_background()/gtk_render_frame(). The text-selection rule
+ * above does not style that region. Keep this specific to image views,
+ * rather than changing every GTK widget's rubberband/highlight style. */
+.imageview.rubberband {
+  background-color: alpha(@eqx_accent, 0.24);
+  background-image: none;
+  border: 1px solid @eqx_accent;
+  border-radius: 0;
+  box-shadow: inset 0 0 0 1px alpha(@eqx_accentTop, 0.48);
 }
 
 /* GTK2 reference: buttonstyle=0, explicit active/insensitive states.
@@ -253,6 +304,61 @@ checkbutton:focus, radiobutton:focus, switch:focus, scale:focus {
   outline-width: 1px;
   outline-offset: 1px;
 }
+/* Midnight form indicators follow the original Equinox Cairo engine,
+ * equinox_draw_checkbutton()/equinox_draw_radiobutton(), style=0.
+ * GTK2 draws each as a 15px control with a recessed normal state,
+ * a raised selected-state gradient, and a muted disabled state.
+ * Keep GtkCheckButton/GtkRadioButton's native symbolic mark rendering,
+ * pointer handling and checked/inconsistent state. Popup menu marks are
+ * separate GtkMenu nodes and must not inherit these form-control rims. */
+checkbutton check,
+radiobutton radio {
+  min-width: 13px;
+  min-height: 13px;
+  padding: 0;
+  color: @theme_selected_fg_color;
+  background-color: @theme_base_color;
+  background-image: linear-gradient(to bottom,
+    shade(@theme_base_color, 1.13), @theme_base_color 55%,
+    shade(@theme_base_color, 0.94));
+  border: 1px solid shade(@theme_bg_color, 0.56);
+  border-radius: 2px;
+  box-shadow: inset 0 1px alpha(@eqx_entryShadow, 0.64),
+              0 1px alpha(@theme_fg_color, 0.07);
+}
+radiobutton radio {
+  border-radius: 100%;
+}
+/* Hover lift applies to empty wells only. Do not repaint the checked
+ * face with the unchecked hover gradient while switching GTK3 state. */
+checkbutton:hover check:not(:disabled):not(:checked):not(:indeterminate),
+radiobutton:hover radio:not(:disabled):not(:checked) {
+  background-image: linear-gradient(to bottom,
+    shade(@theme_base_color, 1.20), shade(@theme_base_color, 1.09));
+}
+checkbutton check:checked,
+checkbutton check:indeterminate,
+radiobutton radio:checked {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+  background-image: linear-gradient(to bottom,
+    shade(@theme_selected_bg_color, 1.15) 0%,
+    @theme_selected_bg_color 55%,
+    shade(@theme_selected_bg_color, 0.82) 100%);
+  border-color: shade(@theme_bg_color, 0.56);
+  box-shadow: inset 0 1px alpha(@theme_fg_color, 0.15);
+}
+checkbutton check:disabled,
+radiobutton radio:disabled,
+checkbutton check:checked:disabled,
+checkbutton check:indeterminate:disabled,
+radiobutton radio:checked:disabled {
+  color: @eqx_muted;
+  background-color: @theme_bg_color;
+  background-image: none;
+  border-color: @eqx_disabledBorder;
+  box-shadow: none;
+}
 button:disabled, entry:disabled, check:disabled, radio:disabled {
   color: @eqx_muted;
   border-color: @eqx_disabledBorder;
@@ -336,6 +442,28 @@ iconview:selected, iconview:selected:focus {
   box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
 }
 
+/* Caja uses an application-priority background-color on its location
+ * entry. During GTK theme switching that leaves the previous light fill,
+ * even after Midnight restores light text. Paint the original Midnight
+ * base (#383838) as an opaque background-image instead. This is the same
+ * Caja-specific override as the other four independent themes.
+ * Preserve the entry's existing height, inset bevel and focus behavior. */
+.caja-navigation-window entry.caja-location-entry {
+  color: @theme_text_color;
+  caret-color: @theme_text_color;
+  background-color: @theme_base_color;
+  background-image: linear-gradient(to bottom,
+    @theme_base_color, @theme_base_color);
+  border-color: @eqx_entryBorder;
+}
+.caja-navigation-window entry.caja-location-entry:focus {
+  color: @theme_text_color;
+  background-color: @theme_base_color;
+  background-image: linear-gradient(to bottom,
+    @theme_base_color, @theme_base_color);
+  border-color: @theme_selected_bg_color;
+}
+
 /* Caja's real GtkToggleButton breadcrumb widgets use the
  * .caja-pathbar class (caja-pathbar.c). Adjust only their compact
  * geometry; GTK keeps its native :checked and click/navigation behavior. */
@@ -344,22 +472,25 @@ iconview:selected, iconview:selected:focus {
   border-radius: 3px;
 }
 
-/* Thin separators beneath Caja's Places header and breadcrumb bar.
- * Apply them to the pane contents, not the controls themselves, so
- * the line spans the full width without changing button geometry. */
+/* Original Equinox equinox_draw_separator() uses two adjoining 1px
+ * strokes: parent background shaded to 0.68 and 1.15, with 0.6 opacity.
+ * Keep the groove on Caja's content edges, never on breadcrumb buttons,
+ * and leave native sidebar resize and navigation geometry unchanged. */
 .caja-navigation-window .caja-side-pane > notebook scrolledwindow.frame {
-  border-top: 1px solid shade(@eqx_frameEdge, 0.80);
+  border-top: 1px solid @eqx_separatorDark;
+  box-shadow: inset 0 1px alpha(@eqx_separatorLight, 0.60);
 }
 .caja-navigation-window .caja-notebook > stack {
-  border-top: 1px solid shade(@eqx_frameEdge, 0.80);
+  border-top: 1px solid @eqx_separatorDark;
+  box-shadow: inset 0 1px alpha(@eqx_separatorLight, 0.60);
 }
 
-/* Caja bottom statusbar: a clear two-tone separator matches the GTK2
- * file-window footer while retaining the native GTK3 statusbar layout. */
+/* Caja statusbar repeats the GTK2 separator's dark and light pair.
+ * Keep its native height, labels, and resize grip untouched. */
 .caja-navigation-window statusbar {
   background-color: @theme_bg_color;
-  border-top: 1px solid shade(@eqx_frameEdge, 0.80);
-  box-shadow: inset 0 1px alpha(@eqx_frameHighlight, 0.65);
+  border-top: 1px solid @eqx_separatorDark;
+  box-shadow: inset 0 1px alpha(@eqx_separatorLight, 0.60);
 }
 
 treeview header button {
@@ -367,8 +498,8 @@ treeview header button {
   padding: 2px 5px;
   min-height: 17px;
 }
-/* Global label styling overrides inherited button text colors in GTK3.
- * Keep column headings readable against their per-theme light bevels. */
+/* GtkTreeView header labels follow the original Midnight GTK2 text color.
+ * The header fill below is dark, not a silver application menubar. */
 treeview header button label { color: @eqx_columnHeaderText; }
 
 /* Flush GTK3 top chrome matching the GTK2 engine:
@@ -453,10 +584,6 @@ headerbar, .titlebar { min-height: 25px; border-bottom: 1px solid @eqx_border; }
  * vertical gradient remains visible behind Options, System themes, etc.
  * Previously menuitem had a solid @theme_bg_color background, masking
  * the gradient except in the blank space after Help. */
-menu, .menu, popover, popover.background {
-  color: @theme_fg_color;
-  background-color: @theme_bg_color;
-}
 menuitem {
   color: @theme_fg_color;
   background-color: transparent;
@@ -475,63 +602,94 @@ menubar > menuitem:hover, menubar > menuitem:selected {
   background-color: @theme_selected_bg_color;
 }
 
+/* GTK3 popup surfaces only. These nodes belong to GtkMenu/GtkPopover,
+ * separate from application menubars and MATE PanelToplevel. Theme palettes
+ * are independent of the window background and panel button colors. */
+/* Caja File/Edit/View, MATE Applications/Places/System, and right-click
+ * context menus use GtkMenu widgets. Match the Fedora 14 VM menu reference
+ * while leaving application menubars and panel buttons unchanged. */
+menu, .menu {
+  color: @eqx_popupFg;
+  background-color: @eqx_popupReferenceBg;
+  background-image: none;
+}
+/* GtkPopover is a different widget. Restore the original window palette. */
+popover, popover.background {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+}
 /* GTK2 Equinox popup menu parity. Scoped to popup menus, so the
  * application menubar and MATE panel retain their existing styling.
  * Preserve GTK's native keyboard navigation and submenu interactions. */
 menu, .menu {
-  border: 1px solid @eqx_frameEdge;
+  color: @eqx_popupFg;
+  background-color: @eqx_popupReferenceBg;
+  background-image: none;
+  border: 1px solid @eqx_popupBorder;
   border-radius: 2px;
   padding: 2px 0;
   box-shadow: 0 2px 4px alpha(@eqx_outer, 0.45);
 }
 menu menuitem, .menu menuitem {
-  color: @theme_fg_color;
+  color: @eqx_popupFg;
   background-color: transparent;
   background-image: none;
   padding: 3px 10px;
   min-height: 15px;
 }
 menu menuitem label, .menu menuitem label {
-  color: @theme_fg_color;
+  color: @eqx_popupFg;
 }
 menu menuitem:hover, menu menuitem:selected, menu menuitem:focus,
 .menu menuitem:hover, .menu menuitem:selected, .menu menuitem:focus {
-  color: @theme_selected_fg_color;
-  background-color: @theme_selected_bg_color;
+  color: @eqx_popupHoverFg;
+  background-color: @eqx_popupReferenceSelectedBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_popupReferenceSelectedTop,
+    @eqx_popupReferenceSelectedBottom);
 }
 menu menuitem:hover label, menu menuitem:selected label, menu menuitem:focus label,
 .menu menuitem:hover label, .menu menuitem:selected label, .menu menuitem:focus label {
-  color: @theme_selected_fg_color;
+  color: @eqx_popupHoverFg;
 }
 menu menuitem:disabled, menu menuitem:disabled:hover,
 .menu menuitem:disabled, .menu menuitem:disabled:hover {
-  color: @eqx_muted;
+  color: @eqx_popupDisabled;
   background-color: transparent;
   background-image: none;
 }
 menu menuitem:disabled label, .menu menuitem:disabled label {
-  color: @eqx_muted;
+  color: @eqx_popupDisabled;
 }
-/* GtkMenuSeparator uses a separator node, not the normal toolbar
- * separator. Keep the original compact recessed one-pixel stroke. */
+/* Fedora 14 GtkMenuSeparator: a single 1px charcoal stroke that fades
+ * at both ends. GTK3's earlier white-tinted line and drop shadow were much
+ * brighter than the original Caja File/Edit/View menu dividers.
+ * Only GtkMenu separators are affected, not application or panel rules. */
 menu separator, .menu separator {
   min-height: 1px;
   margin: 3px 6px;
   padding: 0;
   border: 0;
-  background-color: alpha(@eqx_frameShade, 0.58);
-  background-image: none;
-  box-shadow: 0 1px alpha(@eqx_frameHighlight, 0.28);
+  background-color: transparent;
+  background-image: linear-gradient(to right,
+    alpha(@eqx_popupReferenceSeparator, 0) 0%,
+    @eqx_popupReferenceSeparator 25%,
+    @eqx_popupReferenceSeparator 75%,
+    alpha(@eqx_popupReferenceSeparator, 0) 100%);
+  box-shadow: none;
 }
 menu menuitem arrow, .menu menuitem arrow {
-  color: @theme_fg_color;
+  color: @eqx_popupFg;
 }
 menu menuitem:hover arrow, .menu menuitem:hover arrow,
 menu menuitem:selected arrow, .menu menuitem:selected arrow {
-  color: @theme_selected_fg_color;
+  color: @eqx_popupHoverFg;
 }
 menu menuitem:disabled arrow, .menu menuitem:disabled arrow {
-  color: @eqx_muted;
+  color: @eqx_popupDisabled;
+}
+menu > arrow, .menu > arrow {
+  color: @eqx_popupFg;
 }
 /* GTK2 menu check/radio marks are plain indicators instead of the
  * boxed controls used in forms. Leave the GTK3 icon itself native. */
@@ -541,7 +699,7 @@ menu menuitem check, menu menuitem radio,
   background-image: none;
   border: 0;
   box-shadow: none;
-  color: @theme_fg_color;
+  color: @eqx_popupFg;
 }
 menu menuitem check:checked, menu menuitem check:indeterminate,
 menu menuitem radio:checked,
@@ -551,23 +709,24 @@ menu menuitem radio:checked,
   background-image: none;
   border: 0;
   box-shadow: none;
-  color: @theme_fg_color;
+  color: @eqx_popupFg;
 }
 menu menuitem:hover check, menu menuitem:hover radio,
 .menu menuitem:hover check, .menu menuitem:hover radio,
 menu menuitem:selected check, menu menuitem:selected radio,
 .menu menuitem:selected check, .menu menuitem:selected radio {
-  color: @theme_selected_fg_color;
+  color: @eqx_popupHoverFg;
 }
 menu menuitem:disabled check, menu menuitem:disabled radio,
 .menu menuitem:disabled check, .menu menuitem:disabled radio {
-  color: @eqx_muted;
+  color: @eqx_popupDisabled;
 }
 
-/* Original Equinox notebook proportions: inactive tabs sit slightly below
- * the active one. Keep selection tied to GTK's :checked state, and keep
- * the selected tab joined to the notebook stack on all four edges.
- */
+
+/* Source: equinox_draw_tab() in original src/equinox_draw.c.
+ * GTK_STATE_ACTIVE is the inactive tab; its face has 0.925/0.90 shade
+ * stops. GTK_STATE_NORMAL (selected) has 1.06/1.00 shades. Preserve the
+ * native GTK3 :checked state, tab hit areas and stack joining on every edge. */
 notebook {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
@@ -597,8 +756,11 @@ notebook > header > tabs {
 }
 notebook > header > tabs > tab {
   color: @theme_fg_color;
-  background-color: @eqx_tabBottom;
-  background-image: linear-gradient(to bottom, @eqx_tabTop, @eqx_tabBottom);
+  background-color: @eqx_tabGtk2Inactive;
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_tabGtk2Inactive, 0.925) 0%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 50%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 100%);
   border: 1px solid alpha(@eqx_tabBorder, 0.82);
   border-radius: 4px 4px 0 0;
   box-shadow: none;
@@ -612,17 +774,76 @@ notebook > header.top > tabs > tab:not(:checked) {
   border-bottom-color: transparent;
 }
 notebook > header > tabs > tab:hover {
-  background-color: @eqx_tabTop;
-  background-image: linear-gradient(to bottom, @eqx_tabSheen, @eqx_tabTop);
+  background-color: @eqx_tabGtk2Inactive;
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_tabGtk2Inactive, 1.06), @eqx_tabGtk2Inactive);
 }
 /* Checked must win against the hover selector above. */
 notebook > header > tabs > tab:checked,
 notebook > header > tabs > tab:checked:hover {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
-  background-image: none;
+  background-image: linear-gradient(to bottom,
+    shade(@theme_bg_color, 1.06) 0%,
+    @theme_bg_color 50%,
+    @theme_bg_color 100%);
   border-color: alpha(@eqx_tabBorder, 0.82);
   box-shadow: none;
+}
+/* Mirror the original Cairo fill along each notebook edge; only paint,
+ * not layout, changes for bottom/left/right tab groups. */
+notebook > header.bottom > tabs > tab {
+  background-image: linear-gradient(to top,
+    shade(@eqx_tabGtk2Inactive, 0.925) 0%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 50%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 100%);
+}
+notebook > header.left > tabs > tab {
+  background-image: linear-gradient(to right,
+    shade(@eqx_tabGtk2Inactive, 0.925) 0%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 50%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 100%);
+}
+notebook > header.right > tabs > tab {
+  background-image: linear-gradient(to left,
+    shade(@eqx_tabGtk2Inactive, 0.925) 0%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 50%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 100%);
+}
+/* Preserve the same hover feedback on rotated tabs. These orientation
+ * rules otherwise override the generic :hover gradient above. */
+notebook > header.bottom > tabs > tab:hover {
+  background-image: linear-gradient(to top,
+    shade(@eqx_tabGtk2Inactive, 1.06), @eqx_tabGtk2Inactive);
+}
+notebook > header.left > tabs > tab:hover {
+  background-image: linear-gradient(to right,
+    shade(@eqx_tabGtk2Inactive, 1.06), @eqx_tabGtk2Inactive);
+}
+notebook > header.right > tabs > tab:hover {
+  background-image: linear-gradient(to left,
+    shade(@eqx_tabGtk2Inactive, 1.06), @eqx_tabGtk2Inactive);
+}
+notebook > header.bottom > tabs > tab:checked,
+notebook > header.bottom > tabs > tab:checked:hover {
+  background-image: linear-gradient(to top,
+    shade(@theme_bg_color, 1.06) 0%,
+    @theme_bg_color 50%,
+    @theme_bg_color 100%);
+}
+notebook > header.left > tabs > tab:checked,
+notebook > header.left > tabs > tab:checked:hover {
+  background-image: linear-gradient(to right,
+    shade(@theme_bg_color, 1.06) 0%,
+    @theme_bg_color 50%,
+    @theme_bg_color 100%);
+}
+notebook > header.right > tabs > tab:checked,
+notebook > header.right > tabs > tab:checked:hover {
+  background-image: linear-gradient(to left,
+    shade(@theme_bg_color, 1.06) 0%,
+    @theme_bg_color 50%,
+    @theme_bg_color 100%);
 }
 /* Join the selected tab to the page stack. A 1px overlap hides the
  * stack border beneath the active tab without altering inactive tab layout.
@@ -728,67 +949,73 @@ scale highlight, levelbar block.filled {
   background-image: linear-gradient(to bottom, @eqx_accentTop, @theme_selected_bg_color);
   border-radius: 3px;
 }
-/* The GTK2 Equinox animation increments the diagonal stripe offset.
- * GTK3 animates its striped background position by one complete tile. */
+/* Original Equinox 1.50 Cairo stripe polygon, reused as transparent SVG:
+ * from (h,0) to (2h,0) to (h,h) to (0,h), tiled at 2h x h.
+ * Unlike repeating-linear-gradient(), the parallelogram spans the full
+ * fill height without fragmenting into triangular patches. The original
+ * GTK2 renderer in src/equinox_draw.c supplies this geometry.
+ * GTK3 retains native clipping and the original 45% fill gradient stop. */
 @keyframes eqx-progress-flow {
   from { background-position: 0px 0px, 0px 0px; }
-  to { background-position: 25px 0px, 0px 0px; }
+  to { background-position: 20px 0px, 0px 0px; }
 }
-/* Original equinox_draw_progressbar_trough() has a beveled full-height channel.
- * Original equinox_draw_progressbar_fill() draws diagonal bands over blue. */
+@keyframes eqx-progress-flow-vertical {
+  from { background-position: 0px 0px, 0px 0px; }
+  to { background-position: 0px 20px, 0px 0px; }
+}
 progressbar trough {
-  min-height: 14px;
-  min-width: 14px;
+  min-height: 12px;
+  min-width: 12px;
   padding: 1px;
   background-color: @eqx_progTroughBottom;
   background-image: linear-gradient(to bottom,
-    @eqx_progTroughTop 0%, @eqx_progTroughTop 30%, @eqx_progTroughBottom 100%);
+    @eqx_progTroughTop 0%,
+    shade(@eqx_progTroughTop, 0.96) 30%,
+    @eqx_progTroughBottom 100%);
   border-color: @eqx_frameBorder;
   border-radius: 5px;
-  box-shadow: inset 0 1px alpha(@eqx_inner, 0.75),
-              inset 0 2px alpha(@eqx_outer, 0.28);
+  box-shadow: inset 0 1px rgba(255,255,255,0.08),
+              0 1px rgba(0,0,0,0.20);
 }
 progressbar progress {
-  min-height: 12px;
-  min-width: 12px;
+  min-height: 10px;
+  min-width: 10px;
+  background-color: @eqx_progAccentDeep;
   background-image:
-    repeating-linear-gradient(135deg,
-      rgba(255,255,255,0.16) 0px,
-      rgba(255,255,255,0.16) 9px,
-      rgba(0,25,70,0.16) 9px,
-      rgba(0,25,70,0.16) 18px),
+    url("equinox-progress-stripes-h.svg"),
     linear-gradient(to bottom,
-      @eqx_accentTop 0%,
-      @theme_selected_bg_color 45%,
+      @eqx_progFillTop 0%,
+      @eqx_progFillMid 45%,
       @eqx_progAccentDeep 100%);
-  background-size: 25px 25px, 100% 100%;
+  background-size: 20px 10px, 100% 100%;
+  background-repeat: repeat-x, no-repeat;
   background-position: 0px 0px, 0px 0px;
   animation-name: eqx-progress-flow;
   animation-duration: 1.5s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  border: 1px solid @eqx_progBorder;
+  border-top-color: shade(@eqx_progFillTop, 0.92);
   border-radius: 4px;
-  box-shadow: inset 0 1px rgba(255,255,255,0.22),
-              0 1px alpha(@eqx_outer, 0.20);
+  box-shadow: inset 0 1px rgba(255,255,255,0.09);
 }
-progressbar.vertical trough, progressbar.vertical progress { min-width: 14px; }
+progressbar.vertical trough,
+progressbar.vertical progress { min-width: 12px; }
 progressbar.vertical progress {
   background-image:
-    repeating-linear-gradient(45deg,
-      rgba(255,255,255,0.16) 0px,
-      rgba(255,255,255,0.16) 9px,
-      rgba(0,25,70,0.16) 9px,
-      rgba(0,25,70,0.16) 18px),
+    url("equinox-progress-stripes-v.svg"),
     linear-gradient(to right,
-      @eqx_accentTop 0%,
-      @theme_selected_bg_color 45%,
+      @eqx_progFillTop 0%,
+      @eqx_progFillMid 45%,
       @eqx_progAccentDeep 100%);
+  background-size: 10px 20px, 100% 100%;
+  background-repeat: repeat-y, no-repeat;
+  animation-name: eqx-progress-flow-vertical;
 }
 
-/* GtkCellRendererProgress does not create progressbar > progress nodes.
- * GTK3 draws it using a .trough/.progressbar CSS style class instead.
- * Include both treeview descendant and same-node class paths. Keep the
- * cell dimensions under GtkTreeView's control, unlike full progress bars. */
+/* GtkCellRendererProgress uses .progressbar/.trough style classes inside
+ * GtkTreeView rather than a GtkProgressBar node. Preserve row-controlled
+ * dimensions while using the same Midnight fill and subdued stripes. */
 treeview.view .trough, treeview .trough,
 treeview.view.trough, .trough {
   background-color: @eqx_progTroughBottom;
@@ -796,22 +1023,23 @@ treeview.view.trough, .trough {
     @eqx_progTroughTop, @eqx_progTroughBottom);
   border-color: @eqx_frameBorder;
   border-radius: 3px;
-  box-shadow: inset 0 1px alpha(@eqx_inner, 0.60);
+  box-shadow: inset 0 1px rgba(255,255,255,0.06);
 }
 treeview.view .progressbar, treeview .progressbar,
 treeview.view.progressbar, .progressbar {
+  background-color: @eqx_progAccentDeep;
   background-image:
-    repeating-linear-gradient(135deg,
-      rgba(255,255,255,0.16) 0px,
-      rgba(255,255,255,0.16) 7px,
-      rgba(0,25,70,0.16) 7px,
-      rgba(0,25,70,0.16) 14px),
+    url("equinox-progress-stripes-h.svg"),
     linear-gradient(to bottom,
-      @eqx_accentTop 0%,
-      @theme_selected_bg_color 45%,
+      @eqx_progFillTop 0%,
+      @eqx_progFillMid 45%,
       @eqx_progAccentDeep 100%);
+  background-size: 20px 10px, 100% 100%;
+  background-repeat: repeat-x, no-repeat;
+  border: 1px solid @eqx_progBorder;
+  border-top-color: shade(@eqx_progFillTop, 0.92);
   border-radius: 3px;
-  box-shadow: inset 0 1px rgba(255,255,255,0.20);
+  box-shadow: inset 0 1px rgba(255,255,255,0.09);
 }
 
 scrollbar {
@@ -1025,22 +1253,37 @@ separator.vertical {
   background-position: left top, right top;
   background-repeat: no-repeat;
 }
-/* Paned handles are drag targets, not GtkSeparator decorations.
- * Keep the faded rule off handles and preserve their hit area. */
+/* Original Equinox GTK2 draws a single inset circle at the center of
+ * GtkPaned and handlebox grips. Paint only the real GTK3 drag separator;
+ * do not style generic separators, menus, or panel buttons. */
 paned > separator,
 paned > separator.horizontal,
 paned > separator.vertical {
   background-color: transparent;
-  background-image: none;
-  background-size: auto;
+  background-image: url("equinox-grip.svg");
+  background-position: center center;
+  background-size: 9px 9px;
+  background-repeat: no-repeat;
   -gtk-icon-source: none;
   border: 0;
   min-width: 1px;
   min-height: 1px;
 }
-/* Caja's vertical sidebar divider uses a horizontal GtkPaned handle.
- * Restore the original narrow dark/light groove without affecting
- * other applications or the drag behavior. */
+/* Keep the paned's native drag target. Widen only the splitter axis enough
+ * for the 9px grip to show, without forcing the entire pane's height. */
+paned.horizontal > separator { min-width: 9px; }
+paned.vertical > separator { min-height: 9px; }
+/* Caja already has its own slim divider. Preserve the stable v2.0
+ * window layout and groove, without a round GTK3 splitter grip. */
+.caja-navigation-window paned > separator {
+  min-width: 1px;
+  min-height: 1px;
+  background-color: transparent;
+  background-image: none;
+  background-size: auto;
+  background-repeat: no-repeat;
+  -gtk-icon-source: none;
+}
 .caja-navigation-window paned.horizontal > separator {
   min-width: 3px;
   background-color: transparent;
@@ -1052,6 +1295,21 @@ paned > separator.vertical {
     transparent 2px);
   background-size: 3px 100%;
   background-repeat: no-repeat;
+}
+
+/* MATE renders its 10px applet handle with gtk_render_handle() using this
+ * exact widget path. Limit the artwork to the existing applet drag zone.
+ * No changes to PanelMenuBar, its popups, or button hit areas. */
+MatePanelAppletFrameDBus > MatePanelAppletFrameDBus {
+  /* MATE clips the GTK-rendered handle to 10px at the applet edge.
+   * Centering within the full applet hides it outside that clip. */
+  background-image: url("equinox-panel-grip.svg");
+  background-size: 9px 9px;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+MatePanelAppletFrameDBus > MatePanelAppletFrameDBus:dir(rtl) {
+  background-position: right center;
 }
 
 switch {
@@ -1104,31 +1362,71 @@ button.link:disabled, button.link:disabled label {
 }
 
 /* Theme-specific palette and top-bar coloring; no control geometry changes. */
-/* Midnight is charcoal below a continuous silver title/menu area. */
-menubar, menubar > menuitem, menubar > menuitem label,
-menubar > menuitem > label { color: #333333; }
+/* Midnight's silver application menubar uses dark text, but only on
+ * immediate menubar labels. An overbroad descendant selector would
+ * also recolor MATE Applications popup category labels charcoal-on-charcoal. */
+menubar, menubar > menuitem, menubar > menuitem > label { color: #333333; }
+/* Fedora 14 opens File/Edit/View as one charcoal surface with the GtkMenu.
+ * Only active top-level application menu buttons get this fill. MATE's panel
+ * menubar has its own more specific PanelToplevel rules below. Keep the idle
+ * silver menubar and the popup's own navigation untouched. */
+menubar > menuitem:hover,
+menubar > menuitem:selected,
+menubar > menuitem:active {
+  color: @eqx_popupFg;
+  background-color: @eqx_popupReferenceBg;
+  background-image: none;
+}
+menubar > menuitem:hover > label,
+menubar > menuitem:selected > label,
+menubar > menuitem:active > label {
+  color: @eqx_popupFg;
+}
+/* Match Marco's silver gradient and finish at the exact GTK3
+ * application-menubar top color. A brighter final stop introduced a
+ * visible horizontal seam between the title and File/Edit/View row. */
 headerbar, .titlebar {
   color: #333333;
-  background-color: #b5b5b5;
-  background-image: linear-gradient(to bottom, #c7c7c7, #a7a7a7);
+  background-color: @eqx_menuTop;
+  background-image: linear-gradient(to bottom,
+    #cecece 0%, #b9b9b9 50%, @eqx_menuTop 100%);
   border-color: #888888;
   border-bottom: 0;
 }
 headerbar label, .titlebar label { color: #333333; }
 headerbar, .titlebar { min-height: 25px; border-bottom: 0; }
+/* GTK2 equinox_draw_list_view_header() with default listviewheaderstyle=0
+ * (src/equinox_rc_style.c): fill uses bg[state] with 1.05 / 1.0 / 0.92
+ * shades at 0%, 56%, 100%. Sorted columns use bg[ACTIVE] instead.
+ * Scope to GtkTreeView column buttons; preserve sizing and sorting. */
 treeview header button {
-  color: #303030;
-  background-image: linear-gradient(to bottom, #c2c2c2, #adadad);
+  color: @eqx_columnHeaderText;
+  background-color: @theme_bg_color;
+  background-image: linear-gradient(to bottom,
+    shade(@theme_bg_color, 1.05) 0%,
+    @theme_bg_color 56%,
+    shade(@theme_bg_color, 0.92) 100%);
 }
-/* Original Fedora 14 Evolution panel stays charcoal across dark-panel variants. */
-#PanelToplevel, .mate-panel-menu-bar, mate-panel {
-  background-color: #383838;
-  background-image: linear-gradient(to bottom, #414141, #323232);
-  color: #eeeeee;
+treeview header button:hover:not(:checked) {
+  color: @eqx_columnHeaderText;
+  background-color: #606060;
+  background-image: linear-gradient(to bottom,
+    shade(#606060, 1.05) 0%, #606060 56%, shade(#606060, 0.92) 100%);
 }
-.mate-panel-menu-bar > menuitem,
-.mate-panel-menu-bar > menuitem label { color: #eeeeee; }
-
+treeview header button:checked,
+treeview header button:checked:hover,
+treeview header button:active {
+  color: @eqx_columnHeaderText;
+  background-color: #3b3b3b;
+  background-image: linear-gradient(to bottom,
+    shade(#3b3b3b, 1.05) 0%, #3b3b3b 56%, shade(#3b3b3b, 0.92) 100%);
+}
+treeview header button:disabled {
+  color: @eqx_muted;
+  background-color: @eqx_disabledSurface;
+  background-image: none;
+}
+treeview header button:disabled label { color: @eqx_muted; }
 /* GTK3 dialog and file chooser parity. Keep these scoped to dialogs and
  * the GtkFileChooserWidget, not Caja or generic application sidebars. */
 window.dialog .dialog-action-area,
@@ -1162,4 +1460,213 @@ filechooser placessidebar row:selected:focus label {
 filechooser placessidebar row:disabled,
 filechooser placessidebar row:disabled label {
   color: @eqx_muted;
+}
+
+/* MATE panel background ONLY. In GTK3, PanelToplevel is the panel CSS
+ * node (MATE panel-toplevel.c), for top/bottom/left/right bars.
+ * Avoid .mate-panel-menu-bar as a standalone selector: MATE also assigns
+ * it to popup windows, and the old broad rules broke app menus.
+ * Respect MATE's separate custom-background settings. These rules affect
+ * colors, not panel sizing, buttons, clock, window list or popup menus. */
+PanelToplevel.mate-panel-menu-bar:not(.mate-custom-panel-background) {
+  color: @eqx_panelFg;
+  background-color: @eqx_panelBottom;
+  background-image: linear-gradient(to bottom, @eqx_panelTop, @eqx_panelBottom);
+  box-shadow: inset 0 1px @eqx_panelHighlight,
+              inset 0 -1px @eqx_panelEdge;
+}
+/* Preserve a bevel across the narrow axis of left/right vertical panels. */
+PanelToplevel.mate-panel-menu-bar.vertical:not(.mate-custom-panel-background) {
+  background-image: linear-gradient(to right, @eqx_panelTop, @eqx_panelBottom);
+  box-shadow: inset 1px 0 @eqx_panelHighlight,
+              inset -1px 0 @eqx_panelEdge;
+}
+/* MATE's PanelMenuBar inherits Equinox's generic GTK3 menubar gradient.
+ * On dark themes this paints a light rectangle behind Applications,
+ * Places and System. Reset ONLY menubars inside the actual panel window,
+ * letting the PanelToplevel gradient show through continuously. */
+PanelToplevel menubar,
+PanelToplevel PanelMenuBar {
+  background-color: transparent;
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Only the three direct top-level menu labels inherit the panel text
+ * color. Do not touch their backgrounds, padding or dropdown popups. */
+PanelToplevel.mate-panel-menu-bar menubar > menuitem,
+PanelToplevel.mate-panel-menu-bar menubar > menuitem > label {
+  color: @eqx_panelFg;
+}
+
+/* Equinox panel button roles: the old GTK2 panel treats menubar items
+ * as flat labels, launchers as icons, and Wnck tasklist entries as raised
+ * window buttons. Keep every selector below on real panel roots:
+ * PanelToplevel or #PanelPlug. Never use .mate-panel-menu-bar by itself. */
+
+/* General panel actions and launchers do not wear tasklist button frames.
+ * The applications menu uses GtkMenuItems, handled separately below. */
+PanelToplevel button,
+#PanelPlug button {
+  color: @eqx_panelFg;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  box-shadow: none;
+  margin: 1px;
+  padding: 1px 2px;
+}
+PanelToplevel button label,
+#PanelPlug button label {
+  color: @eqx_panelFg;
+}
+PanelToplevel button:hover,
+#PanelPlug button:hover {
+  background-color: alpha(@eqx_panelFg, 0.08);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+PanelToplevel button:active,
+PanelToplevel button:checked,
+#PanelPlug button:active,
+#PanelPlug button:checked {
+  background-color: alpha(@eqx_panelFg, 0.13);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+PanelToplevel button:disabled,
+#PanelPlug button:disabled {
+  color: alpha(@eqx_panelFg, 0.48);
+  background-image: none;
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+PanelToplevel button:disabled label,
+#PanelPlug button:disabled label {
+  color: alpha(@eqx_panelFg, 0.48);
+}
+
+/* Original GNOME 2/MATE top strip: icon and flat Applications, Places,
+ * System labels. Only immediate menu-bar children are affected. Menus
+ * themselves are popup windows, never descendants of PanelToplevel. */
+PanelToplevel menubar > menuitem,
+PanelToplevel PanelMenuBar > menuitem {
+  color: @eqx_panelFg;
+  background-color: transparent;
+  background-image: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  padding: 2px 5px;
+}
+PanelToplevel menubar > menuitem:hover,
+PanelToplevel menubar > menuitem:selected,
+PanelToplevel PanelMenuBar > menuitem:hover,
+PanelToplevel PanelMenuBar > menuitem:selected {
+  background-color: alpha(@eqx_panelFg, 0.10);
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+}
+PanelToplevel menubar > menuitem:active,
+PanelToplevel PanelMenuBar > menuitem:active {
+  background-color: alpha(@eqx_panelFg, 0.15);
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Fedora 14 window-list buttons at 24px panel height have a slim raised
+ * edge, not the two-pixel dark box from our early GTK3 panel experiment.
+ * Preserve MATE's tasklist sizing, padding, margin, click areas and labels.
+ * This styles task buttons on any PanelToplevel or PanelPlug, including top,
+ * bottom, left and right panels. No edge assumes a bottom panel position. */
+PanelToplevel button#tasklist-button,
+#PanelPlug button#tasklist-button {
+  color: @eqx_panelFg;
+  background-color: @eqx_panelButtonBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_panelButtonTop,
+    @eqx_panelButtonBottom);
+  border: 1px solid alpha(@eqx_panelButtonBorder, 0.78);
+  border-top-color: @eqx_panelTaskRim;
+  border-bottom-color: @eqx_panelButtonBottom;
+  border-radius: 2px;
+  box-shadow: inset 0 1px alpha(@eqx_panelFg, 0.07),
+              inset 1px 0 alpha(@eqx_panelFg, 0.025);
+}
+PanelToplevel button#tasklist-button:hover,
+#PanelPlug button#tasklist-button:hover {
+  background-color: shade(@eqx_panelButtonBottom, 1.05);
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_panelButtonTop, 1.04),
+    shade(@eqx_panelButtonBottom, 1.05));
+  border-color: alpha(@eqx_panelButtonBorder, 0.88);
+  border-top-color: shade(@eqx_panelTaskRim, 1.06);
+  border-bottom-color: shade(@eqx_panelButtonBottom, 1.05);
+  box-shadow: inset 0 1px alpha(@eqx_panelFg, 0.11);
+}
+PanelToplevel button#tasklist-button:active,
+PanelToplevel button#tasklist-button:checked,
+#PanelPlug button#tasklist-button:active,
+#PanelPlug button#tasklist-button:checked {
+  background-color: @eqx_panelTaskPressedBottom;
+  background-image: linear-gradient(to bottom,
+    @eqx_panelTaskPressedTop, @eqx_panelTaskPressedBottom);
+  border-color: alpha(@eqx_panelButtonBorder, 0.85);
+  border-top-color: @eqx_panelTaskPressedRim;
+  border-bottom-color: @eqx_panelTaskPressedBottom;
+  box-shadow: inset 0 1px alpha(@eqx_panelEdge, 0.23);
+}
+PanelToplevel button#tasklist-button:disabled,
+#PanelPlug button#tasklist-button:disabled {
+  background-color: @eqx_panelBottom;
+  background-image: none;
+  border-color: alpha(@eqx_panelButtonBorder, 0.55);
+  box-shadow: none;
+}
+
+/* On left/right panels, the same 1px rim follows the narrow panel axis.
+ * Geometry, task count, text spacing and click areas are unchanged. */
+PanelToplevel.vertical button#tasklist-button,
+#PanelPlug.vertical button#tasklist-button {
+  background-image: linear-gradient(to right,
+    @eqx_panelButtonTop, @eqx_panelButtonBottom);
+  border-top-color: @eqx_panelButtonBorder;
+  border-left-color: @eqx_panelTaskRim;
+  border-bottom-color: @eqx_panelButtonBorder;
+  border-right-color: @eqx_panelButtonBottom;
+  box-shadow: inset 1px 0 alpha(@eqx_panelFg, 0.07);
+}
+PanelToplevel.vertical button#tasklist-button:hover,
+#PanelPlug.vertical button#tasklist-button:hover {
+  background-image: linear-gradient(to right,
+    shade(@eqx_panelButtonTop, 1.04),
+    shade(@eqx_panelButtonBottom, 1.05));
+  border-left-color: shade(@eqx_panelTaskRim, 1.06);
+  border-right-color: shade(@eqx_panelButtonBottom, 1.05);
+  box-shadow: inset 1px 0 alpha(@eqx_panelFg, 0.11);
+}
+PanelToplevel.vertical button#tasklist-button:active,
+PanelToplevel.vertical button#tasklist-button:checked,
+#PanelPlug.vertical button#tasklist-button:active,
+#PanelPlug.vertical button#tasklist-button:checked {
+  background-image: linear-gradient(to right,
+    @eqx_panelTaskPressedTop, @eqx_panelTaskPressedBottom);
+  border-color: @eqx_panelButtonBorder;
+  border-left-color: @eqx_panelTaskPressedRim;
+  border-right-color: @eqx_panelTaskPressedBottom;
+  box-shadow: inset 1px 0 alpha(@eqx_panelEdge, 0.23);
+}
+PanelToplevel.vertical button#tasklist-button:disabled,
+#PanelPlug.vertical button#tasklist-button:disabled {
+  background-image: none;
+  border-color: alpha(@eqx_panelButtonBorder, 0.55);
+  box-shadow: none;
 }
