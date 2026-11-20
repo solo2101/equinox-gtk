@@ -9,6 +9,7 @@ on:
       - 'scripts/check-gtk3-menu-parity.py'
       - 'scripts/check-gtk3-tasklist-parity.py'
       - 'scripts/check-midnight-progress-source.py'
+      - 'scripts/check-midnight-notebook-source.py'
       - 'scripts/check-midnight-tasklist.py'
       - 'scripts/preview-gtk3-popups.py'
       - 'scripts/preview-gtk3-menus.py'
@@ -23,6 +24,7 @@ on:
       - 'scripts/check-gtk3-menu-parity.py'
       - 'scripts/check-gtk3-tasklist-parity.py'
       - 'scripts/check-midnight-progress-source.py'
+      - 'scripts/check-midnight-notebook-source.py'
       - 'scripts/check-midnight-tasklist.py'
       - 'scripts/preview-gtk3-popups.py'
       - 'scripts/preview-gtk3-menus.py'
@@ -53,6 +55,8 @@ jobs:
         run: python3 scripts/check-gtk3-tasklist-parity.py
       - name: Check progress geometry against original Equinox C code
         run: python3 scripts/check-midnight-progress-source.py
+      - name: Check Midnight tab gradients against original GTK2 painter
+        run: python3 scripts/check-midnight-notebook-source.py
       - name: Check GTK3 preview scripts
         run: |
           python3 -m py_compile scripts/preview-gtk3-menus.py scripts/preview-gtk3-dialogs.py scripts/preview-gtk3-tooltips-scrollbars.py scripts/preview-gtk3-caja-focus.py scripts/preview-gtk3-popups.py
