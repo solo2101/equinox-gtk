@@ -23,7 +23,7 @@ assert "shade(@theme_bg_color, 1.06) 0%" in css
 for side, direction in (("bottom", "top"), ("left", "right"), ("right", "left")):
     for state in ("", ":checked"):
         selector = f"notebook > header.{side} > tabs > tab{state}"
-        pattern = re.escape(selector) + r"\s*\{([^}]+)\}"
+        pattern = re.escape(selector) + r"(?:\s*,\s*[^{}]+)?\s*\{([^}]+)\}"
         hit = re.search(pattern, css)
         assert hit, f"Missing {selector}"
         assert f"linear-gradient(to {direction}" in hit.group(1), selector
