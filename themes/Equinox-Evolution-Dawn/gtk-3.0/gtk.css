@@ -364,21 +364,25 @@ iconview:selected, iconview:selected:focus {
   box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
 }
 
-/* CajaLocationEntry sets the caja-location-entry class in its C code.
- * The location field sometimes retains a dark app-level background under
- * light Equinox themes; explicitly paint its editable surface and text.
- * Do not affect ordinary entries, theme variants or navigation behavior. */
+/* Caja's caja_location_bar_set_active() installs an application-priority
+ * GtkCssProvider overriding entry background-color. A theme-priority color
+ * alone cannot override that value. Paint an opaque, flat background IMAGE
+ * using this variant's existing GTK2 base color instead; Caja does not
+ * override background-image. Keep text, focus and dimensions native.
+ * This is Caja-only; the approved Midnight stylesheet is unchanged. */
 .caja-navigation-window entry.caja-location-entry {
   color: @theme_text_color;
   caret-color: @theme_text_color;
   background-color: @theme_base_color;
-  background-image: none;
+  background-image: linear-gradient(to bottom,
+    @theme_base_color, @theme_base_color);
   border-color: @eqx_entryBorder;
 }
 .caja-navigation-window entry.caja-location-entry:focus {
   color: @theme_text_color;
   background-color: @theme_base_color;
-  background-image: none;
+  background-image: linear-gradient(to bottom,
+    @theme_base_color, @theme_base_color);
   border-color: @theme_selected_bg_color;
 }
 
