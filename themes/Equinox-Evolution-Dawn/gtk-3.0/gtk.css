@@ -1185,8 +1185,11 @@ button.link:disabled, button.link:disabled label {
 
 /* Theme-specific palette and top-bar coloring; no control geometry changes. */
 /* Dawn uses Light controls below a dark title and menu strip. */
-menubar, menubar > menuitem, menubar > menuitem label,
-menubar > menuitem > label { color: #eeeeee; }
+/* Color the actual application menubar labels only. Avoid generic
+ * descendants that can bleed into GTK menu popups. */
+menubar, menubar > menuitem, menubar > menuitem > label {
+  color: #eeeeee;
+}
 headerbar, .titlebar {
   color: #eeeeee;
   background-color: #353535;
