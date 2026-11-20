@@ -82,17 +82,18 @@ def main():
                     failures += 1
                     print(f"FAIL {theme}: reference popup rule missing {selector_value}")
             # The open File/Edit/View menubar item should match the popup fill.
-            for state in ("hover", "selected", "active"):
-                rule = re.search(
-                    rf"menubar\s*>\s*menuitem:{state}\s*\{{([^}}]+)\}}",
-                    css,
-                )
-                if rule is None or (
-                    "background-color: @eqx_popupReferenceBg;" not in rule.group(1)
-                    or "background-image: none;" not in rule.group(1)
-                ):
-                    failures += 1
-                    print(f"FAIL Midnight: menubar {state} background not charcoal")
+            active_item = re.search(
+                r"menubar\s*>\s*menuitem:hover,\s*"
+                r"menubar\s*>\s*menuitem:selected,\s*"
+                r"menubar\s*>\s*menuitem:active\s*\{([^}]+)\}",
+                css,
+            )
+            if active_item is None or (
+                "background-color: @eqx_popupReferenceBg;" not in active_item.group(1)
+                or "background-image: none;" not in active_item.group(1)
+            ):
+                failures += 1
+                print("FAIL Midnight: active File/Edit/View menubar tab not charcoal")
             # GtkMenu separators should not draw the too-bright white GTK3 rim.
             separator = re.search(r"menu separator,\s*\.menu separator\s*\{([^}]+)\}", css)
             if separator is None or (
