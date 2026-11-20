@@ -14,6 +14,11 @@ on:
       - experiments/gtk3-rendered/**
       - themes/**/gtk-3.0/**
       - .github/workflows/rendered-assets.yml
+  pull_request:
+    paths:
+      - 'tools/equinox-render-assets.c'
+      - 'scripts/install-rendered-experiment.sh'
+      - '.github/workflows/rendered-assets.yml'
   workflow_dispatch:
 
 permissions:
@@ -39,7 +44,11 @@ jobs:
             test -s "$dir/button-normal.png"
             test -s "$dir/entry-focused.png"
             test -s "$dir/tab-top-selected.png"
+            test -s "$dir/progress-trough-horizontal.png"
+            test -s "$dir/progress-fill-horizontal.png"
+            test -s "$dir/progress-trough-vertical.png"
+            test -s "$dir/progress-fill-vertical.png"
             actual="$(find "$dir" -maxdepth 1 -name '*.png' -type f | wc -l)"
-            test "$actual" -eq 16
+            test "$actual" -eq 20
             printf '%s: %s original-Cairo assets verified\n' "$variant" "$actual"
           done
