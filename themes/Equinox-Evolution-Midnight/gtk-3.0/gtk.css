@@ -442,6 +442,28 @@ iconview:selected, iconview:selected:focus {
   box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
 }
 
+/* Caja uses an application-priority background-color on its location
+ * entry. During GTK theme switching that leaves the previous light fill,
+ * even after Midnight restores light text. Paint the original Midnight
+ * base (#383838) as an opaque background-image instead. This is the same
+ * Caja-specific override as the other four independent themes.
+ * Preserve the entry's existing height, inset bevel and focus behavior. */
+.caja-navigation-window entry.caja-location-entry {
+  color: @theme_text_color;
+  caret-color: @theme_text_color;
+  background-color: @theme_base_color;
+  background-image: linear-gradient(to bottom,
+    @theme_base_color, @theme_base_color);
+  border-color: @eqx_entryBorder;
+}
+.caja-navigation-window entry.caja-location-entry:focus {
+  color: @theme_text_color;
+  background-color: @theme_base_color;
+  background-image: linear-gradient(to bottom,
+    @theme_base_color, @theme_base_color);
+  border-color: @theme_selected_bg_color;
+}
+
 /* Caja's real GtkToggleButton breadcrumb widgets use the
  * .caja-pathbar class (caja-pathbar.c). Adjust only their compact
  * geometry; GTK keeps its native :checked and click/navigation behavior. */
