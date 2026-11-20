@@ -139,6 +139,23 @@ static gboolean save_asset(const gchar *dir, const gchar *name,
         tab.last_tab = FALSE;
         equinox_draw_tab(cr, colors, &w, &tab,
                          0, 0, width, height);
+    } else if (!strncmp(kind, "progress-trough-", 16) ||
+               !strncmp(kind, "progress-fill-", 14)) {
+        /* Draw with the original GTK2 Equinox Cairo source itself.
+         * This is a ground-truth reference, not a stretched GTK3 PNG skin.
+         * Midnight's original engine defaults progressbarstyle to 0. */
+        ProgressBarParameters bar;
+        memset(&bar, 0, sizeof(bar));
+        bar.orientation = g_str_has_suffix(kind, "-vertical")
+            ? EQX_ORIENTATION_BOTTOM_TO_TOP : EQX_ORIENTATION_LEFT_TO_RIGHT;
+        bar.style = EQX_PROGRESSBAR_CONTINUOUS;
+        bar.fraction = 1.0;
+        if (!strncmp(kind, "progress-trough-", 16))
+            equinox_draw_progressbar_trough(cr, colors, &w, &bar,
+                                           0, 0, width, height, 0);
+        else
+            equinox_draw_progressbar_fill(cr, colors, &w, &bar,
+                                         0, 0, width, height, 0, 0);
     } else {
         g_printerr("Unknown asset type: %s\n", kind);
         cairo_destroy(cr);
@@ -196,6 +213,12 @@ int main(int argc, char **argv)
     EXPORT("tab-left-inactive.png", 28, 56, "tab", GTK_STATE_ACTIVE, TRUE, FALSE, EQX_GAP_RIGHT);
     EXPORT("tab-right-selected.png", 28, 56, "tab", GTK_STATE_NORMAL, FALSE, FALSE, EQX_GAP_LEFT);
     EXPORT("tab-right-inactive.png", 28, 56, "tab", GTK_STATE_ACTIVE, TRUE, FALSE, EQX_GAP_LEFT);
+    /* Direct outputs from src/equinox_draw.c, not hand-drawn CSS approximations.
+     * Vary lengths here to inspect how the original stripes scale with height. */
+    EXPORT("progress-trough-horizontal.png", 180, 16, "progress-trough-horizontal", GTK_STATE_NORMAL, FALSE, FALSE, EQX_GAP_BOTTOM);
+    EXPORT("progress-fill-horizontal.png", 96, 16, "progress-fill-horizontal", GTK_STATE_NORMAL, FALSE, FALSE, EQX_GAP_BOTTOM);
+    EXPORT("progress-trough-vertical.png", 16, 180, "progress-trough-vertical", GTK_STATE_NORMAL, FALSE, FALSE, EQX_GAP_BOTTOM);
+    EXPORT("progress-fill-vertical.png", 16, 96, "progress-fill-vertical", GTK_STATE_NORMAL, FALSE, FALSE, EQX_GAP_BOTTOM);
 #undef EXPORT
     return ok ? 0 : 1;
 }
