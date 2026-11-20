@@ -729,6 +729,20 @@ notebook > header.right > tabs > tab {
     shade(@eqx_tabGtk2Inactive, 0.90) 50%,
     shade(@eqx_tabGtk2Inactive, 0.90) 100%);
 }
+/* Preserve the same hover feedback on rotated tabs. These orientation
+ * rules otherwise override the generic :hover gradient above. */
+notebook > header.bottom > tabs > tab:hover {
+  background-image: linear-gradient(to top,
+    shade(@eqx_tabGtk2Inactive, 1.06), @eqx_tabGtk2Inactive);
+}
+notebook > header.left > tabs > tab:hover {
+  background-image: linear-gradient(to right,
+    shade(@eqx_tabGtk2Inactive, 1.06), @eqx_tabGtk2Inactive);
+}
+notebook > header.right > tabs > tab:hover {
+  background-image: linear-gradient(to left,
+    shade(@eqx_tabGtk2Inactive, 1.06), @eqx_tabGtk2Inactive);
+}
 notebook > header.bottom > tabs > tab:checked,
 notebook > header.bottom > tabs > tab:checked:hover {
   background-image: linear-gradient(to top,
