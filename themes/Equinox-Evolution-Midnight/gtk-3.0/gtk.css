@@ -86,6 +86,8 @@
 @define-color eqx_popupReferenceBg #323232;
 @define-color eqx_popupReferenceSelectedTop #497dae;
 @define-color eqx_popupReferenceSelectedBottom #426c9d;
+/* Original Fedora 14 Caja File menu: one softly faded charcoal divider. */
+@define-color eqx_popupReferenceSeparator #424242;
 @define-color eqx_toolbarLine #313131;
 @define-color eqx_toolbarRidge #565656;
 @define-color eqx_tabSheen #5c5c5c;
@@ -564,16 +566,22 @@ menu menuitem:disabled, menu menuitem:disabled:hover,
 menu menuitem:disabled label, .menu menuitem:disabled label {
   color: @eqx_popupDisabled;
 }
-/* GtkMenuSeparator uses a separator node, not the normal toolbar
- * separator. Keep the original compact recessed one-pixel stroke. */
+/* Fedora 14 GtkMenuSeparator: a single 1px charcoal stroke that fades
+ * at both ends. GTK3's earlier white-tinted line and drop shadow were much
+ * brighter than the original Caja File/Edit/View menu dividers.
+ * Only GtkMenu separators are affected, not application or panel rules. */
 menu separator, .menu separator {
   min-height: 1px;
   margin: 3px 6px;
   padding: 0;
   border: 0;
-  background-color: alpha(@eqx_popupFg, 0.34);
-  background-image: none;
-  box-shadow: 0 1px alpha(@eqx_popupFg, 0.10);
+  background-color: transparent;
+  background-image: linear-gradient(to right,
+    alpha(@eqx_popupReferenceSeparator, 0) 0%,
+    @eqx_popupReferenceSeparator 25%,
+    @eqx_popupReferenceSeparator 75%,
+    alpha(@eqx_popupReferenceSeparator, 0) 100%);
+  box-shadow: none;
 }
 menu menuitem arrow, .menu menuitem arrow {
   color: @eqx_popupFg;
