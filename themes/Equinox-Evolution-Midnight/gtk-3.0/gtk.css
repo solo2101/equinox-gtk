@@ -26,6 +26,9 @@
 @define-color eqx_tabTop #4c4c4c;
 @define-color eqx_tabBottom #444444;
 @define-color eqx_tabBorder #303030;
+/* GTK2 Equinox Midnight: bg[ACTIVE] is the unselected tab surface.
+ * The original engine shades it by .925 at the top and .90 at midpoint. */
+@define-color eqx_tabGtk2Inactive #3b3b3b;
 @define-color eqx_trough #323232;
 @define-color eqx_scaleTop #646464;
 @define-color eqx_scaleBottom #444444;
@@ -639,10 +642,10 @@ menu menuitem:disabled check, menu menuitem:disabled radio,
 }
 
 
-/* Original Equinox notebook proportions: inactive tabs sit slightly below
- * the active one. Keep selection tied to GTK's :checked state, and keep
- * the selected tab joined to the notebook stack on all four edges.
- */
+/* Source: equinox_draw_tab() in original src/equinox_draw.c.
+ * GTK_STATE_ACTIVE is the inactive tab; its face has 0.925/0.90 shade
+ * stops. GTK_STATE_NORMAL (selected) has 1.06/1.00 shades. Preserve the
+ * native GTK3 :checked state, tab hit areas and stack joining on every edge. */
 notebook {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
@@ -672,8 +675,11 @@ notebook > header > tabs {
 }
 notebook > header > tabs > tab {
   color: @theme_fg_color;
-  background-color: @eqx_tabBottom;
-  background-image: linear-gradient(to bottom, @eqx_tabTop, @eqx_tabBottom);
+  background-color: @eqx_tabGtk2Inactive;
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_tabGtk2Inactive, 0.925) 0%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 50%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 100%);
   border: 1px solid alpha(@eqx_tabBorder, 0.82);
   border-radius: 4px 4px 0 0;
   box-shadow: none;
@@ -687,17 +693,62 @@ notebook > header.top > tabs > tab:not(:checked) {
   border-bottom-color: transparent;
 }
 notebook > header > tabs > tab:hover {
-  background-color: @eqx_tabTop;
-  background-image: linear-gradient(to bottom, @eqx_tabSheen, @eqx_tabTop);
+  background-color: @eqx_tabGtk2Inactive;
+  background-image: linear-gradient(to bottom,
+    shade(@eqx_tabGtk2Inactive, 1.06), @eqx_tabGtk2Inactive);
 }
 /* Checked must win against the hover selector above. */
 notebook > header > tabs > tab:checked,
 notebook > header > tabs > tab:checked:hover {
   color: @theme_fg_color;
   background-color: @theme_bg_color;
-  background-image: none;
+  background-image: linear-gradient(to bottom,
+    shade(@theme_bg_color, 1.06) 0%,
+    @theme_bg_color 50%,
+    @theme_bg_color 100%);
   border-color: alpha(@eqx_tabBorder, 0.82);
   box-shadow: none;
+}
+/* Mirror the original Cairo fill along each notebook edge; only paint,
+ * not layout, changes for bottom/left/right tab groups. */
+notebook > header.bottom > tabs > tab {
+  background-image: linear-gradient(to top,
+    shade(@eqx_tabGtk2Inactive, 0.925) 0%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 50%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 100%);
+}
+notebook > header.left > tabs > tab {
+  background-image: linear-gradient(to right,
+    shade(@eqx_tabGtk2Inactive, 0.925) 0%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 50%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 100%);
+}
+notebook > header.right > tabs > tab {
+  background-image: linear-gradient(to left,
+    shade(@eqx_tabGtk2Inactive, 0.925) 0%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 50%,
+    shade(@eqx_tabGtk2Inactive, 0.90) 100%);
+}
+notebook > header.bottom > tabs > tab:checked,
+notebook > header.bottom > tabs > tab:checked:hover {
+  background-image: linear-gradient(to top,
+    shade(@theme_bg_color, 1.06) 0%,
+    @theme_bg_color 50%,
+    @theme_bg_color 100%);
+}
+notebook > header.left > tabs > tab:checked,
+notebook > header.left > tabs > tab:checked:hover {
+  background-image: linear-gradient(to right,
+    shade(@theme_bg_color, 1.06) 0%,
+    @theme_bg_color 50%,
+    @theme_bg_color 100%);
+}
+notebook > header.right > tabs > tab:checked,
+notebook > header.right > tabs > tab:checked:hover {
+  background-image: linear-gradient(to left,
+    shade(@theme_bg_color, 1.06) 0%,
+    @theme_bg_color 50%,
+    @theme_bg_color 100%);
 }
 /* Join the selected tab to the page stack. A 1px overlap hides the
  * stack border beneath the active tab without altering inactive tab layout.
