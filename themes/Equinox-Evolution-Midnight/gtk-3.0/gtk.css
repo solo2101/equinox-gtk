@@ -2,7 +2,8 @@
 @define-color eqx_bg #4e4e4e;
 @define-color eqx_fg #dddddd;
 
-@define-color eqx_columnHeaderText #303030;@define-color eqx_muted #999999;
+@define-color eqx_columnHeaderText #dddddd;
+@define-color eqx_muted #999999;
 @define-color eqx_base #383838;
 @define-color eqx_disabledBase #424242;
 @define-color eqx_accent #497da5;
@@ -472,8 +473,8 @@ treeview header button {
   padding: 2px 5px;
   min-height: 17px;
 }
-/* Global label styling overrides inherited button text colors in GTK3.
- * Keep column headings readable against their per-theme light bevels. */
+/* GtkTreeView header labels follow the original Midnight GTK2 text color.
+ * The header fill below is dark, not a silver application menubar. */
 treeview header button label { color: @eqx_columnHeaderText; }
 
 /* Flush GTK3 top chrome matching the GTK2 engine:
@@ -1369,10 +1370,38 @@ headerbar, .titlebar {
 }
 headerbar label, .titlebar label { color: #333333; }
 headerbar, .titlebar { min-height: 25px; border-bottom: 0; }
+/* GTK2 equinox_draw_list_view_header() with default listviewheaderstyle=0
+ * (src/equinox_rc_style.c): fill uses bg[state] with 1.05 / 1.0 / 0.92
+ * shades at 0%, 56%, 100%. Sorted columns use bg[ACTIVE] instead.
+ * Scope to GtkTreeView column buttons; preserve sizing and sorting. */
 treeview header button {
-  color: #303030;
-  background-image: linear-gradient(to bottom, #c2c2c2, #adadad);
+  color: @eqx_columnHeaderText;
+  background-color: @theme_bg_color;
+  background-image: linear-gradient(to bottom,
+    shade(@theme_bg_color, 1.05) 0%,
+    @theme_bg_color 56%,
+    shade(@theme_bg_color, 0.92) 100%);
 }
+treeview header button:hover:not(:checked) {
+  color: @eqx_columnHeaderText;
+  background-color: #606060;
+  background-image: linear-gradient(to bottom,
+    shade(#606060, 1.05) 0%, #606060 56%, shade(#606060, 0.92) 100%);
+}
+treeview header button:checked,
+treeview header button:checked:hover,
+treeview header button:active {
+  color: @eqx_columnHeaderText;
+  background-color: #3b3b3b;
+  background-image: linear-gradient(to bottom,
+    shade(#3b3b3b, 1.05) 0%, #3b3b3b 56%, shade(#3b3b3b, 0.92) 100%);
+}
+treeview header button:disabled {
+  color: @eqx_muted;
+  background-color: @eqx_disabledSurface;
+  background-image: none;
+}
+treeview header button:disabled label { color: @eqx_muted; }
 /* GTK3 dialog and file chooser parity. Keep these scoped to dialogs and
  * the GtkFileChooserWidget, not Caja or generic application sidebars. */
 window.dialog .dialog-action-area,
