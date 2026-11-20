@@ -364,6 +364,24 @@ iconview:selected, iconview:selected:focus {
   box-shadow: inset 0 1px alpha(@eqx_outer, 0.65);
 }
 
+/* CajaLocationEntry sets the caja-location-entry class in its C code.
+ * The location field sometimes retains a dark app-level background under
+ * light Equinox themes; explicitly paint its editable surface and text.
+ * Do not affect ordinary entries, theme variants or navigation behavior. */
+.caja-navigation-window entry.caja-location-entry {
+  color: @theme_text_color;
+  caret-color: @theme_text_color;
+  background-color: @theme_base_color;
+  background-image: none;
+  border-color: @eqx_entryBorder;
+}
+.caja-navigation-window entry.caja-location-entry:focus {
+  color: @theme_text_color;
+  background-color: @theme_base_color;
+  background-image: none;
+  border-color: @theme_selected_bg_color;
+}
+
 /* Caja's real GtkToggleButton breadcrumb widgets use the
  * .caja-pathbar class (caja-pathbar.c). Adjust only their compact
  * geometry; GTK keeps its native :checked and click/navigation behavior. */
@@ -545,8 +563,13 @@ menu menuitem:hover, menu menuitem:selected, menu menuitem:focus,
     shade(@eqx_popupHoverBg, 1.05),
     shade(@eqx_popupHoverBg, 0.92));
 }
-menu menuitem:hover label, menu menuitem:selected label, menu menuitem:focus label,
-.menu menuitem:hover label, .menu menuitem:selected label, .menu menuitem:focus label {
+/* GTK3 submenus are descendants of their active parent menuitem.
+ * Only recolor the hovered row's immediate label; broad descendants paint
+ * every open submenu label in hover white on the normal popup background. */
+menu menuitem:hover > label, menu menuitem:selected > label, menu menuitem:focus > label,
+menu menuitem:hover > box > label, menu menuitem:selected > box > label, menu menuitem:focus > box > label,
+.menu menuitem:hover > label, .menu menuitem:selected > label, .menu menuitem:focus > label,
+.menu menuitem:hover > box > label, .menu menuitem:selected > box > label, .menu menuitem:focus > box > label {
   color: @eqx_popupHoverFg;
 }
 menu menuitem:disabled, menu menuitem:disabled:hover,
