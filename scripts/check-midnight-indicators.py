@@ -30,6 +30,10 @@ assert "background-color: @theme_base_color;" in base
 assert "border-radius: 2px;" in base
 assert "border-radius: 100%;" in declarations("radiobutton radio")
 
+# Hover must never replace a selected mark with the unchecked fill.
+assert "check:not(:disabled):not(:checked):not(:indeterminate)" in css
+assert "radio:not(:disabled):not(:checked)" in css
+
 checked = declarations("checkbutton check:checked,\ncheckbutton check:indeterminate,\nradiobutton radio:checked")
 for state in ("@theme_selected_bg_color", "linear-gradient(to bottom",
               "color: @theme_selected_fg_color;"):
