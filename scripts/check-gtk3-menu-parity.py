@@ -124,12 +124,27 @@ def main():
             if "menu menuitem:hover > box > label" not in css:
                 failures += 1
                 print(f"FAIL {theme}: direct hovered menu row label styling missing")
-            if "entry.caja-location-entry" not in css:
-                failures += 1
-                print(f"FAIL {theme}: scoped Caja location-entry colors missing")
-            if "background-color: @theme_base_color;" not in css:
-                failures += 1
-                print(f"FAIL {theme}: original GTK2 base color is missing")
+            # Caja's location bar installs an application-priority CSS
+            # provider for background-color. Verify a theme-priority
+            # opaque background-image covers its stale dark fill instead.
+            for selector in (
+                ".caja-navigation-window entry.caja-location-entry",
+                ".caja-navigation-window entry.caja-location-entry:focus",
+            ):
+                match = re.search(re.escape(selector) + r"\s*\{([^}]+)\}", css)
+                if match is None:
+                    failures += 1
+                    print(f"FAIL {theme}: missing Caja location selector {selector}")
+                    continue
+                body = match.group(1)
+                for required in (
+                    "color: @theme_text_color;",
+                    "background-color: @theme_base_color;",
+                    "background-image: linear-gradient(to bottom,\n    @theme_base_color, @theme_base_color);",
+                ):
+                    if required not in body:
+                        failures += 1
+                        print(f"FAIL {theme}: Caja location field lacks {required}")
         else:
             if "menu menuitem:hover label" not in css:
                 failures += 1
