@@ -28,7 +28,7 @@ assert "border: 1px solid" in base
 assert "color: @theme_selected_fg_color;" in base
 assert "background-color: @theme_base_color;" in base
 assert "border-radius: 2px;" in base
-assert any("border-radius: 100%;" in block for block in re.findall(r"radiobutton radio\\s*\\{([^}]+)\\}", css)), "Radio-specific roundness rule missing"
+assert any("border-radius: 100%;" in block for block in re.findall(r"radiobutton radio\s*\{([^}]+)\}", css)), "Radio-specific roundness rule missing"
 
 # Hover must never replace a selected mark with the unchecked fill.
 assert "check:not(:disabled):not(:checked):not(:indeterminate)" in css
