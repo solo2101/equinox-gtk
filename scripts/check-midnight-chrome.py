@@ -25,14 +25,21 @@ focus = drawing["titlebar_focus"]
 gradient = focus.find("gradient")
 assert gradient is not None and gradient.get("type") == "vertical"
 stops = [node.get("value") for node in gradient.findall("color")]
-assert stops == ["#cecece", "#bebebe", "#aeaeae"], stops
+assert stops == ["#cecece", "#b9b9b9", "#a7a7a7"], stops
 assert focus.find("line").get("color") == "#cfcfcf"
+
+# The titlebar/menubar seam must be visually seamless at 1x scale.
+# Keep Marco's final stop identical to GTK3's application menubar top.
+menubar_top = re.search(r"@define-color\s+eqx_menuTop\s+(#[0-9a-fA-F]{6});", css)
+assert menubar_top is not None and menubar_top.group(1) == stops[-1], (
+    f"Title/menubar color seam: Marco={stops[-1]}, GTK3={menubar_top.group(1) if menubar_top else 'missing'}"
+)
 
 matches = list(re.finditer(r"headerbar,\s*\.titlebar\s*\{([^}]+)\}", css))
 assert len(matches) >= 2, "Missing GTK3 titlebar override"
 csd = next((m.group(1) for m in matches if "#cecece" in m.group(1)), None)
 assert csd is not None, "Missing Midnight client-side titlebar gradient"
-for stop in ("#cecece 0%", "#bebebe 50%", "#aeaeae 100%"):
+for stop in ("#cecece 0%", "#b9b9b9 50%", "@eqx_menuTop 100%"):
     assert stop in csd, f"GTK3 client-side titlebar missing {stop}"
 
 buttons = (theme / "metacity-1")
