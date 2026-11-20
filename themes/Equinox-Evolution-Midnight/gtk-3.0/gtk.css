@@ -803,11 +803,12 @@ scale highlight, levelbar block.filled {
   background-image: linear-gradient(to bottom, @eqx_accentTop, @theme_selected_bg_color);
   border-radius: 3px;
 }
-/* Ported from the original GTK2 src/equinox_draw.c, progressbarstyle=0:
- * width of one stripe tile is stroke_width = 2 * height; fill shades use
- * colors->spot[1] and stop positions 0.0, 0.45, 1.0. The GTK2 renderer
- * is also exported directly by tools/equinox-render-assets.c for reference.
- * GTK3 retains native sizing and clipping, so only the painter is translated. */
+/* Original Equinox 1.50 Cairo stripe polygon, reused as transparent SVG:
+ * from (h,0) to (2h,0) to (h,h) to (0,h), tiled at 2h x h.
+ * Unlike repeating-linear-gradient(), the parallelogram spans the full
+ * fill height without fragmenting into triangular patches. The original
+ * GTK2 renderer in src/equinox_draw.c supplies this geometry.
+ * GTK3 retains native clipping and the original 45% fill gradient stop. */
 @keyframes eqx-progress-flow {
   from { background-position: 0px 0px, 0px 0px; }
   to { background-position: 20px 0px, 0px 0px; }
@@ -835,16 +836,13 @@ progressbar progress {
   min-width: 10px;
   background-color: @eqx_progAccentDeep;
   background-image:
-    repeating-linear-gradient(135deg,
-      @eqx_progStripe 0px,
-      @eqx_progStripe 10px,
-      rgba(255,255,255,0.015) 10px,
-      rgba(255,255,255,0.015) 20px),
+    url("equinox-progress-stripes-h.svg"),
     linear-gradient(to bottom,
       @eqx_progFillTop 0%,
       @eqx_progFillMid 45%,
       @eqx_progAccentDeep 100%);
-  background-size: 20px 20px, 100% 100%;
+  background-size: 20px 10px, 100% 100%;
+  background-repeat: repeat-x, no-repeat;
   background-position: 0px 0px, 0px 0px;
   animation-name: eqx-progress-flow;
   animation-duration: 1.5s;
@@ -859,15 +857,13 @@ progressbar.vertical trough,
 progressbar.vertical progress { min-width: 12px; }
 progressbar.vertical progress {
   background-image:
-    repeating-linear-gradient(45deg,
-      @eqx_progStripe 0px,
-      @eqx_progStripe 10px,
-      rgba(255,255,255,0.015) 10px,
-      rgba(255,255,255,0.015) 20px),
+    url("equinox-progress-stripes-v.svg"),
     linear-gradient(to right,
       @eqx_progFillTop 0%,
       @eqx_progFillMid 45%,
       @eqx_progAccentDeep 100%);
+  background-size: 10px 20px, 100% 100%;
+  background-repeat: repeat-y, no-repeat;
   animation-name: eqx-progress-flow-vertical;
 }
 
@@ -887,15 +883,13 @@ treeview.view .progressbar, treeview .progressbar,
 treeview.view.progressbar, .progressbar {
   background-color: @eqx_progAccentDeep;
   background-image:
-    repeating-linear-gradient(135deg,
-      @eqx_progStripe 0px,
-      @eqx_progStripe 10px,
-      rgba(255,255,255,0.015) 10px,
-      rgba(255,255,255,0.015) 20px),
+    url("equinox-progress-stripes-h.svg"),
     linear-gradient(to bottom,
       @eqx_progFillTop 0%,
       @eqx_progFillMid 45%,
       @eqx_progAccentDeep 100%);
+  background-size: 20px 10px, 100% 100%;
+  background-repeat: repeat-x, no-repeat;
   border: 1px solid @eqx_progBorder;
   border-top-color: shade(@eqx_progFillTop, 0.92);
   border-radius: 3px;
