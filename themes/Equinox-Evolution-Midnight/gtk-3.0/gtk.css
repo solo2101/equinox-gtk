@@ -1287,13 +1287,14 @@ menubar > menuitem:selected > label,
 menubar > menuitem:active > label {
   color: @eqx_popupFg;
 }
-/* Match the original Equinox Midnight Marco titlebar silver gradient
- * when an application supplies a GTK3 client-side decoration. */
+/* Match Marco's silver gradient and finish at the exact GTK3
+ * application-menubar top color. A brighter final stop introduced a
+ * visible horizontal seam between the title and File/Edit/View row. */
 headerbar, .titlebar {
   color: #333333;
-  background-color: #bdbdbd;
+  background-color: @eqx_menuTop;
   background-image: linear-gradient(to bottom,
-    #cecece 0%, #bebebe 50%, #aeaeae 100%);
+    #cecece 0%, #b9b9b9 50%, @eqx_menuTop 100%);
   border-color: #888888;
   border-bottom: 0;
 }
