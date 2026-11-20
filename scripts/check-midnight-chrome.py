@@ -28,10 +28,10 @@ stops = [node.get("value") for node in gradient.findall("color")]
 assert stops == ["#cecece", "#bebebe", "#aeaeae"], stops
 assert focus.find("line").get("color") == "#cfcfcf"
 
-csd = re.search(r"headerbar,\s*\.titlebar\s*\{([^}]+)\}", css)
 matches = list(re.finditer(r"headerbar,\s*\.titlebar\s*\{([^}]+)\}", css))
 assert len(matches) >= 2, "Missing GTK3 titlebar override"
-csd = matches[-1].group(1)
+csd = next((m.group(1) for m in matches if "#cecece" in m.group(1)), None)
+assert csd is not None, "Missing Midnight client-side titlebar gradient"
 for stop in ("#cecece 0%", "#bebebe 50%", "#aeaeae 100%"):
     assert stop in csd, f"GTK3 client-side titlebar missing {stop}"
 
