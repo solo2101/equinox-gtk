@@ -149,6 +149,20 @@ def main():
             if "menu menuitem:hover label" not in css:
                 failures += 1
                 print("FAIL Midnight: approved popup label rule missing")
+            # Midnight also needs the opaque Caja entry surface. Otherwise
+            # switching from a light Equinox theme leaves light-on-light text.
+            for selector in (
+                ".caja-navigation-window entry.caja-location-entry",
+                ".caja-navigation-window entry.caja-location-entry:focus",
+            ):
+                match = re.search(re.escape(selector) + r"\s*\{([^}]+)\}", css)
+                if match is None or any(required not in match.group(1) for required in (
+                    "color: @theme_text_color;",
+                    "background-color: @theme_base_color;",
+                    "background-image: linear-gradient(to bottom,\n    @theme_base_color, @theme_base_color);",
+                )):
+                    failures += 1
+                    print(f"FAIL Midnight: dark Caja location field missing: {selector}")
         if "PanelToplevel menubar > menuitem" not in css:
             failures += 1
             print(f"FAIL {theme}: panel menu protections missing")
