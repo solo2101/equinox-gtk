@@ -56,6 +56,16 @@ def main():
             if original != current:
                 failures += 1
                 print(f"FAIL {theme}: {gtk2_key} {original} vs {gtk3_key} {current}")
+        # MATE menu popups live outside the PanelToplevel hierarchy.
+        # A broad descendant label rule can override popup category colors.
+        # Protect every variant, not only the original Midnight repair.
+        if re.search(r"menubar\s*>\s*menuitem\s+label\b", css):
+            failures += 1
+            print(f"FAIL {theme}: broad menubar text selector may hide popup labels")
+        if theme in ("Equinox-Evolution-Dawn", "Equinox-Evolution-Dusk"):
+            if not re.search(r"menubar\s*>\s*menuitem\s*>\s*label", css):
+                failures += 1
+                print(f"FAIL {theme}: missing direct-child menubar label selector")
         if theme == "Equinox-Evolution-Midnight":
             # A descendant label selector also matches MATE Applications popup
             # categories, painting their text dark on the charcoal popup.
