@@ -45,8 +45,12 @@ permissions:
 jobs:
   css-parse:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        fedora: [43, 44]
     container:
-      image: fedora:43
+      image: fedora:${{ matrix.fedora }}
     steps:
       - uses: actions/checkout@v4
       - name: Install GTK3 parser and preview dependencies
