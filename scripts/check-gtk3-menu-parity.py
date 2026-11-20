@@ -113,9 +113,27 @@ def main():
             ):
                 failures += 1
                 print("FAIL Midnight: faded charcoal GtkMenu separator rule missing")
-        if "menu menuitem label" not in css or "menu menuitem:hover label" not in css:
+        if "menu menuitem label" not in css:
             failures += 1
-            print(f"FAIL {theme}: GtkMenu label/selected selectors missing")
+            print(f"FAIL {theme}: GtkMenu base label selector missing")
+        if theme != "Equinox-Evolution-Midnight":
+            # A hovered ancestor menuitem must not recolor submenu descendants.
+            if "menu menuitem:hover label" in css or ".menu menuitem:hover label" in css:
+                failures += 1
+                print(f"FAIL {theme}: nested submenu labels inherit parent's white hover text")
+            if "menu menuitem:hover > box > label" not in css:
+                failures += 1
+                print(f"FAIL {theme}: direct hovered menu row label styling missing")
+            if "entry.caja-location-entry" not in css:
+                failures += 1
+                print(f"FAIL {theme}: scoped Caja location-entry colors missing")
+            if "background-color: @theme_base_color;" not in css:
+                failures += 1
+                print(f"FAIL {theme}: original GTK2 base color is missing")
+        else:
+            if "menu menuitem:hover label" not in css:
+                failures += 1
+                print("FAIL Midnight: approved popup label rule missing")
         if "PanelToplevel menubar > menuitem" not in css:
             failures += 1
             print(f"FAIL {theme}: panel menu protections missing")
