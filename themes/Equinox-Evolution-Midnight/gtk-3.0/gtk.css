@@ -53,6 +53,12 @@
 @define-color eqx_panelButtonTop #5d5d5d;
 @define-color eqx_panelButtonBottom #4e4e4e;
 @define-color eqx_panelButtonBorder #333333;
+/* Fedora 14 24px tasklist reference: 1px bright top rim and a pressed
+ * gradient which darkens toward the bottom edge. */
+@define-color eqx_panelTaskRim #696969;
+@define-color eqx_panelTaskPressedRim #3f3f3f;
+@define-color eqx_panelTaskPressedTop #4b4b4b;
+@define-color eqx_panelTaskPressedBottom #414141;
 
 
 @define-color eqx_activeTop #484848;
@@ -1399,6 +1405,8 @@ PanelToplevel button#tasklist-button,
     @eqx_panelButtonTop,
     @eqx_panelButtonBottom);
   border: 1px solid alpha(@eqx_panelButtonBorder, 0.78);
+  border-top-color: @eqx_panelTaskRim;
+  border-bottom-color: @eqx_panelButtonBottom;
   border-radius: 2px;
   box-shadow: inset 0 1px alpha(@eqx_panelFg, 0.07),
               inset 1px 0 alpha(@eqx_panelFg, 0.025);
@@ -1410,23 +1418,64 @@ PanelToplevel button#tasklist-button:hover,
     shade(@eqx_panelButtonTop, 1.04),
     shade(@eqx_panelButtonBottom, 1.05));
   border-color: alpha(@eqx_panelButtonBorder, 0.88);
+  border-top-color: shade(@eqx_panelTaskRim, 1.06);
+  border-bottom-color: shade(@eqx_panelButtonBottom, 1.05);
   box-shadow: inset 0 1px alpha(@eqx_panelFg, 0.11);
 }
 PanelToplevel button#tasklist-button:active,
 PanelToplevel button#tasklist-button:checked,
 #PanelPlug button#tasklist-button:active,
 #PanelPlug button#tasklist-button:checked {
-  background-color: shade(@eqx_panelButtonBottom, 0.90);
+  background-color: @eqx_panelTaskPressedBottom;
   background-image: linear-gradient(to bottom,
-    shade(@eqx_panelButtonBottom, 0.88),
-    shade(@eqx_panelButtonBottom, 0.98));
+    @eqx_panelTaskPressedTop, @eqx_panelTaskPressedBottom);
   border-color: alpha(@eqx_panelButtonBorder, 0.85);
-  box-shadow: inset 0 1px alpha(@eqx_panelEdge, 0.45),
-              inset 0 -1px alpha(@eqx_panelFg, 0.04);
+  border-top-color: @eqx_panelTaskPressedRim;
+  border-bottom-color: @eqx_panelTaskPressedBottom;
+  box-shadow: inset 0 1px alpha(@eqx_panelEdge, 0.23);
 }
 PanelToplevel button#tasklist-button:disabled,
 #PanelPlug button#tasklist-button:disabled {
   background-color: @eqx_panelBottom;
+  background-image: none;
+  border-color: alpha(@eqx_panelButtonBorder, 0.55);
+  box-shadow: none;
+}
+
+/* On left/right panels, the same 1px rim follows the narrow panel axis.
+ * Geometry, task count, text spacing and click areas are unchanged. */
+PanelToplevel.vertical button#tasklist-button,
+#PanelPlug.vertical button#tasklist-button {
+  background-image: linear-gradient(to right,
+    @eqx_panelButtonTop, @eqx_panelButtonBottom);
+  border-top-color: @eqx_panelButtonBorder;
+  border-left-color: @eqx_panelTaskRim;
+  border-bottom-color: @eqx_panelButtonBorder;
+  border-right-color: @eqx_panelButtonBottom;
+  box-shadow: inset 1px 0 alpha(@eqx_panelFg, 0.07);
+}
+PanelToplevel.vertical button#tasklist-button:hover,
+#PanelPlug.vertical button#tasklist-button:hover {
+  background-image: linear-gradient(to right,
+    shade(@eqx_panelButtonTop, 1.04),
+    shade(@eqx_panelButtonBottom, 1.05));
+  border-left-color: shade(@eqx_panelTaskRim, 1.06);
+  border-right-color: shade(@eqx_panelButtonBottom, 1.05);
+  box-shadow: inset 1px 0 alpha(@eqx_panelFg, 0.11);
+}
+PanelToplevel.vertical button#tasklist-button:active,
+PanelToplevel.vertical button#tasklist-button:checked,
+#PanelPlug.vertical button#tasklist-button:active,
+#PanelPlug.vertical button#tasklist-button:checked {
+  background-image: linear-gradient(to right,
+    @eqx_panelTaskPressedTop, @eqx_panelTaskPressedBottom);
+  border-color: @eqx_panelButtonBorder;
+  border-left-color: @eqx_panelTaskPressedRim;
+  border-right-color: @eqx_panelTaskPressedBottom;
+  box-shadow: inset 1px 0 alpha(@eqx_panelEdge, 0.23);
+}
+PanelToplevel.vertical button#tasklist-button:disabled,
+#PanelPlug.vertical button#tasklist-button:disabled {
   background-image: none;
   border-color: alpha(@eqx_panelButtonBorder, 0.55);
   box-shadow: none;
