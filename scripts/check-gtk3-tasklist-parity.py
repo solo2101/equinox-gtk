@@ -41,7 +41,7 @@ vertical_pressed = rule(["PanelToplevel.vertical button#tasklist-button:active",
 
 assert "border: 1px" in normal, "Tasklist rim must stay 1px"
 assert "border-top-color: @eqx_panelTaskRim;" in normal
-assert "@eqx_panelButtonTop, @eqx_panelButtonBottom" in normal
+assert re.search(r"@eqx_panelButtonTop,\s*@eqx_panelButtonBottom", normal)
 assert "@eqx_panelTaskPressedTop, @eqx_panelTaskPressedBottom" in pressed
 assert "border-top-color: @eqx_panelTaskPressedRim;" in pressed
 assert "linear-gradient(to right" in vertical
