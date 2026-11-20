@@ -303,6 +303,59 @@ checkbutton:focus, radiobutton:focus, switch:focus, scale:focus {
   outline-width: 1px;
   outline-offset: 1px;
 }
+/* Midnight form indicators follow the original Equinox Cairo engine,
+ * equinox_draw_checkbutton()/equinox_draw_radiobutton(), style=0.
+ * GTK2 draws each as a 15px control with a recessed normal state,
+ * a raised selected-state gradient, and a muted disabled state.
+ * Keep GtkCheckButton/GtkRadioButton's native symbolic mark rendering,
+ * pointer handling and checked/inconsistent state. Popup menu marks are
+ * separate GtkMenu nodes and must not inherit these form-control rims. */
+checkbutton check,
+radiobutton radio {
+  min-width: 13px;
+  min-height: 13px;
+  padding: 0;
+  color: @theme_selected_fg_color;
+  background-color: @theme_base_color;
+  background-image: linear-gradient(to bottom,
+    shade(@theme_base_color, 1.13), @theme_base_color 55%,
+    shade(@theme_base_color, 0.94));
+  border: 1px solid shade(@theme_bg_color, 0.56);
+  border-radius: 2px;
+  box-shadow: inset 0 1px alpha(@eqx_entryShadow, 0.64),
+              0 1px alpha(@theme_fg_color, 0.07);
+}
+radiobutton radio {
+  border-radius: 100%;
+}
+checkbutton:hover check:not(:disabled),
+radiobutton:hover radio:not(:disabled) {
+  background-image: linear-gradient(to bottom,
+    shade(@theme_base_color, 1.20), shade(@theme_base_color, 1.09));
+}
+checkbutton check:checked,
+checkbutton check:indeterminate,
+radiobutton radio:checked {
+  color: @theme_selected_fg_color;
+  background-color: @theme_selected_bg_color;
+  background-image: linear-gradient(to bottom,
+    shade(@theme_selected_bg_color, 1.15) 0%,
+    @theme_selected_bg_color 55%,
+    shade(@theme_selected_bg_color, 0.82) 100%);
+  border-color: shade(@theme_bg_color, 0.56);
+  box-shadow: inset 0 1px alpha(@theme_fg_color, 0.15);
+}
+checkbutton check:disabled,
+radiobutton radio:disabled,
+checkbutton check:checked:disabled,
+checkbutton check:indeterminate:disabled,
+radiobutton radio:checked:disabled {
+  color: @eqx_muted;
+  background-color: @theme_bg_color;
+  background-image: none;
+  border-color: @eqx_disabledBorder;
+  box-shadow: none;
+}
 button:disabled, entry:disabled, check:disabled, radio:disabled {
   color: @eqx_muted;
   border-color: @eqx_disabledBorder;
