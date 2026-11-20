@@ -64,8 +64,9 @@
   <draw_ops name="titlebar_focus">
     <gradient type="vertical" x="0" y="0" width="width" height="height">
       <color value="#cecece"/>
-      <color value="#bebebe"/>
-      <color value="#aeaeae"/>
+      <color value="#b9b9b9"/>
+      <!-- Bottom pixel must equal GTK3 menubar @eqx_menuTop (#a7a7a7). -->
+      <color value="#a7a7a7"/>
     </gradient>
     <line color="#cfcfcf" x1="2" y1="1" x2="width - 3" y2="1"/>
   </draw_ops>
